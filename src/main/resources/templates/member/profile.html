@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
+    <link rel="stylesheet" href="../../static/css/w3.css" th:href="@{/css/w3.css}"/>
+    <title>Member Profile</title>
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html" th:href="@{member/index}">Tickets</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="../site/index.html" th:href="@{member/site}">Site</a></li>
+                <li><a href="../member/statistics.html" th:href="@{statistics}">Statistics<span
+                        class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="../member/profile.html" th:href="@{profile}">Profile</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../user/index.html" th:href="@{user/logout}">Sign out</a></li>
+                        <li><a href="../user/register.html" th:href="@{user/register}">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="mainpage">
+
+    <div class="table-responsive">
+        <table class="w3-table w3-bordered w3-striped w3-card-4">
+            <tr>
+                <th>Item</th>
+                <th>Message</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td th:text="${member.id}">0000001</td>
+            </tr>
+            <tr>
+                <td>mail</td>
+                <td th:text="${member.mail}">gakki@qq.com</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td th:text="${member.name}">Gakki</td>
+            </tr>
+            <!--<tr>-->
+                <!--<td>status</td>-->
+                <!--<td th:text="(${member.status == 0}) ? 'Not Activated' : 'Activated'">Not Activated</td>-->
+            <!--</tr>-->
+            <tr>
+                <td>Balance</td>
+                <td th:text="${member.deposit}">0</td>
+            </tr>
+            <!--<tr>-->
+                <!--<td>Deposit</td>-->
+                <!--<td th:text="${member.deposit}">0</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Remain Days</td>-->
+                <!--<td th:text="${member.remainDays}">0</td>-->
+            <!--</tr>-->
+            <tr>
+                <td>Credit</td>
+                <td th:text="${member.points}">0</td>
+            </tr>
+            <!--<tr>-->
+                <!--<td>Points</td>-->
+                <!--<td th:text="${member.points}">0</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Register Date</td>-->
+                <!--<td th:text="${member.registDate}">2011-2-13</td>-->
+            <!--</tr>-->
+            <tr>
+                <td>Credit Card</td>
+                <td th:text="${member.creditCard}">None</td>
+            </tr>
+            <tr>
+                <!--<td>Accumulate Consumption</td>-->
+                <td>Consumption</td>
+                <td th:text="${member.accumulate}">0</td>
+            </tr>
+            <tr>
+                <!--<td>Member Level</td>-->
+                <td>Level</td>
+                <td th:text="'level ' +  ${member.memberLevel}">0</td>
+            </tr>
+            <!--<tr>-->
+                <!--<td>Discount</td>-->
+                <!--<td th:text="'You can enjoy ' + ${member.discount}  + '% discount'">0</td>-->
+            <!--</tr>-->
+        </table>
+    </div>
+    <p style="margin-top: 10px">
+        <button type="button" class="btn btn-info editButton" data-toggle="modal"
+                data-target="#editModal">Edit
+        </button>
+        <button type="button" class="btn btn-primary rechargeButton" data-toggle="modal"
+                data-target="#rechargeModal">Recharge
+        </button>
+        <button type="button" class="btn btn-success pointConvertButton" data-toggle="modal"
+                data-target="#pointConvertModal">Point Convert
+        </button>
+        <button type="button" class="btn btn-danger deleteButton" data-toggle="modal"
+                data-target="#deleteModal">Delete Account
+        </button>
+    </p>
+</div>
+
+<!--Edit按钮弹出内容-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New Profile</h4>
+            </div>
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label for="nameM" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="name" id="nameM" placeholder="Your Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mailM" class="col-sm-2 control-label">Mail</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" name="mail" id="mailM" placeholder="E-mail"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="creditCardM" class="col-sm-2 control-label">Credit Card</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="creditCard" id="creditCardM"
+                                   placeholder="Your Credit Card"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary edit">Save changes</button>
+                </div>
+            </form>
+
+
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Point Convert内容-->
+<div class="modal fade" id="pointConvertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Recharge</h4>
+            </div>
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label for="nameM" class="col-sm-2 control-label">Your points</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control"
+                                   th:placeholder="${member.points}" readonly="readonly"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pointConvertValue" class="col-sm-2 control-label">Amount</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="convertValue" id="pointConvertValue"
+                                   placeholder="1 point can be converted to 1 $"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary convert">Recharge</button>
+                </div>
+            </form>
+
+
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Recharge内容-->
+<div class="modal fade" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Recharge</h4>
+            </div>
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Credit Card</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control"
+                                   th:placeholder="${member.creditCard}" readonly="readonly"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rechargeValue" class="col-sm-2 control-label">Amount</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="rechargeValue" id="rechargeValue"
+                                   placeholder="How much do you want to recharge"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary recharge">Recharge</button>
+                </div>
+            </form>
+
+
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Delete Account内容-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete Account</h4>
+            </div>
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+                <div class="modal-body">
+
+
+                    <div class="form-group text-danger">
+                        <p class="col-md-offset-2">Are you sure to delete the account? The Operation cannot
+                            be undo!</p>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordM" class="col-sm-2 control-label">Your Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" id="passwordM"
+                                   placeholder="Your Password"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger delete">Yes, I know the consequence</button>
+                </div>
+
+            </form>
+
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript">
+    var $edit = $('#editModal');
+    var $recharge = $('#rechargeModal');
+    var $convert = $('#pointConvertModal');
+    var $delete = $('#deleteModal');
+    var inputs = [];
+    var url = '';
+
+    $('.edit').on('click' , function () {
+        var name = $edit.find('input[name="name"]').val();
+        var mail = $edit.find('input[name="mail"]').val();
+        var creditCard = $edit.find('input[name="creditCard"]').val();
+
+        inputs = {name:name, mail:mail, creditCard:creditCard};
+        url = '/member/edit';
+        callAjax(inputs,url, false);
+    });
+    $('.recharge').on('click' , function () {
+        var amount = $recharge.find('input[name="rechargeValue"]').val();
+        inputs = {amount:amount};
+        url = '/member/recharge';
+        callAjax(inputs,url, false);
+    });
+    $('.convert').on('click' , function () {
+        var amount = $convert.find('input[name="convertValue"]').val();
+        inputs = {amount:amount};
+        url = '/member/convert';
+        callAjax(inputs,url, false);
+    });
+    $('.delete').on('click' , function () {
+        var password = $delete.find('input[name="password"]').val();
+        inputs = {password:password};
+        url = '/member/delete';
+        callAjax(inputs,url, true);
+    });
+
+    function callAjax(inputs, url, isdelete) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: inputs,
+            dataType: 'json',
+            success: function (data) {
+                if (data.result) {
+                    if (isdelete) {
+                        window.location.replace("http://localhost:4000/");
+                    } else {
+                        location.reload();
+                        if (data.reason) {
+                            $('.mainpage').append('<div class="alert alert-info alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Great!</strong> ' +data.reason +  ' </div>');
+                        }
+                    }
+                } else {
+                    var error_msg = '<p class="errtip">	<strong>Error</strong>：'+data.reason+'</p>'
+                    $(".err-msg").html(error_msg);
+                }
+            }
+        });
+
+
+
+    }
+
+
+</script>
+</body>
+</html>

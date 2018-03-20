@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>nju</groupId>
+	<artifactId>tickets</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>tickets</name>
+	<description>Demo project for Spring Boot</description>
+
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.0.0.RELEASE</version>
+	<relativePath/> <!-- lookup parent from repository -->
+</parent>
+
+<properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<java.version>1.8</java.version>
+</properties>
+
+<dependencies>
+
+<!-- 这是一个web项目-->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-test</artifactId>
+	<scope>test</scope>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-redis</artifactId>
+	<version>1.5.2.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-jdbc</artifactId>
+	<exclusions>
+		<exclusion>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>com.zaxxer</groupId>
+	<artifactId>HikariCP</artifactId>
+	<version>2.7.6</version>
+</dependency>
+
+<dependency>
+	<groupId>net.sf.ehcache</groupId>
+	<artifactId>ehcache</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>6.0.5</version>
+	<scope>runtime</scope>
+</dependency>
+
+<dependency>
+	<groupId>io.springfox</groupId>
+	<artifactId>springfox-swagger2</artifactId>
+	<version>2.2.2</version>
+</dependency>
+
+<dependency>
+	<groupId>io.springfox</groupId>
+	<artifactId>springfox-swagger-ui</artifactId>
+	<version>2.2.2</version>
+</dependency>
+
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi</artifactId>
+	<version>3.16</version>
+</dependency>
+
+<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<version>1.4.7</version>
+</dependency>
+
+<dependency>
+	<groupId>commons-httpclient</groupId>
+	<artifactId>commons-httpclient</artifactId>
+	<version>3.1</version>
+</dependency>
+
+
+<dependency>
+	<groupId>log4j</groupId>
+	<artifactId>log4j</artifactId>
+	<version>1.2.17</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+	<groupId>org.json</groupId>
+	<artifactId>json</artifactId>
+	<version>20160810</version>
+</dependency>
+
+<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-lang3</artifactId>
+	<version>3.4</version>
+</dependency>
+
+<dependency>
+	<groupId>joda-time</groupId>
+	<artifactId>joda-time</artifactId>
+	<version>2.9.9</version>
+</dependency>
+
+</dependencies>
+
+<build>
+<plugins>
+	<plugin>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
+	</plugin>
+</plugins>
+</build>
+
+
+</project>
+	<!--<parent>-->
+		<!--<groupId>org.springframework.boot</groupId>-->
+		<!--<artifactId>spring-boot-starter-parent</artifactId>-->
+		<!--<version>2.0.0.RELEASE</version>-->
+		<!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+	<!--</parent>-->
+
+	<!--<properties>-->
+		<!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+		<!--<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
+		<!--<java.version>1.8</java.version>-->
+	<!--</properties>-->
+
+	<!--<dependencies>-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-web</artifactId>-->
+		<!--</dependency>-->
+
+		<!--&lt;!&ndash;1&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>com.h2database</groupId>-->
+			<!--<artifactId>h2</artifactId>-->
+		<!--</dependency>-->
+		<!--&lt;!&ndash;1&ndash;&gt;-->
+
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-test</artifactId>-->
+			<!--<scope>test</scope>-->
+		<!--</dependency>-->
+
+		<!--&lt;!&ndash;2&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
+
+
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/mysql/mysql-connector-java &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>mysql</groupId>-->
+			<!--<artifactId>mysql-connector-java</artifactId>-->
+			<!--<version>6.0.5</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
+
+
+		<!--&lt;!&ndash;&lt;!&ndash;Spring Security&ndash;&gt;&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-security</artifactId>-->
+		<!--</dependency>-->
+		<!--&lt;!&ndash;2&ndash;&gt;-->
+
+        <!--<dependency>-->
+            <!--<groupId>javax.mail</groupId>-->
+            <!--<artifactId>mail</artifactId>-->
+            <!--<version>1.4</version>-->
+        <!--</dependency>-->
+
+
+	<!--</dependencies>-->
+
+
+	<!--<repositories>-->
+		<!--<repository>-->
+			<!--<id>spring-releases</id>-->
+			<!--<name>Spring Releases</name>-->
+			<!--<url>https://repo.spring.io/libs-release</url>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>org.jboss.repository.releases</id>-->
+			<!--<name>JBoss Maven Release Repository</name>-->
+			<!--<url>https://repository.jboss.org/nexus/content/repositories/releases</url>-->
+		<!--</repository>-->
+	<!--</repositories>-->
+
+	<!--<pluginRepositories>-->
+		<!--<pluginRepository>-->
+			<!--<id>spring-releases</id>-->
+			<!--<name>Spring Releases</name>-->
+			<!--<url>https://repo.spring.io/libs-release</url>-->
+		<!--</pluginRepository>-->
+	<!--</pluginRepositories>-->
+
+
+	<!--<build>-->
+		<!--<plugins>-->
+			<!--<plugin>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+			<!--</plugin>-->
+		<!--</plugins>-->
+	<!--</build>-->
+

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <script src="../../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+    <title>Hotel Index</title>
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html" th:href="@{index}">Hostel World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html" th:href="@{index}">Hotel Status<span
+                        class="sr-only">(current)</span></a></li>
+                <li><a href="record.html" th:href="@{record}">Live Records</a></li>
+                <li><a href="info.html" th:href="@{info}">Hotel Info</a></li>
+                <li  class="active"><a href="statistics.html" th:href="@{statistics}">Statistics</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="mainpage">
+
+    <h2> Recent Record Status</h2>
+    <div id="reserved" style="width: 600px;height:400px;"></div>
+
+    <h2> Recent Live Status</h2>
+    <div id="live" style="width: 600px;height:400px;"></div>
+
+    <h2> Recent Consumption Status</h2>
+    <div id="consumption" style="width: 600px;height:400px;"></div>
+    <div class="err-msg"></div>
+</div>
+
+<div th:include="footer :: copy"></div>
+
+
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var reservedChart = echarts.init(document.getElementById('reserved'));
+    var liveChart = echarts.init(document.getElementById('live'));
+    var consumptionChart = echarts.init(document.getElementById('consumption'));
+    var newData = {};
+    // 指定图表的配置项和数据
+    var reservedOption = {
+        title: {
+            text: 'Reserved Status'
+        },
+        tooltip: {},
+
+        xAxis: {
+            data: ["12-7","12-8","12-9","12-10","12-11","12-12"]
+        },
+        yAxis: {
+            name: 'Number'
+        },
+        series: [{
+            name: 'Reserved Number',
+            type: 'bar',
+            data: [5, 20,20, 10, 10, 20]
+        }]
+    };
+    reservedChart.setOption(reservedOption);
+    $.ajax({
+        url: '/hotel/reservedStatus',
+        data: '',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.result) {
+                newData = data.data;
+                reservedOption.xAxis.data = Object.keys(newData);
+                reservedOption.series[0].data = Object.keys(newData).map(function(k) { return newData[k] });
+//                console.log(reservedOption);
+            } else {
+                var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
+                $(".err-msg").html(error_msg);
+            }
+            reservedChart.setOption(reservedOption);
+        }
+
+    });
+
+    var liveOption = {
+        title: {
+            text: 'Live Status'
+        },
+        tooltip: {},
+
+        xAxis: {
+            data: ["12-7","12-8","12-9","12-10","12-11","12-12"]
+        },
+        yAxis: {
+            name: 'Number'
+        },
+        series: [{
+            name: 'Lived Number',
+            type: 'bar',
+            data: [5, 20,20, 10, 10, 20]
+        }]
+    };
+    liveChart.setOption(liveOption);
+    $.ajax({
+        url: '/hotel/liveStatus',
+        data: '',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.result) {
+                newData = data.data;
+                liveOption.xAxis.data = Object.keys(newData);
+                liveOption.series[0].data = Object.keys(newData).map(function(k) { return newData[k] });
+//                console.log(reservedOption);
+            } else {
+                var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
+                $(".err-msg").html(error_msg);
+            }
+            liveChart.setOption(liveOption);
+        }
+
+    });
+
+    var consumptionOption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['Member Card','Cash','Credit Card']
+        },
+        series: [
+            {
+                name:'Num of type',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:335, name:'Member Card'},
+                    {value:310, name:'Cash'},
+                    {value:234, name:'Credit Card'}
+                ]
+            }
+        ]
+    };
+
+    consumptionChart.setOption(consumptionOption);
+    $.ajax({
+        url: '/hotel/consumptionStatus',
+        data: '',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.result) {
+                newData = data.data;
+                consumptionOption.series[0]['data'] = [];
+                for ( var temp in newData) {
+                    obj = {value : newData[temp] , name: temp};
+                    consumptionOption.series[0]['data'].push(obj);
+                }
+
+                console.log(consumptionOption);
+            } else {
+                var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
+                $(".err-msg").html(error_msg);
+            }
+            consumptionChart.setOption(consumptionOption);
+        }
+
+    });
+
+
+</script>
+</body>
+</html>
