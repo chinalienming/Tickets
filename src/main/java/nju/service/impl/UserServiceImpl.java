@@ -151,4 +151,13 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    public List<TicketRecord> getTicketRecord(int userID) {
+
+        List<TicketRecord> result = new ArrayList<>() ;
+
+        ticketRecordRepository.findByUserID(userID).forEach(result::add);
+
+        return result;
+    }
+
 }

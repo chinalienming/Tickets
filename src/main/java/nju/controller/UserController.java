@@ -33,8 +33,8 @@ public class UserController {
         if(query_userid > 0 ) {
             session.setAttribute(SystemDefault.USER_ID,query_userid);
             System.out.println("login!?!!");
-            return "member/index" ;
-//            return "redirect:/member/"+"index" ;
+//            return "member/index" ;
+            return "redirect:/member/index" ;
         }
 
         else
