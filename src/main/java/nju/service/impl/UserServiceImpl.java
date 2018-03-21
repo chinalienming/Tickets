@@ -1,8 +1,10 @@
 package nju.service.impl;
 
+import nju.dao.ExternalAccountRepository;
 import nju.dao.TicketRecordRepository;
 import nju.dao.UserInfoRepository;
 import nju.dao.UserRepository;
+import nju.entity.ExternalAccount;
 import nju.entity.TicketRecord;
 import nju.entity.User;
 import nju.entity.UserInfo;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TicketRecordRepository ticketRecordRepository;
 
+    @Autowired
+    private ExternalAccountRepository externalAccountRepository ;
 
 
     //String format = String.format("%05d", i);
@@ -134,6 +138,11 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user , vo);
         BeanUtils.copyProperties(userInfo,vo);
 
+        ExternalAccount ea = externalAccountRepository.findByUserIDAndIsSite(userID,false);
+        if(ea!=null) {
+            vo.accountID = ea.getAccountID() ;
+            vo.accountBalance = ea.getBalance() ;
+        }
         return vo;
     }
 

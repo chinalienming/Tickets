@@ -35,16 +35,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html" th:href="@{member/index}">Tickets</a>
+            <a class="navbar-brand" href="index.html" th:href="@{index}">Tickets</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="../site/index.html" th:href="@{member/site}">Site</a></li>
-                <li class="active"><a href="../member/index.html" th:href="@{member/index}">Records</a></li>
-                <li><a href="../member/statistics.html" th:href="@{member/statistics}">Statistics</a></li>
-                <li><a href="../member/profile.html" th:href="@{member/profile}">Profile</a></li>
+                <!--th:href里面的是网页url地址-->
+                <li><a href="redirect:/site/index.html" th:href="@{/site/index}">Site</a></li>
+                <li class="active"><a href="index.html" th:href="@{index}">Records</a></li>
+                <li><a href="statistics.html" th:href="@{statistics}">Statistics</a></li>
+                <li><a href="profile.html" th:href="@{profile}">Profile</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

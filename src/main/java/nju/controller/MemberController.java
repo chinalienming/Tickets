@@ -36,10 +36,10 @@ public class MemberController {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
         List<TicketRecord> ls = userService.getTicketRecord(id);
-        System.out.println("size:"+ls.size());
-        for(TicketRecord tr:ls) {
-            System.out.println("ID: "+tr.getRecordID());
-        }
+//        System.out.println("size:"+ls.size());
+//        for(TicketRecord tr:ls) {
+//            System.out.println("ID: "+tr.getRecordID());
+//        }
         model.addAttribute(SystemDefault.TICKET_RECORDS,ls);
 //        model.addAttribute(SystemDefault.CURRENT_PAGE,page) ;
         return "member/index";
@@ -50,7 +50,7 @@ public class MemberController {
     public String profile(Model model,
                           @SessionAttribute(SystemDefault.USER_ID) int id ) {
         model.addAttribute("member", userService.getUserVO(id));
-        return "/profile";
+        return "member/profile";
     }
 
 
