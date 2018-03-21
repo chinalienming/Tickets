@@ -28,7 +28,8 @@ public class User {
 
     @GeneratedValue
     @Id
-    @Column(name= "user_id",nullable = false) public int getUserID(){
+    @Column(name= "user_id",nullable = false)
+    public int getUserID(){
         return this.userID ;
     }
     public void setUserID(int newID) { this.userID = newID ; }

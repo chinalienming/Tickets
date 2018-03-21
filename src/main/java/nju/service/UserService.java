@@ -29,6 +29,8 @@ public interface UserService {
 
     List<TicketRecord> getTicketRecordByPage(int userID,int page) ;
 
+    List<TicketRecord> getTicketRecord(int userID) ;
+
     boolean checkEmailExist(String Email);
 
     UserVO getUserVO(int userID) ;

@@ -32,9 +32,9 @@ public class UserController {
         int query_userid = userService.login(email,password) ;
         if(query_userid > 0 ) {
             session.setAttribute(SystemDefault.USER_ID,query_userid);
-            System.out.println("login!?!!");
-            return "member/index" ;
-//            return "redirect:/member/"+"index" ;
+//            System.out.println("login!?!!");
+//            return "member/index" ;
+            return "redirect:/member/index" ;
         }
 
         else
