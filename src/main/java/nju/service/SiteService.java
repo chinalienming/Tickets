@@ -19,4 +19,5 @@ public interface SiteService {
 
     List<Site> getSiteByPage(int page) ;
 
+    Site getSiteInfo(int siteID) ;
 }

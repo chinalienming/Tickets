@@ -84,4 +84,8 @@ public class SiteServiceImpl implements SiteService {
         }
         return result;
     }
+
+    public Site getSiteInfo(int siteID) {
+        return siteRepository.findBySiteID(siteID) ;
+    }
 }

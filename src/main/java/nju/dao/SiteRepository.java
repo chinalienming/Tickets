@@ -10,4 +10,6 @@ public interface SiteRepository extends JpaRepository<Site,String> {
 
     boolean existsBySiteName (String siteName) ;
 
+    Site findBySiteID(int siteID) ;
+
 }

@@ -12,12 +12,12 @@ public class SystemDefault {
     public static final String SITES = "sites" ;
     public static final String PLANS = "plans" ;
 
-    public static final String PLAN_DETAIL = "plan_detail" ;
+    public static final String PLAN_DETAIL = "plandetail" ;
 
     public static final String SEAT_LIST = "seatList" ;
     public static final String TICKET_NUM = "ticketNum" ;
 
-    public static final String TICKET_RECORDS = "ticket_records" ;
+    public static final String TICKET_RECORDS = "ticketrecords" ;
 
 
     public static final String CURRENT_PAGE = "current" ;

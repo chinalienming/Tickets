@@ -60,7 +60,12 @@ public class ManagerServiceImpl implements ManagerService{
         for(int i = 0 ; i< seats.length; i++ ) {
             type = (char)(type + i) ;
             for(int j = 0; j < seats[i] ; j ++ ) {
-                Seat seat = new Seat(planID,type+""+(j+1) ) ;
+                Seat seat ;
+                if(j>=9) {
+                    seat = new Seat(planID, type + "" + (j + 1));
+                } else {
+                    seat = new Seat(planID, type + "0" + (j + 1));
+                }
                 seatRepository.save(seat) ;
             }
         }
