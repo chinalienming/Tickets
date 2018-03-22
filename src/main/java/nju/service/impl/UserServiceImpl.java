@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     //String format = String.format("%05d", i);
 
-    public int register(String password,String email) {
+    public int register(String email,String password) {
         //check email illegal or exist ?
         boolean email_legal = SystemDefault.checkEmailLegal(email) ;
         if(!email_legal) {
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean checkEmailExist(String email) {
         return userRepository.existsByEmail(email) ;
-    }
+}
 
     public UserVO getUserVO(int userID) {
         UserVO vo = new UserVO() ;

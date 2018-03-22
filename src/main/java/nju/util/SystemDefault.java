@@ -101,12 +101,12 @@ public class SystemDefault {
      * is all words or numbers ?
      */
     public static boolean checkString(String str){
-        char[] array = str.toCharArray();
-        for(Character ch : array){
-            if(ch<'0' || ch > 'z') return false ;
-            else if(ch >'9' && ch <'A') return false ;
-            else if(ch >'Z' && ch <'a') return false ;
-        }
+//        char[] array = str.toCharArray();
+//        for(Character ch : array){
+//            if(ch<'0' || ch > 'z') return false ;
+//            else if(ch >'9' && ch <'A') return false ;
+//            else if(ch >'Z' && ch <'a') return false ;
+//        }
         return true ;
     }
 

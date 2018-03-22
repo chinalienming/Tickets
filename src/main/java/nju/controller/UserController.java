@@ -49,6 +49,8 @@ public class UserController {
                            @RequestParam(value = "password") String password){
         int query_userid = userService.register(email,password) ;
 
+        System.out.println("register result: " +query_userid) ;
+
         switch ( query_userid ) {
             case -1:
                 model.addAttribute("error", "email illegal");
