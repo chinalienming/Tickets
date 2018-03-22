@@ -1,0 +1,1 @@
+INSERT INTO tickets.manager (manager_id, manager_name) VALUES (1, 'admin');
