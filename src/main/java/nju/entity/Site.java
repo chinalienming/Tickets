@@ -17,6 +17,7 @@ public class Site {
     private int seatNumber_B = 0  ;
     private int seatNumber_C = 0  ;
     private double income = 0.00 ;
+    private String picUrl = "" ;
 
     public Site(){
     }
@@ -95,34 +96,44 @@ public class Site {
         this.income = income ;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Site that = (Site) o;
-//
-//        if (seatNumber_A != that.seatNumber_A) return false;
-//        if (seatNumber_B != that.seatNumber_B) return false;
-//        if (seatNumber_C != that.seatNumber_C) return false;
-//        if (income != income) return false;
-//
-////        if (siteID != null ? !siteID.equals(that.siteID) : that.siteID != null) return false;
-//        if (siteName != null ? !siteName.equals(that.siteName) : that.siteName != null) return false;
-//        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = siteID != null ? siteID.hashCode() : 0 ;
-//        result = 31 * result + (siteName != null ? siteName.hashCode() : 0);
-//        result = 31 * result + (address != null ? address.hashCode() : 0);
-//        result = 31 * result + (int) income ;
-//        result = 31 * result + seatNumber_A ;
-//        result = 31 * result + seatNumber_B ;
-//        result = 31 * result + seatNumber_C ;
-//        return result;
-//    }
+
+    @Basic
+    @Column(name = "picUrl", nullable = false)
+    public String getPicUrl() {
+        return this.picUrl;
+    }
+    public void setPicUrl(String picUrl){
+        this.picUrl = picUrl ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Site that = (Site) o;
+
+        if (seatNumber_A != that.seatNumber_A) return false;
+        if (seatNumber_B != that.seatNumber_B) return false;
+        if (seatNumber_C != that.seatNumber_C) return false;
+        if (income != income) return false;
+
+//        if (siteID != null ? !siteID.equals(that.siteID) : that.siteID != null) return false;
+        if (siteName != null ? !siteName.equals(that.siteName) : that.siteName != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = siteID ;
+        result = 31 * result + (siteName != null ? siteName.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (int) income ;
+        result = 31 * result + seatNumber_A ;
+        result = 31 * result + seatNumber_B ;
+        result = 31 * result + seatNumber_C ;
+        return result;
+    }
 }

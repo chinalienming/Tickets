@@ -14,7 +14,7 @@ public class Seat {
     private int planID ;
     private String seatNumber ;
     private int state = 0 ; // 0 = empty , 1 = locked , 2 = purchased
-    private int userID ;
+    private int userID = -1;
     private boolean isChecked = false ;
     public Seat() {}
 

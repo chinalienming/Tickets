@@ -34,9 +34,19 @@ public class SiteController {
     public String plans(Model model,
                         @RequestParam(value = "siteID")int siteID,
                         @RequestParam(value = "page", defaultValue = "0") int page) {
-        model.addAttribute( SystemDefault.PLANS , planService.getPlanBySiteID(siteID) );
+        model.addAttribute( "site" , siteService.getSiteInfo(siteID)) ;
+        model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,page) );
         model.addAttribute( SystemDefault.CURRENT_PAGE, page);
         return "site/plans";
+    }
+
+
+    @RequestMapping("/info")
+    public String plans(Model model,
+                        @RequestParam(value = "siteID")int siteID) {
+//        model.addAttribute( SystemDefault.PLANS , planService.getPlanBySiteID(siteID) );
+//        model.addAttribute( SystemDefault.CURRENT_PAGE, page);
+        return "site/info";
     }
 
     /**

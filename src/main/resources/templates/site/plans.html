@@ -1,10 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
+    <title>Present Site Plans</title>
 </head>
 <body>
 
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../member/index.html" th:href="@{index}">Tickets</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html" th:href="@{index}">All Site<span
+                        class="sr-only">(current)</span></a></li>
+                <li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../user/register.html" th:href="@{../register}">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="mainpage">
+    <div class="jumbotron">
+        <div class="container">
+            <h1 th:text="${site.siteName}"> Normal Site </h1>
+            <p th:text="${site.address}">Best show in Nanjing you will have ever experienced!</p>
+            <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>-->
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div th:each="plan : ${plans}" class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <div class="cover"  style="'background-image: url('../../static/img/hotel/hotel1.JPG')'" th:style="'background-image: url(' + ${site.picUrl} + ')'" ></div>
+                <!--<img src="../../static/img/hotel/hotel1.JPG" alt="hotel pic" th:src="${room.picUrl}"/>-->
+                <div class="caption">
+                    <h3 th:text="${plan.description}"> PGL Major </h3>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td>Plan ID</td>
+                            <td th:text="${plan.planID}">1</td>
+                        </tr>
+
+                        <tr>
+                            <td>Description</td>
+                            <td th:text="${plan.planType}"> Dota 2</td>
+                        </tr>
+                        <tr>
+                            <td>Begin Time</td>
+                            <td th:text="${plan.beginTime}">2018-01-08</td>
+                        </tr>
+                        <tr>
+                            <td>End Time</td>
+                            <td th:text="${plan.endTime}">2018-02-03</td>
+                        </tr>
+                        <tr>
+                            <td>座位数(豪华/高级/普通)</td>
+                            <td th:text="${plan.seat_A}+','+${plan.seat_B}+','+${plan.seat_C}">100,300,600</td>
+                        </tr>
+                        <tr>
+                            <td>对应票价(RMB)</td>
+                            <td th:text="${plan.original_price_A}+','+${plan.original_price_B}+','+${plan.original_price_C}">1000,500,250</td>
+                        </tr>
+
+                    </table>
+
+                    <div>
+                        <button type="button" class="btn btn-info reserveButton" data-toggle="modal"
+                                data-target="#reserveModal" th:name="${plan.planID}">
+                            Buy Ticket Now
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav aria-label="Page navigation" class="col-md-offset-4 col-md-4">
+        <ul class="pagination pagination-lg">
+            <li>
+                <!--disabled still not work-->
+                <a id="previous" href="#" th:disabled="${current == 0} ? 'disabled' : 'not'"
+                   th:href="@{/site/plans(siteID=${site.siteID},page=${current} - 1)}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current})}"
+                   th:text="${current} + 1">1</a></li>
+            <li><a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current} + 1)}"
+                   th:text="${current} + 2">2</a></li>
+            <li><a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current} + 2)}"
+                   th:text="${current} + 3">3</a></li>
+            <li><a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current} + 3)}"
+                   th:text="${current} + 4">4</a></li>
+            <li><a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current} + 4)}"
+                   th:text="${current} + 5">5</a></li>
+            <li>
+                <a href="#" th:href="@{/site/plans(siteID=${site.siteID},page=${current} + 1)}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+<div class="modal fade" id="reserveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Seat Preference</h4>
+            </div>
+            <div class="modal-body">
+                Want Specific Seat Position ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary reserve">Save changes</button>
+            </div>
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery.jsonp-2.4.0.min.js" th:src="@{/js/jquery.jsonp-2.4.0.min.js}"></script>
+<script th:inline="javascript">
+    var planID = 0;
+    var inputs = [];
+    $('.reserveButton').on('click', function (e) {
+        e.preventDefault();
+        planID = $(this).attr("name");
+    });
+
+    $('.reserve').on('click', function (e) {
+        e.preventDefault();
+        inputs = {roomId: roomId};
+        $.ajax({
+            type: "POST",
+            url: '/member/reserve',
+            data: inputs,
+            dataType: 'json',
+            success: function (data) {
+                if (data.result) {
+                    location.reload();
+                } else {
+                    var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
+                    $(".err-msg").html(error_msg);
+                }
+
+            }
+        });
+    });
+
+</script>
 </body>
 </html>
