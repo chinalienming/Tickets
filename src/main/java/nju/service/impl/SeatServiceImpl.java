@@ -129,7 +129,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     //mysql
-    List<Seat> getAvailableSeatsByPlanID(int planID) {
+    public List<Seat> getAvailableSeatsByPlanID(int planID) {
         return seatRepository.findByPlanIDAndState(planID,0) ;
     }
 
