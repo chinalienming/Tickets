@@ -39,4 +39,8 @@ public interface SeatService {
     List<Seat> getAvailableSeatsByPlanID(int planID) ;
 
     int[] getTotalNum(int planID) ;
+
+    List<String> getUnavailableSeatsByPlanID(int planID) ;
+
+    String[] getSeatsMap(int planID) ;
 }

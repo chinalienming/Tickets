@@ -130,10 +130,21 @@ div.seatCharts-row {
     height: 35px;
 }
 
+/*div.seatCharts-seat.a_available {*/
+/*background-color: #00de00;*/
+/*}*/
+
+/*div.seatCharts-seat.b_available {*/
+/*background-color: #1cc8de;*/
+/*}*/
+
+/*div.seatCharts-seat.c_available {*/
+/*background-color: #056ade;*/
+/*}*/
+
 div.seatCharts-seat.available {
     background-color: #B9DEA0;
 }
-
 
 div.seatCharts-seat.focused {
     background-color: #76B474;
@@ -143,6 +154,63 @@ div.seatCharts-seat.focused {
 div.seatCharts-seat.selected {
     background-color: #E6CAC4;
 }
+
+
+.seatCharts-seat.available.A {
+    background-color: #53de4b;
+}
+
+.seatCharts-seat.focused.A {
+    background-color: #ccffcc;
+}
+
+.seatCharts-seat.selected.A {
+    background-color: #ff4fff;
+}
+
+.seatCharts-seat.unavailable.A {
+    background-color: #472b34;
+    cursor: not-allowed;
+}
+
+
+.seatCharts-seat.available.B {
+    background-color: #9fde46;
+}
+
+.seatCharts-seat.focused.B {
+    background-color: #ccffcc;
+}
+
+.seatCharts-seat.selected.B {
+    background-color: #ff4fff;
+}
+
+.seatCharts-seat.unavailable.B {
+    background-color: #472b34;
+    cursor: not-allowed;
+}
+
+
+
+.seatCharts-seat.available.C {
+    background-color: #69d8de;
+}
+
+.seatCharts-seat.focused.C {
+    background-color: #ccffcc;
+}
+
+.seatCharts-seat.selected.C {
+    background-color: #ff4fff;
+}
+
+.seatCharts-seat.unavailable.C {
+    background-color: #472b34;
+    cursor: not-allowed;
+}
+
+
 
 div.seatCharts-seat.unavailable {
     /*background-color: #17e7ff;*/

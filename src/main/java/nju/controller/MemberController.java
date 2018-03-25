@@ -36,6 +36,7 @@ public class MemberController {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
         List<TicketRecord> ls = userService.getTicketRecord(id);
+        model.addAttribute("userID",id) ;
 //        System.out.println("size:"+ls.size());
 //        for(TicketRecord tr:ls) {
 //            System.out.println("ID: "+tr.getRecordID());

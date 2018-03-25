@@ -156,4 +156,63 @@ public class SeatServiceImpl implements SeatService {
 
     }
 
+    public List<String> getUnavailableSeatsByPlanID(int planID)  {
+        List<Seat> locklist = seatRepository.findByPlanIDAndState(planID,1) ;
+        List<Seat> unlist = seatRepository.findByPlanIDAndState(planID,2) ;
+        List<String> result = new ArrayList<>() ;
+        for(Seat seat : locklist ) {
+            result.add(seat.getSeatNumber()) ;
+        }
+        for(Seat seat : unlist ) {
+            result.add(seat.getSeatNumber()) ;
+        }
+        return result;
+    }
+
+    public String[] getSeatsMap(int planID) {
+        List<Seat> aList = getAvailableSeatsByPlanID(planID) ;
+        int[] totalNum = getTotalNum(planID) ;
+
+        // 默认A B C座位都是20 个 , 10*10座位
+        char[][] resultChar = new char[10][10] ;
+        for(int i=0;i<10;i++)
+            for(int j=0;j<10;j++)
+                resultChar[i][j]='_' ;
+
+        for(Seat seat :aList) {
+            String number = seat.getSeatNumber() ; //"A01"
+
+            char type = number.charAt(0) ;
+            int row ;
+            if(type=='A')
+                row = 0 ;
+            else if(type =='B')
+                row = 2 ;
+            else
+                row = 4 ;
+
+            int no = Integer.parseInt(number.substring(1)) ;
+            if(no>10) {
+                row++;
+                no -= 10 ;
+            }
+            resultChar[row][no-1] = type ;
+        }
+
+        String[] result = new String[10] ;
+        for(int i=0;i<10;i++) {
+            String tmp = "";
+            for(int j=0;j<10;j++) {
+                tmp = tmp + resultChar[i][j] ;
+            }
+            result[i] = tmp ;
+        }
+
+        result[6] = "__________" ;
+        result[7] = "__________" ;
+        result[8] = "__________" ;
+        result[9] = "__________" ;
+        return result ;
+
+    }
 }
