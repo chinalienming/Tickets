@@ -1,0 +1,5 @@
+INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (1, 'Rogers', '2-2-1 Nishi-Shinjuku, Shinjuku-ku ,Shinjuku/Nakano,Tokyo,Japan', 1000, 600, 300, 0, '/img/site/site4.jpg');
+INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (2, 'Bird Nest', '1-3277-7 Iojimamachi ,Nagasaki,Japan', 1200, 700, 400, 0, '/img/site/site8.jpg');
+INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (3, 'CN Tower', '10-30 Takanawa 4-chome, Minato-ku ,Shinagawa,Tokyo,Japan', 1500, 800, 600, 0, '/img/site/site9.jpg');
+INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (4, 'Water', 'Avenida Da Nave Desportiva,Cotai ,Macau ,Taipa,Macau,China', 1400, 850, 700, 0, '/img/site/site3.jpg');
+INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (5, 'Sun', 'Estrada do Istmo, Cotai Macau ,Cotai,Macau,853,China', 2000, 900, 800, 0, '/img/site/site6.jpg');

@@ -24,4 +24,5 @@ public interface PlanService {
 
     List<SitePlan> getPlanByPage(int  siteID, int page) ;
 
+    double[] getPriceByPlanID(int planID) ;
 }

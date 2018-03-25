@@ -1,0 +1,6 @@
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (1, 1, '1', 1, 'A', 'A03', 1000, '2018-01-21 03:31:51', 1, 100);
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (2, 1, '1', 1, 'A', 'A04', 1000, '2018-01-21 03:31:51', 1, 100);
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (3, 1, '1', 1, 'B', 'B08', 500, '2018-01-21 03:31:51', 1, 50);
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (4, 1, '1', 1, 'B', 'B09', 500, '2018-01-21 03:31:51', 1, 50);
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (5, 1, '1', 1, 'C', 'C05', 250, '2018-01-21 03:31:51', 1, 25);
+INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add) VALUES (6, 1, '1', 1, 'C', 'C06', 250, '2018-01-21 03:31:51', 1, 25);

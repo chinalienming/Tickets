@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <!--  Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}">
+
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <!--<link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>-->
+    <link rel="stylesheet" href="../../static/css/jquery.seat-charts.css" th:href="@{/css/jquery.seat-charts.css}"/>
+    <title>Present Site Plans</title>
+</head>
+
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../member/index.html" th:href="@{index}">Tickets</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html" th:href="@{index}">All Site<span
+                        class="sr-only">(current)</span></a></li>
+                <li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../user/register.html" th:href="@{../register}">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+<div>
+    <div id="seat-map">
+        <div class="front">Main Stage</div>
+    </div>
+    <div class="booking-details">
+        <p>PlanID：<span th:text="${planID}">0000001</span></p>
+        <!--<p>时间：<span>11月14日 21:00</span></p>-->
+        <p>座位：</p>
+        <ul id="selected-seats"></ul>
+        <p>票数：<span id="counter">0</span></p>
+        <p>总计：<b>￥<span id="total">0</span></b></p>
+
+        <button class="checkout-button">确定购买</button>
+
+        <div id="legend"></div>
+
+
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript" src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="../../static/js/jquery.seat-charts.min.js" th:src="@{/js/jquery.seat-charts.min.js}"></script>
+
+<script th:inline="javascript">
+
+    var planID = [[${planID}]];
+
+    // var seatsMap = [];
+    var price_a = 0;
+    var price_b = 0;
+    var price_c = 0;
+    var unlist = [] ;
+    $.ajax({
+        type: "POST",
+        url: "/plan/getDataOfSelectSeat",
+        data: {planID:planID},
+        dataType: 'json',
+        success: function (data) {
+            if (data) {
+                // availableList = data.availableList ;
+                // unavailableList = data.unavailableList ;
+                //  totalNum = data.totalNum;
+                // seatsMap = data.seatsMap ;
+                price_a = data.priceArr[0] ;
+                price_b = data.priceArr[1] ;
+                price_c = data.priceArr[2] ;
+                // console.log(seatsMap) ;
+                // console.log(price_a) ;
+                unlist = data.unavailableList ;
+                console.log(unlist) ;
+                var $cart = $('#selected-seats'), //座位区
+                    $counter = $('#counter'), //票数
+                    $total = $('#total'); //总计金额
+
+
+
+                var sc = $('#seat-map').seatCharts({
+
+
+                    naming:{
+
+                        // top:false,
+                        columns: ['1', '2', '3', '4', '5','6', '7', '8', '9','10'],
+
+                        rows:['A0','A1','B0','B1','C0','C1',' ',' ',' ',' '],
+
+                        getId : function (character, row, column) {
+                            if(column<10)
+                                return character+''+row.charAt(1)+''+column;
+                            else
+                                return character+''+(parseInt(row.charAt(1))+1)+'0';
+                        } ,
+
+                        getLabel : function (character, row, column) {
+                            if(column<10)
+                                return character+''+row.charAt(1)+''+column;
+                            else
+                                return character+''+(parseInt(row.charAt(1))+1)+'0';
+                        }
+
+                    },
+
+                    seats: {
+                        A: {
+                            classes: 'A',
+                            price  : price_a
+                            // priceArr[0]
+                        },
+                        B: {
+                            classes: 'B',
+                            price  : price_b
+                            // priceArr[1]
+                        },
+                        C: {
+                            classes: 'C',
+                            price  : price_c
+                            // priceArr[2]
+                        }
+                    },
+
+                    map:
+                    // seatsMap ,
+
+                        [  //座位图
+                            'AAAAAAAAAA',
+                            'AAAAAAAAAA',
+                            'BBBBBBBBBB',
+                            'BBBBBBBBBB',
+                            'CCCCCCCCCC',
+                            'CCCCCCCCCC',
+                            '__________',
+                            '__________',
+                            '__________',
+                            '__________'
+                        ],
+
+
+
+                    legend : { //定义图例
+                        node : $('#legend'),
+                        items : [
+                            // [ 'a', 'available',     '可选座' ],
+                            [ 'A', 'available',     'A座' ],
+                            [ 'B', 'available',     'B座' ],
+                            [ 'C', 'available',     'C座' ],
+                            [ 'X', 'unavailable',   '已售出'],
+                            [ 'A', 'selected',      '已选中']
+                        ]
+                    },
+
+                    click: function () { //点击事件
+                        if (this.status() == 'available') {//可选座
+                            //+(String.fromCharCode(65+this.settings.row/2))+'类'
+
+                            $('<li>' +(this.settings.label)+'座</li>')
+                                .attr('id', 'cart-item-'+this.settings.id)
+                                .data('seatId', this.settings.id)
+                                .appendTo($cart);
+
+                            $counter.text(sc.find('selected').length+1);
+
+                            var tmp_price = this.data().price ;
+
+                            $total.text(recalculateTotal(sc)+tmp_price);
+
+                            return 'selected';
+                        } else if (this.status() == 'selected') { //已选中
+                            //更新数量
+                            $counter.text(sc.find('selected').length-1);
+
+
+                            //更新总计
+                            var tmp_price = this.data().price ;
+
+                            $total.text(recalculateTotal(sc)-tmp_price);
+
+                            //删除已预订座位
+                            $('#cart-item-'+this.settings.id).remove();
+                            //可选座
+                            return 'available';
+                        } else if (this.status() == 'unavailable') { //已售出
+                            return 'unavailable';
+                        } else {
+                            return this.style();
+                        }
+                    }
+                });
+
+
+                //已售出的座位
+                sc.get(unlist).status('unavailable');
+
+            }
+        }
+    });
+
+    $(document).ready(function() {
+
+    });
+
+
+    //计算总金额
+    function recalculateTotal(sc) {
+        var total = 0;
+        sc.find('selected').each(function () {
+
+            total += this.settings.data.price;
+        });
+
+        return total;
+    }
+
+
+</script>
+
+
+
+</body>
+</html>

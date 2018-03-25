@@ -36,5 +36,11 @@ public interface SeatService {
     boolean unlockSeat(int userID,int planID, List<String> seatList ,boolean transferSuccess) ;
 
 
+    List<Seat> getAvailableSeatsByPlanID(int planID) ;
 
+    int[] getTotalNum(int planID) ;
+
+    List<String> getUnavailableSeatsByPlanID(int planID) ;
+
+    String[] getSeatsMap(int planID) ;
 }

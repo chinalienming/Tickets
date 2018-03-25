@@ -78,5 +78,13 @@ public class PlanServiceImpl implements PlanService {
         return result;
     }
 
+    public double[] getPriceByPlanID(int planID)  {
+        SitePlan sitePlan = sitePlanRepository.getOne(planID) ;
+        double[] result = { 0,0,0 };
+        result[0] = sitePlan.getOriginal_price_A() ;
+        result[1] = sitePlan.getOriginal_price_B() ;
+        result[2] = sitePlan.getOriginal_price_C() ;
+        return result ;
+    }
 
 }
