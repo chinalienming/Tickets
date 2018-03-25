@@ -29,7 +29,8 @@ public class PlanController {
 
     @RequestMapping("/selectSeat")
     public String selectSeat(Model model , @RequestParam(value = "planID") int planID) {
-        model.addAttribute("list",seatService.getAvailableSeatsByPlanID(planID));
+//        model.addAttribute("list",seatService.getAvailableSeatsByPlanID(planID));
+//        model.addAttribute("totalNum",seatService.getTotalNum(planID));
         model.addAttribute("planID",planID) ;
         return "plan/selectSeat";
     }
@@ -41,17 +42,16 @@ public class PlanController {
         return "plan/unselectSeat";
     }
 
-//    @ResponseBody
-//    @RequestMapping("/chooseSelectSeat")
-//    public Map<String,Object> chooseSelectSeat( @RequestParam(value = "planID") int planID) {
-//        List<Seat> list = seatService.getAvailableSeatsByPlanID(planID) ;
-//        Map<String,Object> result = new TreeMap<>() ;
-//        result.put("planID",planID) ;
-//        result.put("availableList",list);
-//        result.put("url","/plan/selectSeat");
-//        return result;
-//    }
-//
+    @ResponseBody
+    @RequestMapping("/getDataOfSelectSeat")
+    public Map<String,Object> chooseSelectSeat( @RequestParam(value = "planID") int planID) {
+        Map<String,Object> result = new TreeMap<>() ;
+        result.put("planID",planID) ;
+        result.put("availableList",seatService.getAvailableSeatsByPlanID(planID) );
+        result.put("totalNum",seatService.getTotalNum(planID));
+        return result;
+    }
+
 //    @ResponseBody
 //    @RequestMapping("/chooseNotSelectSeat")
 //    public Map<String,Object> chooseNotSelectSeat(@RequestParam(value = "planID") int planID) {

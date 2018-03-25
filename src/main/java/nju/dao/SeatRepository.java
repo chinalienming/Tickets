@@ -16,4 +16,6 @@ public interface SeatRepository extends JpaRepository<Seat,Integer> {
 
     List<Seat> findByPlanIDAndState(int planID,int state) ;
 
+    List<Seat> findByPlanID(int planID) ;
+
 }

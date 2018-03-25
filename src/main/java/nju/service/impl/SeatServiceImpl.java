@@ -143,4 +143,17 @@ public class SeatServiceImpl implements SeatService {
         return result ;
     }
 
+    public int[] getTotalNum(int planID) {
+
+
+        List<Seat> list =  seatRepository.findByPlanID(planID) ;
+
+        int[] result = new int[SystemDefault.SEAT_TYPE_NUM] ;
+        for(Seat seat : list ) {
+            result[seat.getSeatNumber().charAt(0)-'A'] ++ ;
+        }
+        return result ;
+
+    }
+
 }

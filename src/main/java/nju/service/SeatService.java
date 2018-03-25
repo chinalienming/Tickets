@@ -37,4 +37,6 @@ public interface SeatService {
 
 
     List<Seat> getAvailableSeatsByPlanID(int planID) ;
+
+    int[] getTotalNum(int planID) ;
 }
