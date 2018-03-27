@@ -23,7 +23,7 @@ public class User {
         this.email = email ;
         this.password = password ;
         this.hasLoginQualification = true ;
-        this.isActivated = true ;
+        this.isActivated = false ;
     }
 
     @GeneratedValue

@@ -74,7 +74,10 @@ public class UserServiceImpl implements UserService {
     }
 
     //
-    public boolean activatAccount(User user){
+    public boolean activatAccount(int userID){
+        User user = userRepository.findById(userID).get();
+        if(user==null)
+            return false ;
         user.setActivated(true);
         user.setHasLoginQualification(true);
         userRepository.save(user) ;
@@ -167,6 +170,14 @@ public class UserServiceImpl implements UserService {
         ticketRecordRepository.findByUserID(userID).forEach(result::add);
 
         return result;
+    }
+
+    public int getUserIDByEmailAndPassword(String email,String password) {
+
+        User user = userRepository.findByEmailAndPassword(email,password) ;
+        if(user==null)
+            return -1 ;
+        return user.getUserID() ;
     }
 
 }
