@@ -79,9 +79,16 @@ public class SeatServiceImpl implements SeatService {
      * 为未选择座位号的顾客提前分配座位号
      */
     List<Seat> allocateSeats(int userID , int planID , int[] ticketNum ) {
+
+        for(int j:ticketNum)
+            System.out.println("seatService 1 :ticket num"+j);
+
         List<Seat> resultList = new ArrayList<>() ;
         List<Seat> seats = getAvailableSeatsByPlanID(planID) ;
-        int[] total_need = ticketNum;
+        int[] total_need = new int[ticketNum.length];
+        for(int i=0;i<ticketNum.length;i++){
+            total_need[i] = ticketNum[i] ;
+        }
         boolean[] still_need = new boolean[total_need.length] ;
         for(int i=0 ; i<total_need.length; i++ ) {
             if(total_need[i]>0)
@@ -91,8 +98,9 @@ public class SeatServiceImpl implements SeatService {
         }
 
         for(int i=0 ; i<seats.size() ; i++) {
-            //check
+            //假设分配完成
             boolean unfinished = false ;
+            //检查各种类型是否满足
             for(int j=0 ; j<still_need.length ; j++) {
                 unfinished = unfinished | still_need[j] ;
             }
@@ -114,7 +122,8 @@ public class SeatServiceImpl implements SeatService {
                 break ;
             }
         }
-
+        for(int j:ticketNum)
+            System.out.println("seatService 1 :ticket num"+j);
         return resultList ;
     }
 
@@ -157,8 +166,8 @@ public class SeatServiceImpl implements SeatService {
     }
 
     public List<String> getUnavailableSeatsByPlanID(int planID)  {
-        List<Seat> locklist = seatRepository.findByPlanIDAndState(planID,1) ;
-        List<Seat> unlist = seatRepository.findByPlanIDAndState(planID,2) ;
+        List<Seat> locklist = seatRepository.findByPlanIDAndState(planID,SystemDefault.SEAT_STATE_LOCK) ;
+        List<Seat> unlist = seatRepository.findByPlanIDAndState(planID,SystemDefault.SEAT_STATE_PURCHASED) ;
         List<String> result = new ArrayList<>() ;
         for(Seat seat : locklist ) {
             result.add(seat.getSeatNumber()) ;

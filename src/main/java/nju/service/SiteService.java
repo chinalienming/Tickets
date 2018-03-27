@@ -20,4 +20,6 @@ public interface SiteService {
     List<Site> getSiteByPage(int page) ;
 
     Site getSiteInfo(int siteID) ;
+
+    Site getSiteByPlanID(int planID) ;
 }

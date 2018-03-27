@@ -88,4 +88,10 @@ public class SiteServiceImpl implements SiteService {
     public Site getSiteInfo(int siteID) {
         return siteRepository.findBySiteID(siteID) ;
     }
+
+    public Site getSiteByPlanID(int planID) {
+        SitePlan sitePlan = planService.getPlanByID(planID) ;
+        int siteID = sitePlan.getSiteID() ;
+        return siteRepository.findBySiteID(siteID) ;
+    }
 }

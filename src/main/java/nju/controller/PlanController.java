@@ -3,6 +3,7 @@ package nju.controller;
 import nju.entity.Seat;
 import nju.service.PlanService;
 import nju.service.SeatService;
+import nju.service.SiteService;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,10 @@ public class PlanController {
     @Autowired
     private PlanService planService ;
 
+    @Autowired
+    private SiteService siteService ;
+
+
     @RequestMapping("/selectSeat")
     public String selectSeat(Model model , @RequestParam(value = "planID") int planID) {
 //        model.addAttribute("list",seatService.getAvailableSeatsByPlanID(planID));
@@ -41,7 +46,10 @@ public class PlanController {
 
     @RequestMapping("/unselectSeat")
     public String unselectSeat(Model model , @RequestParam(value = "planID") int planID) {
-        model.addAttribute("arr",seatService.getSeatTypeNum(planID));
+        model.addAttribute("site",siteService.getSiteByPlanID(planID)) ;
+        model.addAttribute("restArr",seatService.getSeatTypeNum(planID));
+        model.addAttribute("totalArr",seatService.getTotalNum(planID));
+        model.addAttribute("priceArr",planService.getPriceByPlanID(planID)) ;
         model.addAttribute("planID",planID) ;
         return "plan/unselectSeat";
     }
@@ -59,16 +67,14 @@ public class PlanController {
     }
 
 //    @ResponseBody
-//    @RequestMapping("/chooseNotSelectSeat")
-//    public Map<String,Object> chooseNotSelectSeat(@RequestParam(value = "planID") int planID) {
-//        int[] arr = seatService.getSeatTypeNum(planID) ;
+//    @PostMapping(value = "/getDataOfUnselectSeat" )
+//    public Map<String,Object> getDataOfUnselectSeat( @RequestParam(value = "planID") int planID) {
 //        Map<String,Object> result = new TreeMap<>() ;
 //        result.put("planID",planID) ;
-//        result.put("availableArr",arr);
-//        result.put("url","/plan/unselectSeat");
-//        return result ;
+//        result.put("restArr",seatService.getSeatTypeNum(planID));
+//        result.put("priceArr",planService.getPriceByPlanID(planID)) ;
+//        return result;
 //    }
-
 
     @PostMapping("/goBuyTicketWithSeats")
     public String buyTicketWithSeats(HttpSession session,

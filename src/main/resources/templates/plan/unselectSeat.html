@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Unselect Seat Web </title>
+    <meta charset="UTF-8"/>
+
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <!--  Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}">
+
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
+
+    <link rel="stylesheet" href="../../static/css/w3.css" th:href="@{/css/w3.css}"/>
+
+    <title>不选座购票</title>
 </head>
+
+
 <body>
-wwwwwwwwwwwwwwwwwwwwwwwww
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../member/index.html" th:href="@{index}">Tickets</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html" th:href="@{index}">All Site<span
+                        class="sr-only">(current)</span></a></li>
+                <li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../user/register.html" th:href="@{../register}">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="mainpage">
+
+    <div class="cover"  style="'background-image: url('../../static/img/hotel/hotel1.JPG')'"
+         th:style="'background-image: url(' + ${site.picUrl} + ')'"
+    ></div>
+
+    <h3 th:text="${site.siteName}">  Good Site </h3>
+    <div class="table-responsive">
+        <table class="w3-table w3-bordered w3-striped w3-card-4">
+            <tr>
+                <th>Item</th>
+                <th>Message</th>
+            </tr>
+            <tr>
+                <td>Site ID</td>
+                <td th:text="${site.siteID}">0000001</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td th:text="${site.address}">Guangzhou Road, Nanjing</td>
+            </tr>
+            <tr>
+                <td>豪华座 价格 ￥</td>
+                <td th:text="${priceArr[0]}">1000.0</td>
+            </tr>
+            <tr>
+                <td>豪华座 可购数/总数</td>
+                <td th:text="${restArr[0]} + ' / ' +${totalArr[0]}">999</td>
+            </tr>
+            <tr>
+                <td>高级座 价格 ￥</td>
+                <td th:text="${priceArr[1]}">800.0</td>
+            </tr>
+            <tr>
+                <td>高级座 可购数/总数</td>
+                <td th:text="${restArr[1]} + ' / ' +${totalArr[1]}" >888</td>
+            </tr>
+            <tr>
+                <td>普通座 价格 ￥</td>
+                <td th:text="${priceArr[2]}">600.0</td>
+            </tr>
+            <tr>
+                <td>普通座 可购数/总数</td>
+                <td th:text="${restArr[2]} + ' / ' +${totalArr[2]}">777</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div>
+        <form name="sentMessage"  id="contactForm"
+              method="post" role="form"
+              action="../payment/buyTicketWithoutSeats.html"
+              th:action="@{/payment/buyTicketWithoutSeats}" >
+
+
+            Plan ID:<label> <input type="number" name="planID"  th:value="${planID}"/></label>
+                     <br>
+            A:<label><input type="number" name="num_a" min="0" max="20"/></label>
+                <br>
+            B:<label><input type="number" name="num_b" min="0" max="20"/></label>
+                <br>
+            C:<label><input type="number" name="num_c" min="0" max="20"/></label>
+                <br>
+
+            <button type="submit" class=" btn btn-success">提交</button>
+        </form>
+    </div>
+</div>
+
+
+
 </body>
 </html>
