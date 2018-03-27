@@ -34,7 +34,7 @@ public class SystemDefault {
      */
     public static final double CREDIT_RATE = 0.1 ; //consuming amount to credit
 
-    public static final int CREDIT_EXP = 100 ; //credit to level
+    public static final int CREDIT_EXP = 10000 ; //credit to level
 
     /**
      * Discount Rule

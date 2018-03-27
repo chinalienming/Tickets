@@ -98,9 +98,9 @@ public class UserServiceImpl implements UserService {
 
     public boolean removeBalance(int userID, double amount){
         UserInfo userInfo = getUserInfo(userID) ;
-        userInfo.removeBalance(amount);
+        boolean remove = userInfo.removeBalance(amount);
         userInfoRepository.save(userInfo) ;
-        return true ;
+        return remove ;
     }
 
     public boolean addCredit(int userID, double amount,TicketRecord tr) {

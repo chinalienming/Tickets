@@ -30,14 +30,14 @@ public class TicketRecord {
 
     public TicketRecord
             (int userID,int siteID,int planID,String seatNumber, double price ){
-        TicketRecord tr = new TicketRecord();
-        tr.userID = userID ;
-        tr.siteID = siteID ;
-        tr.planID = planID ;
-        tr.seatType = seatNumber.charAt(0)  ;
-        tr.seatNumber = seatNumber ;
-        tr.price = price ;
-        tr.createTime = new Timestamp(System.currentTimeMillis()) ;
+
+        this.userID = userID ;
+        this.siteID = siteID ;
+        this.planID = planID ;
+        this.seatType = seatNumber.charAt(0)  ;
+        this.seatNumber = seatNumber ;
+        this.price = price ;
+        this.createTime = new Timestamp(System.currentTimeMillis()) ;
     }
 
 //    public TicketRecord

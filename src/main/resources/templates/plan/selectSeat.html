@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <!--<link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>-->
     <link rel="stylesheet" href="../../static/css/jquery.seat-charts.css" th:href="@{/css/jquery.seat-charts.css}"/>
-    <title>Present Site Plans</title>
+    <title>选座购票</title>
 </head>
 
 
@@ -70,7 +70,7 @@
         <p>票数：<span id="counter">0</span></p>
         <p>总计：<b>￥<span id="total">0</span></b></p>
 
-        <button class="checkout-button">确定购买</button>
+        <button class="checkout-button" th:name="${planID}" onclick="goBuy(this)">确定购买</button>
 
         <div id="legend"></div>
 
@@ -93,6 +93,10 @@
     var price_b = 0;
     var price_c = 0;
     var unlist = [] ;
+
+    var submitList = [] ;
+
+
     $.ajax({
         type: "POST",
         url: "/plan/getDataOfSelectSeat",
@@ -199,8 +203,11 @@
                                 .attr('id', 'cart-item-'+this.settings.id)
                                 .data('seatId', this.settings.id)
                                 .appendTo($cart);
-
                             $counter.text(sc.find('selected').length+1);
+
+
+                            submitList.push(this.settings.id);
+                            console.log(submitList) ;
 
                             var tmp_price = this.data().price ;
 
@@ -211,6 +218,7 @@
                             //更新数量
                             $counter.text(sc.find('selected').length-1);
 
+                            submitList.pop
 
                             //更新总计
                             var tmp_price = this.data().price ;
@@ -219,6 +227,11 @@
 
                             //删除已预订座位
                             $('#cart-item-'+this.settings.id).remove();
+
+                            var index = submitList.indexOf(this.settings.id);
+                            submitList.splice(index,1);
+                            console.log(submitList) ;
+
                             //可选座
                             return 'available';
                         } else if (this.status() == 'unavailable') { //已售出
@@ -237,9 +250,9 @@
         }
     });
 
-    $(document).ready(function() {
-
-    });
+    // $(document).ready(function() {
+    //
+    // });
 
 
     //计算总金额
@@ -253,7 +266,23 @@
         return total;
     }
 
-
+    function goBuy(obj) {
+        planID = parseInt($(obj).attr("name"));
+        console.log(planID) ;
+        console.log(submitList) ;
+        $.ajax({
+            type: "POST",
+            url: "/payment/buyTicketWithSeats",
+            data: {
+                planID:planID,
+                list:JSON.stringify(submitList)
+            },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.result) ;
+            }
+        })
+    }
 </script>
 
 

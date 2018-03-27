@@ -54,11 +54,18 @@ public class FinanceServiceImpl implements FinanceService {
         double original_price_C = sitePlan.getOriginal_price_C() ;
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
 
-        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+
+//        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+        double[] discountDetail = {1,1,1} ;
+
         double total_price = 0.00 ;
         for( int i=0 ; i<ticketNum.length ; i++ ) {
+            System.out.print(i+" "+ticketNum[i]+" "+original_price[i]+" "+discountDetail[i]);
             total_price += ticketNum[i] * original_price[i] * discountDetail[i] ;
         }
+
+        System.out.println("finance service total price : " +total_price);
+
 
         boolean transferSuccess ;
         if( userInfo.getBalance() < total_price ) {
@@ -67,6 +74,7 @@ public class FinanceServiceImpl implements FinanceService {
             transferSuccess = requestInternalInterface(userID, planID , total_price) ;
         }
 
+        System.out.println("finance service transfer success: " + transferSuccess );
 
         if(transferSuccess) {
             return total_price;

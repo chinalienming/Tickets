@@ -53,8 +53,12 @@ public class TicketServiceImpl implements TicketService {
 
         boolean lockSeatSuccess = seatService.lockSeat(userID, planID, seatList) ;
 
+        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
+
         if(!lockSeatSuccess)
             return false ;
+
+
 
         SitePlan sitePlan = planService.getPlanByID(planID) ;
         UserInfo userInfo = userInfoRepository.findById(userID).get() ;
@@ -72,11 +76,14 @@ public class TicketServiceImpl implements TicketService {
         double original_price_B = sitePlan.getOriginal_price_B() ;
         double original_price_C = sitePlan.getOriginal_price_C() ;
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
-        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+        double[] discountDetail = {1,1,1}; //SystemDefault.switchDiscount(userInfo.getLevel());
 
         double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
 
+
         boolean transferSuccess = transfer_amount > 0 ? true : false ;
+
+        System.out.println("TicketService transferSuccess:"+transferSuccess);
 
         if( transferSuccess ) {
             //create new TicketRecord
@@ -97,7 +104,9 @@ public class TicketServiceImpl implements TicketService {
         //unlocked tickets
         boolean unlockSeatSuccess =
                 seatService.unlockSeat(userID,planID,seatList,transferSuccess);
+        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
         if(!unlockSeatSuccess) {
+
             return false ;
         }
 
@@ -118,10 +127,22 @@ public class TicketServiceImpl implements TicketService {
             return false ;
         }
 
+        for(int j:ticketNum)
+            System.out.println("ticketService 1 :ticket num"+j);
 
         List<Seat> seats = seatService.lockSeat(userID, planID, ticketNum) ;
-        boolean lockSeatSuccess = null==seats ? false : true ;
+        for(int j:ticketNum)
+            System.out.println("ticketService 2 :ticket num"+j);
+
+        boolean lockSeatSuccess = true ;
+        if(seats==null)
+            lockSeatSuccess = false  ;
+        if(seats.size()<total)
+            lockSeatSuccess = false ;
+
+        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
         if(!lockSeatSuccess) {
+
             return false ;  //maybe seat is not enough
         }
 
@@ -132,11 +153,16 @@ public class TicketServiceImpl implements TicketService {
         double original_price_B = sitePlan.getOriginal_price_B() ;
         double original_price_C = sitePlan.getOriginal_price_C() ;
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
-        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+
+        //折扣力度
+//        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+        double[] discountDetail = {1,1,1} ;
 
         double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
 
         boolean transferSuccess = transfer_amount > 0 ? true : false ;
+
+        System.out.println("TicketService transferSuccess:"+transferSuccess);
 
         if( transferSuccess ) {
             //create new TicketRecord
@@ -146,8 +172,9 @@ public class TicketServiceImpl implements TicketService {
                 int type = seatNumber.charAt(0) - 'A' ;
                 tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
                         seatNumber, discountDetail[type] * original_price[type] ) ;
-                ticketRecordRepository.save(tr) ;
-
+                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
+                System.out.println("save :"+ ticketRecordRepository.save(tr) );
+                System.out.println(tr.getRecordID() );
                 // add consume record to UserInfo..
                 userService.addCredit(userID, transfer_amount, tr) ;
             }
@@ -161,6 +188,7 @@ public class TicketServiceImpl implements TicketService {
         //unlocked tickets
         boolean unlockSeatSuccess =
                 seatService.unlockSeat(userID,planID,seatNameList,transferSuccess);
+        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
         if(!unlockSeatSuccess) {
             return false ;
         }
