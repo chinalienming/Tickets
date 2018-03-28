@@ -19,29 +19,26 @@
 
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
-        <form method="post" role="form" action="../member/register.html"
-              th:action="@{/user/register}">
+        <form id="form1" method="post" role="form"> <!--action="../member/register.html" th:action="@{/user/register}"-->
+
             <div class="form-group">
                 <label for="mail">e-mail</label>
-                <input type="emial" class="form-control" name="mail" id="mail" />
+                <input type="email" class="form-control" name="mail" id="mail" />
             </div>
             <div class="form-group">
                 <label for="password">password</label>
                 <input type="password" class="form-control" name="password" id="password" />
             </div>
-            <!--<div class="radio">-->
-                <!--<label>-->
-                    <!--<input type="radio" name="type" id="typeRadio1" value="user" checked="checked" />-->
-                    <!--Register as a user-->
-                <!--</label>-->
-            <!--</div>-->
-            <!--<div class="radio">-->
-                <!--<label>-->
-                    <!--<input type="radio" name="type" id="typeRadio2" value="hotel" />-->
-                    <!--Register as a hotel manager-->
-                <!--</label>-->
-            <!--</div>-->
-            <button type="submit" class=" btn btn-success">Sign Up now!</button>
+            <button id="sendButton" type="button" class=" btn btn-success" >发送邮件获取激活码</button>
+
+            <div class="form-group">
+                <label>激活码</label>
+                <input type="text" class="form-control" name="active" id="active" />
+            </div>
+
+
+            <button id="activate" type="button" class=" btn btn-success" >注册</button>
+
         </form>
         <a href="index.html" th:href="@{/user/index}">Click here to login</a>
     </div>
@@ -50,5 +47,50 @@
 <script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/npm.js" th:src="@{/js/npm.js}"></script>
+
+
+<script type="text/javascript"  th:inline="javascript">
+
+    $(document).ready(function() {
+
+        $("#sendButton").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/user/sendEmail",
+                data: $("#form1").serializeArray(),
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        alert("查看邮箱接收激活码");
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        });
+
+        $("#activate").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/user/activate",
+                data: $("#form1").serializeArray(),
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        location.href = "index" ;
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        });
+
+
+    });
+
+</script>
 </body>
 </html>

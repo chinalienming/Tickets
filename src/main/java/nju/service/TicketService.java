@@ -26,9 +26,12 @@ public interface TicketService {
      */
     List<Seat> matchTicket(int planID,int userID) ;
 
-    boolean cancelOrder(TicketRecord tr) ;
+    /**
+     * @return Code of result
+     */
+    int cancelOrder(int recordID) ;
 
-    boolean restoreSeat(TicketRecord tr);
+    boolean restoreSeat(int recordID);
 
     boolean buyTicketOffline(int planID,int userID,List<String> seats);
 

@@ -57,25 +57,31 @@ public class PaymentController {
     }
 
     @PostMapping("/buyTicketWithoutSeats")
-    public String buyTicketWithoutSeats
+    @ResponseBody
+    public Map<String,Object> buyTicketWithoutSeats
             (@RequestParam("planID") int planID,
              @RequestParam("num_a") int a,
              @RequestParam("num_b") int b,
              @RequestParam("num_c") int c,
              @SessionAttribute(SystemDefault.USER_ID) int userID ) {
+
+        Map<String, Object> result = new TreeMap<>();
+
         int[] ticketNum = {a,b,c} ;
 //        for(int j:ticketNum)
 //            System.out.println("controller :ticket num"+j);
 
         boolean buySuccess = ticketService.buyTicket(userID,planID,ticketNum) ;
         System.out.println("controller buySuccess: " +buySuccess);
+        result.put("result",buySuccess);
+        result.put("url","member/index") ;
 //        if(buySuccess) {
 //            result.put(SystemDefault.HTTP_RESULT,true) ;
 //        } else {
 //            result.put(SystemDefault.HTTP_RESULT,false) ;
 //        }
 
-        return "member/index" ;
+        return result ;
     }
 
 }

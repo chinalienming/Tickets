@@ -89,8 +89,7 @@ public class UserInfo {
         tr.setCreditAdd(creditAdd);     //need update !
 
         //check level up.
-        while(this.credit>=SystemDefault.CREDIT_EXP) {
-            this.credit -= SystemDefault.CREDIT_EXP ;
+        while(this.consumption>= level * SystemDefault.USER_EXP) {
             this.level ++ ;
             levelUpTips();
         }
@@ -106,14 +105,10 @@ public class UserInfo {
         this.balance += return_amount ;
         this.consumption -= return_amount ;
 
-        while (this.credit < tr.getCreditAdd() ) {
-            this.level -- ;
-            this.credit += SystemDefault.CREDIT_EXP ;
-        }
         this.credit -= tr.getCreditAdd() ;
 
-        tr.setCreditAdd(0); ;   // clear.
-        tr.setIsValid(false);
+        tr.setCreditAdd(0);// clear.
+        tr.setIsValid(SystemDefault.RECORD_STATE_CANCEL);
 
     }
 

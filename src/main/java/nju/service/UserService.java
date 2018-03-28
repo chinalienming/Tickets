@@ -15,7 +15,7 @@ public interface UserService {
 
     int register(String email, String password ) ;
 
-    boolean activatAccount(User user);
+    boolean activatAccount(int userID);
 
     int login(String email,String password) ;
 
@@ -34,6 +34,8 @@ public interface UserService {
     boolean checkEmailExist(String Email);
 
     UserVO getUserVO(int userID) ;
+
+    int getUserIDByEmailAndPassword(String email,String password) ;
 
 
 }
