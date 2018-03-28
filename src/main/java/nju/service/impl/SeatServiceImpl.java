@@ -67,7 +67,7 @@ public class SeatServiceImpl implements SeatService {
             for(String seatNumber : seatList ){
                 Seat seat = seatRepository.findByPlanIDAndSeatNumber(planID,seatNumber) ;
                 seat.setState(SystemDefault.SEAT_STATE_EMPTY);
-                seat.setUserID(-1);
+                seat.setUserID(SystemDefault.SEAT_FREE);
                 seatRepository.save(seat);
             }
         }

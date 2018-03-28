@@ -23,7 +23,7 @@ public interface UserService {
 
     boolean removeBalance(int userID, double amount) ;
 
-    boolean addCredit(int userID, double amount,TicketRecord tr) ;
+    boolean addCredit(TicketRecord tr) ;
 
     boolean drawback(int userID, double return_amount, TicketRecord tr) ;
 

@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by lienming on 2018/3/14.
@@ -36,16 +33,21 @@ public class MemberController {
     //ticket record
     @RequestMapping("/index")
     public String index(Model model,
-                        @SessionAttribute(SystemDefault.USER_ID) int id) {
+                        @SessionAttribute(SystemDefault.USER_ID) int id,
+                        @RequestParam(value = "page", defaultValue = "0") int page) {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
         List<TicketRecord> ls = userService.getTicketRecord(id);
+
+//        Collections.reverse(ls);
+
         model.addAttribute("userID",id) ;
 //        System.out.println("size:"+ls.size());
 //        for(TicketRecord tr:ls) {
 //            System.out.println("ID: "+tr.getRecordID());
 //        }
         model.addAttribute(SystemDefault.TICKET_RECORDS,ls);
+        model.addAttribute(SystemDefault.CURRENT_PAGE, page);
 //        model.addAttribute(SystemDefault.CURRENT_PAGE,page) ;
         return "member/index";
     }

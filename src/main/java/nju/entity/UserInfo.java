@@ -81,7 +81,8 @@ public class UserInfo {
         }
     }
 
-    public void addCredit(double amount,TicketRecord tr) {
+    public void addCredit(TicketRecord tr) {
+        double amount = tr.getPrice() ;
         this.consumption += amount ;
         int creditAdd = (int)(amount * SystemDefault.CREDIT_RATE) ;
         this.credit += creditAdd ;

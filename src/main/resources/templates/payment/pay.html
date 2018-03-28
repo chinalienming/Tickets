@@ -1,0 +1,61 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<div id="content">
+    <form id="form1" method="post" role="form">
+    <div class="login">
+        <div>
+            <p style="display:inline">支付宝账号:</p>
+            <input type="text" name="accountID" value="1"/>
+        </div>
+        <div>
+            <p style="display:inline">支付宝密码:</p>
+            <input type="password" name="password" value="1234"/>
+        </div>
+        <div>
+            <input id="pay" class="button" type="button" value="确定付款" />
+        </div>
+    </div>
+    </form>
+</div>
+
+
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#pay").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/payment/payByExternalAccount",
+                data: $("#form1").serializeArray(),
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        alert("付款成功!付款金额: "+data.amount);
+                        location.href = "redirect:/member/index" ;
+                    } else {
+                        alert("付款失败!");
+                    }
+                }
+            });
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
+

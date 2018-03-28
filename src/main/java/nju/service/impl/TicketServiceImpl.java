@@ -38,6 +38,41 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private SeatRepository seatRepository ;
 
+    public boolean setPayed(int recordID) {
+
+        TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
+        tr.setIsValid(SystemDefault.RECORD_STATE_PAYED) ;
+        userService.addCredit(tr) ;
+
+        List<String> list = new ArrayList<>();
+        list.add(tr.getSeatNumber()) ;
+        //unlocked tickets
+        boolean unlockSeatSuccess =
+                seatService.unlockSeat(tr.getUserID(),tr.getPlanID(),list,true);
+        if(!unlockSeatSuccess) {
+            return false ;
+        }
+
+        return true ;
+
+    }
+
+    public boolean setTimeOut(int recordID) {
+        TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
+        tr.setIsValid(SystemDefault.RECORD_STATE_TIMEOUT) ;
+
+        List<String> list = new ArrayList<>();
+        list.add(tr.getSeatNumber()) ;
+        //unlocked tickets
+        boolean unlockSeatSuccess =
+                seatService.unlockSeat(tr.getUserID(),tr.getPlanID(),list,false);
+        if(!unlockSeatSuccess) {
+            return false ;
+        }
+
+        return true ;
+    }
+
     /**
      * ticket transaction WITH seat position demand
      */
@@ -58,10 +93,8 @@ public class TicketServiceImpl implements TicketService {
         if(!lockSeatSuccess)
             return false ;
 
-
-
         SitePlan sitePlan = planService.getPlanByID(planID) ;
-        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+//        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
 
         int[] ticketNum = new int[SystemDefault.SEAT_TYPE_NUM];
         for (String seatString : seatList ) {
@@ -78,39 +111,43 @@ public class TicketServiceImpl implements TicketService {
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
         double[] discountDetail = {1,1,1}; //SystemDefault.switchDiscount(userInfo.getLevel());
 
-        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
-
-
-        boolean transferSuccess = transfer_amount > 0 ? true : false ;
-
-        System.out.println("TicketService transferSuccess:"+transferSuccess);
-
-        if( transferSuccess ) {
+//        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
+//
+//
+//        boolean transferSuccess = transfer_amount > 0 ? true : false ;
+//
+//        System.out.println("TicketService transferSuccess:"+transferSuccess);
+//
+//        if( transferSuccess ) {
             //create new TicketRecord
-            TicketRecord tr;
+        TicketRecord tr;
 
-            for(String seatNumber : seatList ) {
-                int type = seatNumber.charAt(0) - 'A' ;
-                tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
-                        seatNumber, discountDetail[type]*original_price[type]) ;
-                ticketRecordRepository.save(tr) ;
-
-                // add consume record to UserInfo..
-                userService.addCredit(userID, transfer_amount, tr) ;
-            }
-
+        for(String seatNumber : seatList ) {
+            int type = seatNumber.charAt(0) - 'A';
+            tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
+                    seatNumber, discountDetail[type] * original_price[type]);
+            ticketRecordRepository.save(tr);
         }
 
-        //unlocked tickets
-        boolean unlockSeatSuccess =
-                seatService.unlockSeat(userID,planID,seatList,transferSuccess);
-        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
-        if(!unlockSeatSuccess) {
+        return lockSeatSuccess;
 
-            return false ;
-        }
+//                // add consume record to UserInfo..
+//                userService.addCredit(userID, transfer_amount, tr) ;
+//            }
+//
+//        }
+//
+//        //unlocked tickets
+//        boolean unlockSeatSuccess =
+//                seatService.unlockSeat(userID,planID,seatList,transferSuccess);
+//        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
+//        if(!unlockSeatSuccess) {
+//
+//            return false ;
+//        }
 
-        return transferSuccess ;
+
+
     }
 
     /**
@@ -158,13 +195,13 @@ public class TicketServiceImpl implements TicketService {
 //        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
         double[] discountDetail = {1,1,1} ;
 
-        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
-
-        boolean transferSuccess = transfer_amount > 0 ? true : false ;
-
-        System.out.println("TicketService transferSuccess:"+transferSuccess);
-
-        if( transferSuccess ) {
+//        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
+//
+//        boolean transferSuccess = transfer_amount > 0 ? true : false ;
+//
+//        System.out.println("TicketService transferSuccess:"+transferSuccess);
+//
+//        if( transferSuccess ) {
             //create new TicketRecord
             TicketRecord tr;
             for(Seat seat : seats ) {
@@ -176,24 +213,24 @@ public class TicketServiceImpl implements TicketService {
                 System.out.println("save :"+ ticketRecordRepository.save(tr) );
                 System.out.println(tr.getRecordID() );
                 // add consume record to UserInfo..
-                userService.addCredit(userID, transfer_amount, tr) ;
+//                userService.addCredit(userID, transfer_amount, tr) ;
             }
-        }
+//        }
+//
+//        List<String> seatNameList = new ArrayList<>() ;
+//        for(Seat seat : seats ) {
+//            seatNameList.add(seat.getSeatNumber()) ;
+//        }
+//
+//        //unlocked tickets
+//        boolean unlockSeatSuccess =
+//                seatService.unlockSeat(userID,planID,seatNameList,transferSuccess);
+//        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
+//        if(!unlockSeatSuccess) {
+//            return false ;
+//        }
 
-        List<String> seatNameList = new ArrayList<>() ;
-        for(Seat seat : seats ) {
-            seatNameList.add(seat.getSeatNumber()) ;
-        }
-
-        //unlocked tickets
-        boolean unlockSeatSuccess =
-                seatService.unlockSeat(userID,planID,seatNameList,transferSuccess);
-        System.out.println("TicketService unlock seat Success:"+unlockSeatSuccess);
-        if(!unlockSeatSuccess) {
-            return false ;
-        }
-
-        return transferSuccess;
+        return lockSeatSuccess;
     }
 
     /**

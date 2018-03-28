@@ -15,14 +15,14 @@ public interface PaymentInterface {
             return new Alipay();
         }
 
-        if(interface_name.equals("OnlineBank")) {
-            return new OnlineBank();
-        }
+//        if(interface_name.equals("OnlineBank")) {
+//            return new OnlineBank();
+//        }
 
         return null ;
     }
 
-    boolean transfer(ExternalAccount from_ea , ExternalAccount to_ea , double request_amount);
+    double transfer(ExternalAccount from_ea ,int from_userID, int planID , double request_amount);
 
 
 }

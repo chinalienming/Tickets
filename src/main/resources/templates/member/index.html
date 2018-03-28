@@ -123,8 +123,8 @@
                                 生效
                             </td>
 
-                            <td th:if="${one.isValid==2}" th:text = "已取消">
-                                已取消
+                            <td th:if="${one.isValid==2}" th:text = "已撤销">
+                                已撤销
                             </td>
 
                             <td th:text="${one.creditAdd}">0</td>
@@ -134,7 +134,11 @@
                                    data-target="#cancelModal">退订
                                 </a>
 
-                                <a type="button"  th:if="${one.isValid==0}">去支付</a>
+                                <a type="button"  th:if="${one.isValid==0}"
+                                   class="payButton" data-toggle="modal" th:name="${one.recordID}"
+                                   data-target="#payModal">
+                                    去支付
+                                </a>
                             </td>
 
 
@@ -152,17 +156,20 @@
     <nav aria-label="Page navigation" class="col-md-offset-10 col-md-4">
         <ul class="pagination pagination-sm">
             <li>
-                <a href="#" aria-label="Previous">
+
+                <a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"
+                   th:href="@{/member/index(page=${current} - 1)}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
+            <li><a href="#" th:href="@{/member/index(page=${current})}" th:text="${current} + 1">1</a></li>
+            <li><a href="#" th:href="@{/member/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>
+            <li><a href="#" th:href="@{/member/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>
+            <li><a href="#" th:href="@{/member/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>
+            <li><a href="#" th:href="@{/member/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>
             <li>
-                <a href="#" aria-label="Next">
+                <a href="#" th:href="@{/member
+                /index(page=${current} + 1)}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -203,30 +210,105 @@
 </div>
 
 
+<!--支付-->
+<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">支付手段</h4>
+            </div>
+            <form class="form-horizontal" >
+                <div class="modal-body">
+                    <div class="form-group text-danger">
+                        <p class="col-md-offset-2">选择一种支付方法:)</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">关闭</button>
+                    <button type="button" id="balance" class="btn btn-default" data-dismiss="modal">账户余额</button>
+                    <button type="button" id="external" class="btn btn-default" data-dismiss="modal">支付宝</button>
+                </div>
+
+            </form>
+
+            <div class="err-msg"></div>
+        </div>
+
+    </div>
+
+</div>
+
 <!--Scripts-->
 <script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script th:inline="javascript">
 
+
+
     var $cancelButton = $('.cancelButton');
-
     var $cancel = $('#goCancel');
-
-
     var recordToCancel = 0;
+
     var inputs = [];
     var url = '';
+
+    var $payButton = $('.payButton');
+    var $balance = $('#balance');
+    var $external = $('#external');
+    var recordToBuy = 0;
 
     //页面上的'退订'链接
     $cancelButton.on('click' , function () {
         recordToCancel = $(this).attr('name');
     });
 
+    //页面上的'支付'链接
+    $payButton.on('click' , function () {
+        recordToBuy = $(this).attr('name');
+    });
+
+    //点击'确定退款'
     $cancel.on('click' , function () {
         inputs = {recordToCancel:recordToCancel};
         url = '/member/cancel';
         callAjax(inputs,url);
     });
+
+    //点击'余额付款'
+    $balance.on('click',function () {
+        inputs = {recordID:recordToBuy};
+        url = '/payment/payByBalance';
+        callBalance(inputs,url);
+    });
+
+    //点击'支付宝'
+    $external.on('click',function () {
+        inputs = {recordID:recordToBuy};
+        url = '/payment/goPayByExternalAccount?recordID='+recordToBuy;
+        location.href = url ;
+        // url = '/payment/goPayByExternalAccount';
+        // callExternalAccount(inputs,url);
+    });
+    function callExternalAccount(inputs, url) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: inputs,
+            dataType: 'html',
+            success: function (data) {
+                location.href = data ;
+                // if(data.result>=0) {
+                //     alert(data.amount) ;
+                //     location.href = "/member/index";
+                // }
+                // else
+                //     alert("操作失败.错误码:"+data.result);
+            }
+        });
+    }
+
 
     function callAjax(inputs, url) {
         $.ajax({
@@ -241,11 +323,42 @@
                     alert("操作失败.错误码:"+data.result);
             }
         });
-
-
-
     }
 
+    function callBalance(inputs, url) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: inputs,
+            dataType: 'json',
+            success: function (data) {
+                if(data.result>=0) {
+                    alert("支付成功！金额: "+data.amount) ;
+                    location.href = "/member/index";
+                }
+                else
+                    alert("操作失败.错误码:"+data.result);
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        var current = [[${current}]];
+//        console.log(current);
+        var $pageList = $('a');
+        if (current < 0 ) {
+            $('#previous').attr("disabled", 'disabled');
+        }
+        $pageList.each(function () {
+//            console.log($(this).text());
+            if ($(this).text() == (current + 1)) {
+//                console.log($(this).text());
+                $(this).parent().addClass("active");
+            }
+        })
+
+    });
 
 </script>
 

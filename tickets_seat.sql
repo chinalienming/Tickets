@@ -24,8 +24,8 @@ INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_chec
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (15, 1, 'B05', 2, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (16, 1, 'B06', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (17, 1, 'B07', 2, 1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (18, 1, 'B08', 0, -1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (19, 1, 'B09', 0, -1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (18, 1, 'B08', 2, 1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (19, 1, 'B09', 2, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (20, 1, 'B10', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (21, 1, 'C01', 2, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (22, 1, 'C02', 2, 1, 0);
@@ -44,8 +44,8 @@ INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_chec
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (35, 1, 'A15', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (36, 1, 'A16', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (37, 1, 'A17', 2, 1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (38, 1, 'A18', 0, -1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (39, 1, 'A19', 0, -1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (38, 1, 'A18', 2, 1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (39, 1, 'A19', 2, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (40, 1, 'A20', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (41, 1, 'B11', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (42, 1, 'B12', 0, -1, 0);
@@ -54,8 +54,8 @@ INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_chec
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (45, 1, 'B15', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (46, 1, 'B16', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (47, 1, 'B17', 2, 1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (48, 1, 'B18', 0, -1, 0);
-INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (49, 1, 'B19', 0, -1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (48, 1, 'B18', 2, 1, 0);
+INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (49, 1, 'B19', 2, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (50, 1, 'B20', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (51, 1, 'C11', 0, -1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (52, 1, 'C12', 0, -1, 0);

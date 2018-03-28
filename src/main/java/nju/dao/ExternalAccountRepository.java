@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ExternalAccountRepository extends JpaRepository<ExternalAccount,Integer> {
     ExternalAccount findByUserIDAndIsSite(int userID,boolean isSite) ;
 
+    ExternalAccount findByAccountIDAndPassword(int accountID,String password) ;
+
 }

@@ -37,4 +37,8 @@ public interface TicketService {
 
     void checkTicket(int planID,List<String> seats);
 
+    boolean setPayed(int recordID) ;
+
+    boolean setTimeOut(int recordID) ;
+
 }

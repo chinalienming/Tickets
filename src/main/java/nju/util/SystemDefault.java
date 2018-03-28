@@ -35,7 +35,7 @@ public class SystemDefault {
     public static final int RECORD_STATE_WAITPAY = 0 ;
     public static final int RECORD_STATE_PAYED = 1 ;
     public static final int RECORD_STATE_CANCEL = 2;
-
+    public static final int RECORD_STATE_TIMEOUT = 3 ;
 
     /**
      * Credit Rule
