@@ -2,18 +2,19 @@ package nju.controller;
 
 import nju.entity.TicketRecord;
 import nju.service.SiteService;
+import nju.service.TicketService;
 import nju.service.UserService;
 import nju.util.SystemDefault;
 import nju.vo.TicketRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by lienming on 2018/3/14.
@@ -28,6 +29,9 @@ public class MemberController {
     private UserService userService ;
     @Autowired
     private SiteService siteService ;
+    @Autowired
+    private TicketService ticketService ;
+
 
     //ticket record
     @RequestMapping("/index")
@@ -62,6 +66,18 @@ public class MemberController {
         model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
         model.addAttribute(SystemDefault.CURRENT_PAGE, page);
         return "redirect:/site/"+"index";
+    }
+
+
+    @PostMapping("/cancel")
+    @ResponseBody
+    public Map<String,Object> cancel(@RequestParam(value = "recordToCancel")String record){
+        int recordID = Integer.parseInt(record) ;
+        int resultCode = ticketService.cancelOrder(recordID) ;
+        System.out.println("取消结果 : "+ resultCode) ;
+        Map<String,Object> map = new TreeMap<>() ;
+        map.put("result",resultCode) ;
+        return map ;
     }
 
 }

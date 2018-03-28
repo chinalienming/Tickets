@@ -107,26 +107,64 @@
 
 
     <div>
-        <form name="sentMessage"  id="contactForm"
-              method="post" role="form"
-              action="../payment/buyTicketWithoutSeats.html"
-              th:action="@{/payment/buyTicketWithoutSeats}" >
+        <form name="sendMessage"  id="sendMessage"
+              method="post" role="form" >
+              <!--action="../payment/buyTicketWithoutSeats.html"-->
+              <!--th:action="@{/payment/buyTicketWithoutSeats}" >-->
 
 
-            Plan ID:<label> <input type="number" name="planID"  th:value="${planID}"/></label>
+            Plan ID:<label> <input type="number" name="planID" id="planid" th:value="${planID}"/></label>
                      <br>
-            A:<label><input type="number" name="num_a" min="0" max="20"/></label>
+            A:<label><input type="number" name="num_a" id="num_a" min="0" max="20"/></label>
                 <br>
-            B:<label><input type="number" name="num_b" min="0" max="20"/></label>
+            B:<label><input type="number" name="num_b" id="num_b" min="0" max="20"/></label>
                 <br>
-            C:<label><input type="number" name="num_c" min="0" max="20"/></label>
+            C:<label><input type="number" name="num_c" id="num_c" min="0" max="20"/></label>
                 <br>
 
-            <button type="submit" class=" btn btn-success">提交</button>
+            <button id="buy" type="button" class=" btn btn-success">提交</button>
         </form>
     </div>
 </div>
 
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript"  th:inline="javascript" >
+
+
+
+        $("#buy").click(function () {
+
+            var a = document.getElementById("num_a").value;
+            var b = document.getElementById("num_b").value;
+            var c = document.getElementById("num_c").value;
+            var total = parseInt(a)+parseInt(b)+parseInt(c) ;
+            if( total > 20 )  {
+                alert(total+" 数量超过20个!");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/payment/buyTicketWithoutSeats",
+                data: $("#sendMessage").serializeArray() ,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        alert(data.result);
+                        location.href = "redirect:/"+data.url ;
+                    } else {
+                        alert(data.result);
+                    }
+                }
+            });
+        });
+
+
+
+</script>
 
 
 </body>

@@ -39,8 +39,7 @@ public class PlanServiceImpl implements PlanService {
         SitePlan sitePlan = getPlanByID(tr.getPlanID());
         double original_income = sitePlan.getPlanIncome() ;
         sitePlan.setPlanIncome(original_income-return_amount);
-
-        tr.setIsValid(false);
+        tr.setIsValid(SystemDefault.RECORD_STATE_CANCEL);
         ticketRecordRepository.save(tr) ;
         sitePlanRepository.save(sitePlan);
         return true ;

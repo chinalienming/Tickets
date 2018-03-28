@@ -60,7 +60,7 @@ public class FinanceServiceImpl implements FinanceService {
 
         double total_price = 0.00 ;
         for( int i=0 ; i<ticketNum.length ; i++ ) {
-            System.out.print(i+" "+ticketNum[i]+" "+original_price[i]+" "+discountDetail[i]);
+            System.out.print(i+" "+ticketNum[i]+" "+original_price[i]+" "+discountDetail[i]+" , ");
             total_price += ticketNum[i] * original_price[i] * discountDetail[i] ;
         }
 

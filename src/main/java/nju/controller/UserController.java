@@ -1,5 +1,7 @@
 package nju.controller;
 
+import nju.entity.TicketRecord;
+import nju.service.TicketService;
 import nju.service.UserService;
 import nju.util.EmailUtility;
 import nju.util.SystemDefault;
@@ -22,6 +24,8 @@ public class UserController {
 
     @Autowired
     private UserService userService ;
+    @Autowired
+    private TicketService ticketService ;
 
     @RequestMapping(value = "/index")
     public String index(){
@@ -119,7 +123,6 @@ public class UserController {
     public String logout() {
         return "user/index";
     }
-
 
 
 }

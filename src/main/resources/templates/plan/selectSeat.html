@@ -267,6 +267,12 @@
     }
 
     function goBuy(obj) {
+
+        if(submitList.length>6) {
+            alert("选座超过6个!");
+            return;
+        }
+
         planID = parseInt($(obj).attr("name"));
         console.log(planID) ;
         console.log(submitList) ;

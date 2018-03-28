@@ -205,8 +205,13 @@ public class TicketServiceImpl implements TicketService {
         return seatRepository.findByPlanIDAndUserID(planID,userID) ;
     }
 
-    public boolean cancelOrder(TicketRecord tr) {
+    public int cancelOrder(int recordID) {
 
+        TicketRecord tr = findRecord(recordID) ;
+
+        if(tr.getIsValid()!=1) {
+            return -1  ;
+        }
         Date present_time = Calendar.getInstance().getTime() ;
 
         SitePlan sitePlan = planService.getPlanByID(tr.getPlanID()) ;
@@ -220,25 +225,29 @@ public class TicketServiceImpl implements TicketService {
         }
 
         // rule ?
-        double rate = SystemDefault.returnRate(hours) ;
+        double rate = 1.0  ; //SystemDefault.returnRate(hours) ;
 
         double return_amount = tr.getPrice() * rate ;
 
         boolean transferSuccess = financeService.cancelFromSite(tr,return_amount);
+        if(!transferSuccess)
+            return -2 ;
 
-        boolean restoreSeatSuccess = restoreSeat(tr) ;
+        boolean restoreSeatSuccess = restoreSeat(recordID) ;
+        if(!restoreSeatSuccess)
+            return -3 ;
 
-        return transferSuccess && restoreSeatSuccess ;
+        return 0 ;
     }
 
-    public boolean restoreSeat(TicketRecord tr) {
+    public boolean restoreSeat(int recordID) {
 
+        TicketRecord tr = findRecord(recordID) ;
         int planID = tr.getPlanID() ;
         String seatNumber = tr.getSeatNumber() ;
-
         Seat seat = seatRepository.findByPlanIDAndSeatNumber(planID,seatNumber) ;
         seat.setState(SystemDefault.SEAT_STATE_EMPTY);
-        seat.setUserID(-1);
+        seat.setUserID(SystemDefault.SEAT_FREE);
         seatRepository.save(seat) ;
         return true ;
     }
@@ -265,6 +274,10 @@ public class TicketServiceImpl implements TicketService {
                 seatRepository.save(that);
             }
         }
+    }
+
+    TicketRecord findRecord(int recordID) {
+        return ticketRecordRepository.findById(recordID).get() ;
     }
 
 

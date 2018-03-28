@@ -121,7 +121,6 @@ public class UserServiceImpl implements UserService {
     public boolean drawback(int userID, double return_amount, TicketRecord tr){  // need credit punishment ?
         UserInfo userInfo = getUserInfo(userID) ;
         userInfo.drawback(return_amount,tr);
-
         userInfoRepository.save(userInfo) ;
         ticketRecordRepository.save(tr) ;
         return true ;

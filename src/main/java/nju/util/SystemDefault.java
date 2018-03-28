@@ -30,11 +30,19 @@ public class SystemDefault {
 
 
     /**
-     * Credite Rule
+     * Ticket Record Rule
+     */
+    public static final int RECORD_STATE_WAITPAY = 0 ;
+    public static final int RECORD_STATE_PAYED = 1 ;
+    public static final int RECORD_STATE_CANCEL = 2;
+
+
+    /**
+     * Credit Rule
      */
     public static final double CREDIT_RATE = 0.1 ; //consuming amount to credit
 
-    public static final int CREDIT_EXP = 10000 ; //credit to level
+    public static final int USER_EXP = 10000 ; //credit to level
 
     /**
      * Discount Rule
@@ -58,7 +66,7 @@ public class SystemDefault {
     }
 
     /**
-     * Order Cancel Rule
+     * Ticket Cancel Rule
      */
     public static double returnRate(int hours) {
         if( 0 <= hours && hours < 72 )   // in a day
@@ -86,6 +94,12 @@ public class SystemDefault {
     public static final int SEAT_SELECTED_MAX = 6 ;
 
     public static final int SEAT_NOT_SELECTED_MAX = 20 ;
+
+    public static final int SEAT_FREE = -1 ;
+
+
+
+
 
     /**
      * User Rule

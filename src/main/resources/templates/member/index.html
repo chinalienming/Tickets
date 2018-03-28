@@ -87,16 +87,17 @@
                     <table class="table table-hover">
                         <!--标题栏-->
                         <tr>
-                            <th>Record ID</th>
-                            <th>User ID</th>
-                            <th>Site ID</th>
-                            <th>Plan ID</th>
-                            <th>Seat Type</th>
-                            <th>Seat Number</th>
-                            <th>Price</th>
-                            <th>Create Time</th>
-                            <th>is Valid</th>
-                            <th>Credit Add</th>
+                            <th>票据ID</th>
+                            <th>用户ID</th>
+                            <th>场馆ID</th>
+                            <th>活动ID</th>
+                            <th>座位类型</th>
+                            <th>座位号</th>
+                            <th>价格</th>
+                            <th>订票时间</th>
+                            <th>状态</th>
+                            <th>积分变化</th>
+                            <th>可选项</th>
                         </tr>
 
                         <!--model.attribute : ticket_records-->
@@ -113,16 +114,35 @@
                             <td th:text="${one.createTime}">
                                 2018-3-19 13:48:28
                             </td>
-                            <td th:text="${one.isValid}">True</td>
-                            <td th:text="${one.creditAdd==0?false:true}">True</td>
-                            <td>
-                                <a href="javascript:" type="button" th:if="${one.isValid==1}"
-                                   class="cancelButton" data-toggle="modal" th:name="${one.recordID}"
-                                   data-target="#cancelModal">Cancel
-                                </a>
+
+                            <td th:if="${one.isValid==0}" th:text = "等待支付">
+                                等待支付
                             </td>
+
+                            <td th:if="${one.isValid==1}" th:text = "生效">
+                                生效
+                            </td>
+
+                            <td th:if="${one.isValid==2}" th:text = "已取消">
+                                已取消
+                            </td>
+
+                            <td th:text="${one.creditAdd}">0</td>
+                            <td>
+                                <a type="button" th:if="${one.isValid==1}"
+                                   class="cancelButton" data-toggle="modal" th:name="${one.recordID}"
+                                   data-target="#cancelModal">退订
+                                </a>
+
+                                <a type="button"  th:if="${one.isValid==0}">去支付</a>
+                            </td>
+
+
                         </tr>
                     </table>
+
+
+
                 </div>
             </div>
         </div>
@@ -157,21 +177,20 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete Account</h4>
+                <h4 class="modal-title">退订</h4>
             </div>
-            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+            <form class="form-horizontal" >
                 <div class="modal-body">
 
 
                     <div class="form-group text-danger">
-                        <p class="col-md-offset-2">Are you sure to cancel the reservation? The Operation cannot
-                            be undo!</p>
+                        <p class="col-md-offset-2">确认取消这张票并退款吗？此操作不能撤销！</p>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger delete">Yes</button>
+                    <button type="button" id="goCancel" class="btn btn-danger delete" data-dismiss="modal">Yes</button>
                 </div>
 
             </form>
@@ -188,41 +207,38 @@
 <script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script th:inline="javascript">
-    var $cancel = $('#cancelModal');
+
     var $cancelButton = $('.cancelButton');
+
+    var $cancel = $('#goCancel');
+
+
     var recordToCancel = 0;
     var inputs = [];
     var url = '';
+
+    //页面上的'退订'链接
     $cancelButton.on('click' , function () {
         recordToCancel = $(this).attr('name');
     });
+
     $cancel.on('click' , function () {
         inputs = {recordToCancel:recordToCancel};
-        url = '/member/cancelReservation';
-        callAjax(inputs,url, false);
+        url = '/member/cancel';
+        callAjax(inputs,url);
     });
 
-    function callAjax(inputs, url, isdelete) {
+    function callAjax(inputs, url) {
         $.ajax({
             type: "POST",
             url: url,
             data: inputs,
             dataType: 'json',
             success: function (data) {
-                if (data.result) {
-                    if (isdelete) {
-                        //TODO 暴力返回主页，待修改
-                        window.location.replace("http://localhost:4000/");
-                    } else {
-                        location.reload();
-                        if (data.reason) {
-                            $('.mainpage').append('<div class="alert alert-info alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Great!</strong> ' +data.reason +  ' </div>');
-                        }
-                    }
-                } else {
-                    var error_msg = '<p class="errtip">	<strong>Error</strong>：'+data.reason+'</p>'
-                    $(".err-msg").html(error_msg);
-                }
+                if(data.result>=0)
+                    location.href = "/member/index" ;
+                else
+                    alert("操作失败.错误码:"+data.result);
             }
         });
 

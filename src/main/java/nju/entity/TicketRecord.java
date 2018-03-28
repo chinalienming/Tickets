@@ -22,7 +22,7 @@ public class TicketRecord {
     private String seatNumber ;
     private double price ;
     private Timestamp createTime ;
-    private boolean isValid = true  ;   // related to cancel order
+    private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款  related to cancel order
     private int creditAdd = 0 ;
 
     public TicketRecord(){
@@ -111,8 +111,8 @@ public class TicketRecord {
 
     @Basic
     @Column(name = "is_valid",nullable = false)
-    public boolean getIsValid(){return this.isValid;}
-    public void setIsValid(boolean b){this.isValid=b;}
+    public int getIsValid(){return this.isValid;}
+    public void setIsValid(int i){this.isValid=i;}
 
     @Basic
     @Column(name = "credit_add" ,nullable = false)
