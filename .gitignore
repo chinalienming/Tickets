@@ -9,6 +9,9 @@ target/
 .settings
 .springBeans
 
+# root and password of properties
+.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

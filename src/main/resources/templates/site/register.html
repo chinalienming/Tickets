@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
+    <title>Tickets Index</title>
+</head>
+<body>
+
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h1>场馆注册</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <form id="form1" method="post" role="form"> <!--action="../member/register.html" th:action="@{/user/register}"-->
+
+            <div class="form-group">
+                <label for="siteID">识别码</label>
+                <input type="text" class="form-control" name="siteID" id="siteID" />
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" name="password" id="password" />
+            </div>
+            <!--<button id="sendButton" type="button" class=" btn btn-success" >发送邮件获取激活码</button>-->
+
+            <!--<div class="form-group">-->
+                <!--<label>激活码</label>-->
+                <!--<input type="text" class="form-control" name="active" id="active" />-->
+            <!--</div>-->
+
+
+            <button id="activate" type="button" class=" btn btn-success" >注册</button>
+
+        </form>
+        <a href="index.html" th:href="@{/site/goLogin}">场馆登录</a>
+    </div>
+</div>
+<!--Scripts-->
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../../static/js/npm.js" th:src="@{/js/npm.js}"></script>
+
+
+<script type="text/javascript"  th:inline="javascript">
+
+    $(document).ready(function() {
+
+        $("#activate").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/site/register",
+                data: $("#form1").serializeArray(),
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        location.href = "login" ;
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        });
+
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,13 +1,11 @@
 package nju.controller;
 
-import nju.entity.TicketRecord;
 import nju.service.TicketService;
 import nju.service.UserService;
 import nju.util.EmailUtility;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -38,6 +36,7 @@ public class UserController {
                         @RequestParam("password") String password) {
 
         int query_userid = userService.login(email,password) ;
+        System.out.println(query_userid);
         if(query_userid > 0 ) {
             session.setAttribute(SystemDefault.USER_ID,query_userid);
             System.out.println("login!?!!");
