@@ -22,4 +22,8 @@ public interface SiteService {
     Site getSiteInfo(int siteID) ;
 
     Site getSiteByPlanID(int planID) ;
+
+    int register(String siteName,String password) ;
+
+    int login(int siteID,String password) ;
 }

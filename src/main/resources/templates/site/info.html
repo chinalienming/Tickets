@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
     <link rel="stylesheet" href="../../static/css/w3.css" th:href="@{/css/w3.css}"/>
-    <title>Site Information</title>
+    <title>场馆信息</title>
 </head>
 <body>
 
@@ -35,14 +35,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../member/index.html" th:href="@{member/index}">Tickets</a>
+            <a class="navbar-brand" href="../member/index.html" th:href="@{info}">Tickets</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html" th:href="@{index}">All Site<span
-                        class="sr-only">(current)</span></a></li>
+                <!--<li><a href="index.html" th:href="@{index}">All Site<span-->
+                        <!--class="sr-only">(current)</span></a></li>-->
                 <li class="active"><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
 
                 <!--<li><a href="record.html" th:href="@{record}">Live Records</a></li>-->
@@ -52,10 +52,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
+                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName}"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
+                        <!--<li><a href="../account/register.html" th:href="@{../register}">Register</a></li>-->
                     </ul>
                 </li>
             </ul>
@@ -71,15 +71,15 @@
     <div class="table-responsive">
         <table class="w3-table w3-bordered w3-striped w3-card-4">
             <tr>
-                <th>Item</th>
-                <th>Message</th>
+                <th>项目</th>
+                <th>名称</th>
             </tr>
             <tr>
-                <td>Site ID</td>
-                <td th:text="${site.siteID}">0000001</td>
+                <td>场馆ID</td>
+                <td th:text="${#numbers.formatInteger(site.siteID,7)}">0000001</td>
             </tr>
             <tr>
-                <td>Address</td>
+                <td>地址</td>
                 <td th:text="${site.address}">Guangzhou Road, Nanjing</td>
             </tr>
             <tr>
@@ -93,6 +93,10 @@
             <tr>
                 <td>普通座位数</td>
                 <td th:text="${site.seatNumber_C}">777</td>
+            </tr>
+            <tr>
+                <td>收入</td>
+                <td th:text="${site.income}">100000</td>
             </tr>
         </table>
     </div>

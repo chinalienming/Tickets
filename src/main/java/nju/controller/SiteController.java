@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by lienming on 2018/3/11.
@@ -22,7 +21,7 @@ public class SiteController {
     @Autowired
     private PlanService planService ;
 
-    @RequestMapping({"/","/index"})
+    @RequestMapping("/index")
     public String sites(Model model,
                         @RequestParam(value = "page", defaultValue = "0") int page) {
         model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
@@ -46,7 +45,6 @@ public class SiteController {
     public String info(Model model,
                         @RequestParam(value = "siteID")int siteID) {
         model.addAttribute( "site" , siteService.getSiteInfo(siteID) );
-
         return "site/info";
     }
 

@@ -1,11 +1,14 @@
 package nju.controller;
 
+import nju.service.SiteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by lienming on 2018/3/19.
@@ -13,6 +16,10 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class HelloController {
+
+    @Autowired
+    private SiteService siteService ;
+
 
     @RequestMapping(value = "/")
     public String helloUser(){
@@ -35,13 +42,17 @@ public class HelloController {
     }
 
     @PostMapping(value = "/site/register")
-    public String doSiteRegister(HttpSession session,
-                             @RequestParam("siteID") String siteStr,
+    @ResponseBody
+    public Map<String,Object> doSiteRegister(HttpSession session,
+                             @RequestParam("siteName") String siteStr,
                              @RequestParam("password") String password){
-        int siteID = Integer.parseInt(siteStr) ;
+        int id = siteService.register(siteStr,password) ;
+        Map<String,Object> result = new TreeMap<>() ;
 
 
-        return "site/login";
+        result.put("result_id",id) ;
+
+        return result;
     }
 
     @RequestMapping(value = "/site/goLogin")
@@ -51,12 +62,29 @@ public class HelloController {
 
     @PostMapping(value = "/site/login")
     public String doSiteLogin(HttpSession session,
+                              Model model ,
                              @RequestParam("siteID") String siteStr,
                              @RequestParam("password") String password){
         int siteID = Integer.parseInt(siteStr) ;
 
+        int result_code = siteService.login(siteID,password) ;
+        Map<String,Object> result = new TreeMap<>() ;
 
+        model.addAttribute("site",siteService.getSiteInfo(siteID)) ;
+
+        if(result_code<0) {
+            return "site/goLogin" ;
+        }
+
+        session.setAttribute("siteID",siteID);
         return "site/info";
+    }
+
+    @RequestMapping(value = "/site/logout", method = RequestMethod.GET)
+    public String doSiteLogout(HttpSession session) {
+        session.removeAttribute("siteID");
+        session.removeAttribute("site");
+        return "site/login";
     }
 
     /****

@@ -1,7 +1,9 @@
 package nju.service.impl;
 
+import nju.dao.SiteAccountRepository;
 import nju.dao.SiteRepository;
 import nju.entity.Site;
+import nju.entity.SiteAccount;
 import nju.entity.SitePlan;
 import nju.service.ManagerService;
 import nju.service.PlanService;
@@ -27,7 +29,8 @@ public class SiteServiceImpl implements SiteService {
 
     @Autowired
     private SiteRepository siteRepository ;
-
+    @Autowired
+    private SiteAccountRepository siteAccountRepository ;
 
     public List<Integer> getAllSiteID () {
         List<Integer> list = new ArrayList<>() ;
@@ -93,5 +96,33 @@ public class SiteServiceImpl implements SiteService {
         SitePlan sitePlan = planService.getPlanByID(planID) ;
         int siteID = sitePlan.getSiteID() ;
         return siteRepository.findBySiteID(siteID) ;
+    }
+
+    public int register(String siteName,String password) {
+        SiteAccount sa = new SiteAccount() ;
+        sa.setName(siteName);
+        sa.setPassword(password);
+        sa.setActive(true);   //
+        sa = siteAccountRepository.save(sa) ;
+
+        //site
+        Site site = new Site() ;
+        site.setSiteName(siteName);
+        site.setSiteID(sa.getSiteID());
+        siteRepository.save(site) ;
+
+        System.out.println(" site account id : " + sa.getSiteID());
+        return sa.getSiteID() ;
+    }
+
+    public int login(int siteID,String password) {
+
+        SiteAccount sa = siteAccountRepository.findById(siteID).get() ;
+        if( null == sa )  return -1 ;
+
+        if(!password.equals(sa.getPassword())){
+            return -2 ;
+        }
+        return 0 ;
     }
 }
