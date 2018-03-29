@@ -1,13 +1,17 @@
 package nju.controller;
 
+import nju.entity.SitePlan;
 import nju.service.PlanService;
 import nju.service.SiteService;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by lienming on 2018/3/11.
@@ -42,9 +46,19 @@ public class SiteController {
 
 
     @RequestMapping("/info")
-    public String info(Model model,
-                        @RequestParam(value = "siteID")int siteID) {
+    public String info(Model model, @SessionAttribute("siteID")int siteID) {
+
         model.addAttribute( "site" , siteService.getSiteInfo(siteID) );
+
+
+        if (siteService.isApplyingForEdit(siteID)) {
+            model.addAttribute("edit", true);
+        }
+        if (siteService.isApplyingForOpen(siteID)) {
+            model.addAttribute("open", true);
+        }
+
+
         return "site/info";
     }
 
@@ -60,12 +74,51 @@ public class SiteController {
         return "redirect:/plan/detail";
     }
 
-//    @RequestMapping("/")
-//
-//    model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
-//    model.addAttribute(SystemDefault.CURRENT_PAGE, page);
+
+    @PostMapping(value = "/edit" )
+    public String editApplication(Model model,@SessionAttribute("siteID") int siteID,
+                                  String name, String address , int num_a , int num_b , int num_c  ) {
+
+        siteService.saveModifyApplication(siteID,name,address,num_a,num_b,num_c);
+
+        return info(model, siteID);
+    }
 
 
+    @PostMapping(value = "/open")
+    public String openApplication(Model model, @SessionAttribute("siteID") int siteID, String reason) {
+        siteService.saveOpenApplication(siteID,reason);
+        return info(model, siteID);
+    }
 
+    @RequestMapping("/plansShow")
+    public String plansShow(Model model,@SessionAttribute("siteID") int siteID ,
+                 @RequestParam(value = "page", defaultValue = "0") int page) {
+        model.addAttribute( "site" , siteService.getSiteInfo(siteID)) ;
+        model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,page) );
+        model.addAttribute( SystemDefault.CURRENT_PAGE, page);
+        return "site/plansShow";
+    }
 
+    @RequestMapping("/addPlan")
+    public String addPlan(Model model, @SessionAttribute("siteID")int siteID) {
+
+        List<SitePlan> list = planService.getPlanBySiteID(siteID) ;
+        model.addAttribute("plans",list) ;
+
+        return "site/addPlan" ;
+    }
+
+    @PostMapping("/applyPlan")
+    @ResponseBody
+    public Map<String,Object> applyPlan(@SessionAttribute("siteID")int siteID, String description, String planType ,
+                                        String beginTime , String endTime , double price_a , double price_b , double price_c) {
+
+        siteService.applyPlan(siteID,description,planType,beginTime,endTime,price_a,price_b,price_c);
+
+        Map<String,Object> result = new TreeMap<>() ;
+        result.put("result",true) ;
+
+        return result;
+    }
 }

@@ -37,7 +37,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html" th:href="@{index}">Back All Site<span
+                <li><a href="index.html" th:href="@{info}">Back <span
                         class="sr-only">(current)</span></a></li>
                 <!--<li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>-->
 
@@ -48,7 +48,7 @@
                        aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../user/register.html" th:href="@{../register}">Register</a></li>
+                        <!--<li><a href="../user/register.html" th:href="@{../register}">Register</a></li>-->
                     </ul>
                 </li>
             </ul>
@@ -77,20 +77,20 @@
                     <h3 th:text="${plan.description}"> PGL Major </h3>
                     <table class="table table-condensed">
                         <tr>
-                            <td>活动ID</td>
+                            <td>Plan ID</td>
                             <td th:text="${plan.planID}">1</td>
                         </tr>
 
                         <tr>
-                            <td>类型</td>
+                            <td>Description</td>
                             <td th:text="${plan.planType}"> Dota 2</td>
                         </tr>
                         <tr>
-                            <td>开始时间</td>
+                            <td>Begin Time</td>
                             <td th:text="${plan.beginTime}">2018-01-08</td>
                         </tr>
                         <tr>
-                            <td>结束时间</td>
+                            <td>End Time</td>
                             <td th:text="${plan.endTime}">2018-02-03</td>
                         </tr>
                         <tr>
@@ -105,21 +105,12 @@
                     </table>
 
                     <!--<div>-->
-                        <!--<button type="button" class="btn btn-info reserveButton" data-toggle="modal"-->
-                                <!--data-target="#reserveModal" th:name="${plan.planID}">-->
-                            <!--Buy Ticket Now-->
-                        <!--</button>-->
+                    <!--<button type="button" class="btn btn-info reserveButton" data-toggle="modal"-->
+                    <!--data-target="#reserveModal" th:name="${plan.planID}">-->
+                    <!--Buy Ticket Now-->
+                    <!--</button>-->
                     <!--</div>-->
 
-                    <div class="buttons" id="buyTickets">
-
-                        <input type="button" class="btn" th:name="${plan.planID}"
-                               onclick="jumpToSelect(this)"  value="选座购票"/>
-
-                        <input type="button" class="btn" th:name="${plan.planID}"
-                               onclick="jumpToUnselect(this);" value="不选座购票"/>
-
-                    </div>
 
                 </div>
             </div>
@@ -156,116 +147,10 @@
 </div>
 
 
-
-<!--<div class="modal fade" id="reserveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
-    <!--<div class="modal-dialog" role="document">-->
-        <!--<div class="modal-content">-->
-            <!--<div class="modal-header">-->
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
-                        <!--aria-hidden="true">&times;</span></button>-->
-                <!--<h4 class="modal-title">选座偏好</h4>-->
-            <!--</div>-->
-            <!--<div class="modal-body">-->
-                <!--想要自己挑选位置吗？-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn btn-primary" id="select" onclick="jumpToSelect()" >-->
-                            <!--自己选-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-primary" id="unselect" onclick="jumpToUnselect()">-->
-                            <!--不，帮我选-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
-            <!--</div>-->
-            <!--<div class="err-msg"></div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-
-<!--</div>-->
-
 <!--Scripts-->
 <script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/jquery.jsonp-2.4.0.min.js" th:src="@{/js/jquery.jsonp-2.4.0.min.js}"></script>
 
-<script th:inline="javascript">
-    var planID = 0;
-    var inputs = [];
-    // $('.reserveButton').on('click', function (e) {
-    //     e.preventDefault();
-    //     planID = $(this).attr("name");
-    //     // inputs = {planID:planID};
-    //     inputs = {"planID":planID};
-    // });
-
-    function jumpToSelect(obj) {
-
-        planID = obj.name;
-        inputs = {"planID":planID};
-        window.location.href = '/plan/selectSeat?planID='+planID;
-        // $.ajax({
-        //     type:"GET",
-        //     url:'/plan/chooseSelectSeat',
-        //     data: inputs,
-        //     dataType: 'json',
-        //     success: function(data) {
-        //         window.location.href = '/plan/selectSeat?planID='+planID;
-        //     }
-        // })
-    }
-
-    function jumpToUnselect(obj) {
-        planID = $(obj).attr("name");
-        inputs = {"planID":planID};
-        window.location.href = '/plan/unselectSeat?planID='+planID;
-        // $.ajax({
-        //     type:"GET",
-        //     url:'/plan/chooseNotSelectSeat',
-        //     data: inputs,
-        //     dataType: 'json',
-        //     success: function(data) {
-        //         window.location.href = '/plan/unselectSeat?planID='+planID;
-        //     }
-        // })
-    }
-
-    // function jumpToSelect() {
-    //     // form1 = document.getElementById("buyTickets") ;
-    //     // form1.action = "/plan/selectSeat" ;
-    //     // $("#buyTickets").hide();
-    //     $("#buyTickets").empty();
-    //     var div = "<button>....</button>";
-    //     $("#buyTickets").append(div);
-    //
-    // }
-    //
-    // function jumpToUnselect() {
-    //     form1 = document.getElementById("buyTickets") ;
-    //     form1.action = "/plan/unselectSeat" ;
-    // }
-
-
-    // $('.reserve').on('click', function (e) {
-    //     e.preventDefault();
-    //     inputs = {roomId: roomId};
-    //     $.ajax({
-    //         type: "POST",
-    //         url: '/member/reserve',
-    //         data: inputs,
-    //         dataType: 'json',
-    //         success: function (data) {
-    //             if (data.result) {
-    //                 location.reload();
-    //             } else {
-    //                 var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
-    //                 $(".err-msg").html(error_msg);
-    //             }
-    //
-    //         }
-    //     });
-    // });
-
-</script>
 </body>
 </html>

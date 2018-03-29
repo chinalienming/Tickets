@@ -11,11 +11,9 @@ public interface SiteService {
 
     List<Integer> getAllSiteID () ;
 
-    boolean subscribeSiteInfo(Site site);
-
-    int registerSite(Site site);
-
-    boolean checkSiteNameExist(String siteName );
+//    boolean subscribeSiteInfo(Site site);
+//    int registerSite(Site site);
+//    boolean checkSiteNameExist(String siteName );
 
     List<Site> getSiteByPage(int page) ;
 
@@ -26,4 +24,17 @@ public interface SiteService {
     int register(String siteName,String password) ;
 
     int login(int siteID,String password) ;
+
+    void saveModifyApplication(int siteID, String name, String address,int num_a,int num_b,int num_c) ;
+
+    void saveOpenApplication( int siteID ,String reason) ;
+
+    boolean isApplyingForOpen(int siteId) ;
+
+    boolean isApplyingForEdit(int siteId) ;
+
+    void applyPlan(int siteID, String description, String planType , String beginTime , String endTime ,
+                   double price_a ,double price_b ,double price_c) ;
+
+
 }

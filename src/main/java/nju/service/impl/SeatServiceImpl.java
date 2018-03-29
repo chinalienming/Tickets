@@ -80,8 +80,8 @@ public class SeatServiceImpl implements SeatService {
      */
     List<Seat> allocateSeats(int userID , int planID , int[] ticketNum ) {
 
-        for(int j:ticketNum)
-            System.out.println("seatService 1 :ticket num"+j);
+//        for(int j:ticketNum)
+//            System.out.println("seatService 1 :ticket num"+j);
 
         List<Seat> resultList = new ArrayList<>() ;
         List<Seat> seats = getAvailableSeatsByPlanID(planID) ;
@@ -122,8 +122,8 @@ public class SeatServiceImpl implements SeatService {
                 break ;
             }
         }
-        for(int j:ticketNum)
-            System.out.println("seatService 1 :ticket num"+j);
+//        for(int j:ticketNum)
+//            System.out.println("seatService 1 :ticket num"+j);
         return resultList ;
     }
 

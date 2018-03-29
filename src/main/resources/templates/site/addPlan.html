@@ -25,18 +25,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html" th:href="@{index}">Hostel World</a>
+            <a class="navbar-brand" href="info.html" th:href="@{info}">Tickets</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html" th:href="@{index}">Hotel Status<span
-                        class="sr-only">(current)</span></a></li>
-                <li><a href="buyOffline.html" th:href="@{record}">Live Records</a></li>
-                <li><a href="info.html" th:href="@{info}">Hotel Info</a></li>
-                <li><a href="statistics.html" th:href="@{statistics}">Statistics</a></li>
+                <li><a href="info.html" th:href="@{info}">场馆信息</a></li>
 
+                <li class="active"><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
+
+                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+
+                <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
+
+                <li><a href="statistics.html" th:href="@{statistics}">数据统计</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -44,7 +47,6 @@
                        aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
                     </ul>
                 </li>
             </ul>
@@ -57,31 +59,26 @@
 
     <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">Current Available Rooms</div>
+        <div class="panel-heading">所有活动</div>
 
 
         <div class="table-responsive ">
             <table id="roomTable" class="table table-hover">
                 <tr>
-                    <th>No</th>
-                    <th>Time</th>
-                    <th>type</th>
-                    <th>price</th>
-                    <th>status</th>
+                    <th>活动ID</th>
+                    <th>活动描述</th>
+                    <th>活动类型</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
                 </tr>
-                <tr th:each="room : ${rooms}" th:class="(${room.status == 0}) ? 'success' : ((${room.status == 1}) ? 'info' : 'danger')">
-                    <td th:text="${#numbers.formatInteger(room.id,7)}">0000001</td>
-                    <!--&lt;!&ndash;<td th:text="${reserveMes.time}">2016-3-19</td>&ndash;&gt;-->
-                    <td th:text="${#dates.format(new java.util.Date(room.availableTime),'dd/MM/yyyy')}">2016-3-19</td>
-                    <td th:text="(${room.type == 0}) ? 'Single Bed' : 'Double Bed'">Shanghai Hotel</td>
-                    <td th:text="${room.price}">800</td>
-                    <td>
-                        <div th:switch="${room.status}">
-                            <span th:case="0">Available</span>
-                            <span th:case="1">Reserved</span>
-                            <span th:case="*">Under Use</span>
-                        </div>
-                    </td>
+
+                <tr th:each="plan : ${plans}"   >
+                    <td th:text="${#numbers.formatInteger(plan.planID,7)}">0000001</td>
+                    <td th:text="${plan.description}">no description</td>
+                    <td th:text="${plan.planType}">type</td>
+                    <td th:text="${plan.beginTime}"> beginTime</td>
+                    <td th:text="${plan.endTime}"> endTime</td>
+
                 </tr>
             </table>
         </div>
@@ -89,12 +86,10 @@
 
     </div>
     <div>
-        <a href="javascript:" class="btn btn-primary my-pop-1">Add new rooms</a>
+        <a href="javascript:" class="btn btn-primary my-pop-1">申请新活动</a>
     </div>
 
 </div>
-
-<footer class="footer" th:include="footer :: copy"></footer>
 
 <div class="cd-user-modal cd-user-modal-1">
     <div class="cd-user-modal-container">
@@ -102,64 +97,64 @@
 
         <div class="panel panel-info">
             <!-- Default panel contents -->
-            <div class="panel-heading">Add new rooms</div>
-            <form class="form-horizontal" action="index.html">
+            <div class="panel-heading">活动申请</div>
+
+            <form class="form-horizontal" action="addPlan.html">
+
                 <div class="form-group">
-                    <label for="time" class="col-sm-2 control-label">Time</label>
+                    <label for="description" class="col-sm-2 control-label">活动描述</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" name="time" id="time"/>
+                        <input type="url" class="form-control" name="description" id="description" placeholder=" "/>
                     </div>
                 </div>
+
+                    <div class="form-group">
+                        <label for="planType" class="col-sm-2 control-label">活动类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="planType" id="planType" placeholder="音乐剧?"/>
+                        </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="wifi" class="col-sm-2 control-label">WIFI</label>
+                    <label for="beginTime" class="col-sm-2 control-label">开始时间</label>
                     <div class="col-sm-10">
-                        <input name="wifi" id="wifi" type="checkbox"/> Wifi Available
+                        <input type="date" class="form-control" name="beginTime" id="beginTime"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="picUrl" class="col-sm-2 control-label">Pic URL</label>
+                    <label for="endTime" class="col-sm-2 control-label">结束时间</label>
                     <div class="col-sm-10">
-                        <input type="url" class="form-control" name="picUrl" id="picUrl" placeholder="pic URL"/>
+                        <input type="date" class="form-control" name="endTime" id="endTime"/>
                     </div>
                 </div>
+
+
                 <div class="form-group">
-                    <label for="area" class="col-sm-2 control-label">Area</label>
+                    <label for="price_a" class="col-sm-2 control-label">豪华座价格</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="area" id="area" placeholder="area"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="price" class="col-sm-2 control-label">Price</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" name="price" id="price" placeholder="price"/>
+                        <input type="number" class="form-control" name="price_a" id="price_a" placeholder=" "/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="type" class="col-sm-2 control-label">Room Type</label>
+                    <label for="price_b" class="col-sm-2 control-label">高级座价格</label>
                     <div class="col-sm-10">
-                        <select name="type" id="type" class="form-control">
-                            <option value="0">Single Room</option>
-                            <option value="1">Double Room</option>
-                        </select>
+                        <input type="number" class="form-control" name="price_b" id="price_b" placeholder=" "/>
                     </div>
-
                 </div>
+
                 <div class="form-group">
-                    <label for="number" class="col-sm-2 control-label">Number</label>
+                    <label for="price_c" class="col-sm-2 control-label">普通座价格</label>
                     <div class="col-sm-10">
-                        <input type="number" name="number" id="number" class="form-control"
-                               placeholder="number of rooms"/>
-
-
+                        <input type="number" class="form-control" name="price_c" id="price_c" placeholder=" "/>
                     </div>
-
                 </div>
+
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10   col-md-4">
-                        <button type="submit" class=" btn btn-primary modal-apply">Apply</button>
-                        <a href="#" class="btn btn-danger modal-cancel">Cancel</a>
+                        <button type="submit" class=" btn btn-primary modal-apply">提交</button>
+                        <a href="#" class="btn btn-danger modal-cancel">取消</a>
 
                     </div>
 
@@ -179,25 +174,42 @@
 <script src="../../static/js/promptForm.js" th:src="@{/js/promptForm.js}"></script>
 <script th:inline="javascript">
     $('.modal-apply').on('click', function (e) {
+
         e.preventDefault();
         var $form_modal = $('.cd-user-modal-1');
+
         var form = $(this).parent().parent().parent();
-        var action = form.find('input[name="action"]').val();
-        var time = form.find('input[name="time"]').val();
-        var wifi = form.find('input[name="wifi"]').val() === 'on';
-        var picUrl = form.find('input[name="picUrl"]').val();
-        var area = form.find('input[name="area"]').val();
-        var price = form.find('input[name="price"]').val();
-        var type = form.find('select[name="type"]').val();
-        var number = form.find('input[name="number"]').val();
+
+        var description = form.find('input[name="description"]').val() ;
+        var planType = form.find('input[name="planType"]').val();
+        var beginTime = form.find('input[name="beginTime"]').val();
+        var endTime = form.find('input[name="endTime"]').val();
+        var price_a = form.find('input[name="price_a"]').val();
+        var price_b = form.find('input[name="price_b"]').val();
+        var price_c = form.find('input[name="price_c"]').val();
+
+        // var action = form.find('input[name="action"]').val();
+        // var time = form.find('input[name="time"]').val();
+        // var wifi = form.find('input[name="wifi"]').val() === 'on';
 
 
-        var inputs = {time: time, wifi: wifi, picUrl: picUrl, area: area, type: type, price: price, number: number};
+        // var inputs = {time: time, wifi: wifi, picUrl: picUrl, area: area, type: type, price: price, number: number};
+        var inputs = {
+            description:description,
+            planType : planType ,
+            beginTime : beginTime ,
+            endTime : endTime ,
+            price_a : price_a ,
+            price_b : price_b ,
+            price_c : price_c
+        };
         console.log(inputs);
+
         var $table = $('.table-responsive');
+
         $.ajax({
             type: "POST",
-            url: '/hotel/addRooms',
+            url: '/site/applyPlan',
             data: inputs,
             dataType: 'json',
             success: function (data) {
@@ -206,7 +218,6 @@
 //                $form_modal.removeClass('is-visible');
 //                $table.load(data);
                 location.reload();
-
             }
         });
     });

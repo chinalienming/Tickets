@@ -1,10 +1,10 @@
 package nju.service.impl;
 
+import nju.dao.EditApplyRepository;
+import nju.dao.OpenApplyRepository;
 import nju.dao.SiteAccountRepository;
 import nju.dao.SiteRepository;
-import nju.entity.Site;
-import nju.entity.SiteAccount;
-import nju.entity.SitePlan;
+import nju.entity.*;
 import nju.service.ManagerService;
 import nju.service.PlanService;
 import nju.service.SiteService;
@@ -31,6 +31,11 @@ public class SiteServiceImpl implements SiteService {
     private SiteRepository siteRepository ;
     @Autowired
     private SiteAccountRepository siteAccountRepository ;
+    @Autowired
+    private EditApplyRepository editApplyRepository ;
+    @Autowired
+    private OpenApplyRepository openApplyRepository ;
+
 
     public List<Integer> getAllSiteID () {
         List<Integer> list = new ArrayList<>() ;
@@ -42,33 +47,33 @@ public class SiteServiceImpl implements SiteService {
         return list ;
     }
 
-    public boolean subscribeSitePlan(SitePlan sitePlan){
-        return managerService.examineRequest(sitePlan);
-    }
-
-
-    public boolean subscribeSiteInfo(Site site){
-        return managerService.examineRequest(site) ;
-    }
+//    public boolean subscribeSitePlan(SitePlan sitePlan){
+//        return managerService.examineRequest(sitePlan);
+//    }
+//
+//
+//    public boolean subscribeSiteInfo(Site site){
+//        return managerService.examineRequest(site) ;
+//    }
 
     //return siteID
-    public int registerSite(Site site){
-
-        if(site.getSiteID() > 0 )
-            return -1 ;  //already registered
-
-        boolean nameExist = checkSiteNameExist(site.getSiteName()) ;
-        if(nameExist)
-            return -2 ;  //siteName Exist
-
-        boolean subscribe_pass = subscribeSiteInfo(site);
-
-        if(!subscribe_pass)
-            return -3;
-
-        Site site_getID = siteRepository.save(site);
-        return site_getID.getSiteID() ;
-    }
+//    public int registerSite(Site site){
+//
+//        if(site.getSiteID() > 0 )
+//            return -1 ;  //already registered
+//
+//        boolean nameExist = checkSiteNameExist(site.getSiteName()) ;
+//        if(nameExist)
+//            return -2 ;  //siteName Exist
+//
+////        boolean subscribe_pass = subscribeSiteInfo(site);
+////
+////        if(!subscribe_pass)
+////            return -3;
+//
+//        Site site_getID = siteRepository.save(site);
+//        return site_getID.getSiteID() ;
+//    }
 
     public boolean checkSiteNameExist(String siteName ){
         return siteRepository.existsBySiteName(siteName) ;
@@ -124,5 +129,38 @@ public class SiteServiceImpl implements SiteService {
             return -2 ;
         }
         return 0 ;
+    }
+
+    public void saveModifyApplication(int siteID , String name, String address,int num_a,int num_b,int num_c) {
+        EditApply ea = new EditApply() ;
+        ea.setSiteID(siteID);
+        ea.setNewName(name);
+        ea.setNewAdd(address);
+        ea.setNum_a(num_a);
+        ea.setNum_b(num_b);
+        ea.setNum_c(num_c);
+        editApplyRepository.save(ea) ;
+    }
+
+    public void saveOpenApplication(int siteID ,String reason) {
+        OpenApply oa = new OpenApply() ;
+        oa.setSiteID(siteID);
+        oa.setReason(reason);
+        openApplyRepository.save(oa) ;
+    }
+
+    public boolean isApplyingForOpen(int siteId) {
+        return openApplyRepository.existsBySiteIDAndState(siteId,0) ;
+    }
+
+    public boolean isApplyingForEdit(int siteId) {
+        return editApplyRepository.existsBySiteIDAndState(siteId,0) ;
+    }
+
+    public void applyPlan(int siteID, String description, String planType , String beginTime , String endTime ,
+                          double price_a ,double price_b ,double price_c) {
+
+        System.out.println(beginTime) ;
+        System.out.println(endTime) ;
     }
 }

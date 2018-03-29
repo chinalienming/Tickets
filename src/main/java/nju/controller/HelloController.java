@@ -70,12 +70,12 @@ public class HelloController {
         int result_code = siteService.login(siteID,password) ;
         Map<String,Object> result = new TreeMap<>() ;
 
-        model.addAttribute("site",siteService.getSiteInfo(siteID)) ;
-
         if(result_code<0) {
             return "site/goLogin" ;
         }
 
+        model.addAttribute("siteID",siteID) ;
+        model.addAttribute("site",siteService.getSiteInfo(siteID)) ;
         session.setAttribute("siteID",siteID);
         return "site/info";
     }

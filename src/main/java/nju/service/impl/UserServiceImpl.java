@@ -251,7 +251,7 @@ public class UserServiceImpl implements UserService {
     public int froze(int userID,String pwd) {
         User user = userRepository.findById(userID).get() ;
         if(!user.getPassword().equals(pwd)) {
-            System.out.println(pwd + " " + user.getPassword());
+//            System.out.println(pwd + " " + user.getPassword());
             return -1;
         }
         user.setHasLoginQualification(false);

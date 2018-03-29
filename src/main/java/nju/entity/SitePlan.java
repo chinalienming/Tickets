@@ -16,9 +16,9 @@ public class SitePlan {
     private Timestamp endTime ;
     private String planType ;
     private String description = null ;
-    private int seat_A = 10 ;
-    private int seat_B = 10 ;
-    private int seat_C = 10 ;
+    private int seat_A = 20 ;
+    private int seat_B = 20 ;
+    private int seat_C = 20 ;
     private double original_price_A ;
     private double original_price_B ;
     private double original_price_C ;

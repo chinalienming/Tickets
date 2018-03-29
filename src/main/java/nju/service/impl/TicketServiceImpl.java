@@ -88,7 +88,7 @@ public class TicketServiceImpl implements TicketService {
 
         boolean lockSeatSuccess = seatService.lockSeat(userID, planID, seatList) ;
 
-        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
+//        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
 
         if(!lockSeatSuccess)
             return false ;
@@ -164,12 +164,12 @@ public class TicketServiceImpl implements TicketService {
             return false ;
         }
 
-        for(int j:ticketNum)
-            System.out.println("ticketService 1 :ticket num"+j);
+//        for(int j:ticketNum)
+//            System.out.println("ticketService 1 :ticket num"+j);
 
         List<Seat> seats = seatService.lockSeat(userID, planID, ticketNum) ;
-        for(int j:ticketNum)
-            System.out.println("ticketService 2 :ticket num"+j);
+//        for(int j:ticketNum)
+//            System.out.println("ticketService 2 :ticket num"+j);
 
         boolean lockSeatSuccess = true ;
         if(seats==null)
@@ -177,7 +177,7 @@ public class TicketServiceImpl implements TicketService {
         if(seats.size()<total)
             lockSeatSuccess = false ;
 
-        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
+//        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
         if(!lockSeatSuccess) {
 
             return false ;  //maybe seat is not enough
@@ -209,9 +209,9 @@ public class TicketServiceImpl implements TicketService {
                 int type = seatNumber.charAt(0) - 'A' ;
                 tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
                         seatNumber, discountDetail[type] * original_price[type] ) ;
-                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
-                System.out.println("save :"+ ticketRecordRepository.save(tr) );
-                System.out.println(tr.getRecordID() );
+//                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
+//                System.out.println("save :"+ ticketRecordRepository.save(tr) );
+//                System.out.println(tr.getRecordID() );
                 // add consume record to UserInfo..
 //                userService.addCredit(userID, transfer_amount, tr) ;
             }

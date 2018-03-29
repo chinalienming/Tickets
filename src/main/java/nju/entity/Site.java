@@ -17,7 +17,7 @@ public class Site {
     private int seatNumber_B = 0  ;
     private int seatNumber_C = 0  ;
     private double income = 0.00 ;
-    private String picUrl = "" ;
+    private String picUrl = "/img/site/big3.jpg" ;
 
     public Site(){
     }
@@ -32,7 +32,6 @@ public class Site {
         this.income=income;
     }
 
-    @GeneratedValue
     @Id
     @Column(name = "site_id", nullable = false)
     public int getSiteID(){
@@ -84,7 +83,7 @@ public class Site {
         return this.seatNumber_C;
     }
     public void setSeatNumber_C(int numc){
-        this.seatNumber_A=numc;
+        this.seatNumber_C=numc;
     }
 
     @Basic
