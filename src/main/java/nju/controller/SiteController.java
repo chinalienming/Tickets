@@ -60,7 +60,10 @@ public class SiteController {
         return "redirect:/plan/detail";
     }
 
+//    @RequestMapping("/")
 //
+//    model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
+//    model.addAttribute(SystemDefault.CURRENT_PAGE, page);
 
 
 

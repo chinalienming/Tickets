@@ -43,10 +43,15 @@
             <ul class="nav navbar-nav">
                 <!--<li><a href="index.html" th:href="@{index}">All Site<span-->
                         <!--class="sr-only">(current)</span></a></li>-->
-                <li class="active"><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
+                <li class="active"><a href="info.html" th:href="@{info}">场馆信息</a></li>
 
-                <!--<li><a href="record.html" th:href="@{record}">Live Records</a></li>-->
+                <li><a href="plans.html" th:href="@{plans}">活动一览</a></li>
 
+                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+
+                <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
+
+                <li><a href="statistics.html" th:href="@{statistics}">数据统计</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -105,145 +110,189 @@
                                     <!--&lt;!&ndash;th:unless="${hotel.status==1}"&ndash;&gt;-->
     <!--</p>-->
 
+    <!--<p style="margin-top: 10px">-->
+        <!--<button type="button" class="btn btn-info editButton" data-toggle="modal"-->
+                <!--data-target="#editModal">编辑信息-->
+        <!--</button>-->
+    <!--</p>-->
+
+</div>
+
+<!--&lt;!&ndash;Edit按钮弹出内容&ndash;&gt;-->
+<!--<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
+                        <!--aria-hidden="true">&times;</span></button>-->
+                <!--<h4 class="modal-title">编辑场馆信息</h4>-->
+            <!--</div>-->
+
+            <!--<form class="form-horizontal" action="info.html" th:action="@{/site/edit}" method="post">-->
+                <!--<div class="modal-body">-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="nameM" class="col-sm-2 control-label">名字</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" name="name" id="nameM" placeholder=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="add" class="col-sm-2 control-label">地址</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" name="add" id="add"-->
+                                   <!--placeholder=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+                    <!--<button type="button" class="btn btn-primary edit">保存</button>-->
+                <!--</div>-->
+            <!--</form>-->
+
+
+            <!--<div class="err-msg"></div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+<!--</div>-->
+
+<div class="cd-user-modal cd-user-modal-1">
+    <div class="cd-user-modal-container">
+
+
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Site Message Change Apply</div>
+            <form class="form-horizontal" action="info.html" th:action="@{/hotel/edit}" method="post">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Hotel Name" required="required" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-2 control-label">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Address" required="required" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="description" id="description" placeholder="Description" required="required" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10   col-md-4">
+                        <input id="fileupload" type="file" name="file" data-url="../upload"  />
+                        <p id="fileName"></p>
+                        <div id="progress">
+                            <div class="bar" style="width: 0;"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="hidden" id="picUrl"  name="url" value="" />
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10   col-md-4">
+                        <button type="submit" class=" btn btn-primary">Apply</button>
+                        <a href="#" class="btn btn-danger modal-cancel">Cancel</a>
+
+                    </div>
+
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="cd-user-modal cd-user-modal-2">
+    <div class="cd-user-modal-container">
+
+
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Hotel Open Application</div>
+            <form class="form-horizontal" action="info.html" th:action="@{/hotel/open}" method="post">
+                <div class="form-group">
+                    <label for="reason" class="col-sm-2 control-label">Reason</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="reason" id="reason" placeholder="Your Reason" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10   col-md-4">
+                        <button type="submit" class=" btn btn-primary">Apply</button>
+                        <a href="#" class="btn btn-danger modal-cancel">Cancel</a>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
 
 </div>
 
 
-<!--<div class="cd-user-modal cd-user-modal-1">-->
-    <!--<div class="cd-user-modal-container">-->
+Scripts
 
+<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../../static/js/promptForm.js" th:src="@{/js/promptForm.js}"></script>
+<script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../../static/js/vendor/jquery.ui.widget.js" th:src="@{/js/vendor/jquery.ui.widget.js}"></script>
+<script src="../../static/js/jquery.iframe-transport.js" th:src="@{/js/jquery.iframe-transport.js}"></script>
+<script src="../../static/js/jquery.fileupload.js" th:src="@{/js/jquery.fileupload.js}"></script>
 
-        <!--<div class="panel panel-info">-->
-            <!--&lt;!&ndash; Default panel contents &ndash;&gt;-->
-            <!--<div class="panel-heading">Site Message Change Apply</div>-->
-            <!--<form class="form-horizontal" action="info.html" th:action="@{/hotel/edit}" method="post">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="name" class="col-sm-2 control-label">Name</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="text" class="form-control" name="name" id="name" placeholder="Hotel Name" required="required" />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label for="address" class="col-sm-2 control-label">Address</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="text" class="form-control" name="address" id="address" placeholder="Address" required="required" />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label for="description" class="col-sm-2 control-label">Description</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="text" class="form-control" name="description" id="description" placeholder="Description" required="required" />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<div class="col-sm-offset-2 col-sm-10   col-md-4">-->
-                        <!--<input id="fileupload" type="file" name="file" data-url="../upload"  />-->
-                        <!--<p id="fileName"></p>-->
-                        <!--<div id="progress">-->
-                            <!--<div class="bar" style="width: 0;"></div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+<script th:inline="javascript">
+    var filePath ='' ;
 
-                <!--</div>-->
-                <!--<input type="hidden" id="picUrl"  name="url" value="" />-->
-                <!--<div class="form-group">-->
-                    <!--<div class="col-sm-offset-2 col-sm-10   col-md-4">-->
-                        <!--<button type="submit" class=" btn btn-primary">Apply</button>-->
-                        <!--<a href="#" class="btn btn-danger modal-cancel">Cancel</a>-->
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                $('#fileupload').text(data.result.name);
+                filePath = data.result.path;
+                document.getElementById('picUrl').value = filePath;
+                console.log('pic url ' + document.getElementById('picUrl').value);
+            },
 
-                    <!--</div>-->
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress').find('.bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
 
-                <!--</div>-->
+        });
+    });
 
+    $(document).ready(function(){
+        var edit =/*[[${edit}]]*/ 'false';
+        console.log('edit' +edit);
+        if (edit === true) {
+            var $editPop = $('.my-pop-1');
+            $editPop.attr("disabled" , 'disabled');
+            $editPop.text('Edit Waiting For Approval');
+        }
+        var open= /*[[${open}]]*/ 'false';
+        console.log('open' + open);
+        if (open === true) {
+            var $openPop = $('.my-pop-2');
+            $openPop.attr("disabled" , 'disabled');
+            $openPop.text('Open Application Waiting For Approval');
+        }
 
-            <!--</form>-->
-        <!--</div>-->
-
-    <!--</div>-->
-
-<!--</div>-->
-
-<!--<div class="cd-user-modal cd-user-modal-2">-->
-    <!--<div class="cd-user-modal-container">-->
-
-
-        <!--<div class="panel panel-info">-->
-            <!--&lt;!&ndash; Default panel contents &ndash;&gt;-->
-            <!--<div class="panel-heading">Hotel Open Application</div>-->
-            <!--<form class="form-horizontal" action="info.html" th:action="@{/hotel/open}" method="post">-->
-                <!--<div class="form-group">-->
-                    <!--<label for="reason" class="col-sm-2 control-label">Reason</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="text" class="form-control" name="reason" id="reason" placeholder="Your Reason" />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<div class="col-sm-offset-2 col-sm-10   col-md-4">-->
-                        <!--<button type="submit" class=" btn btn-primary">Apply</button>-->
-                        <!--<a href="#" class="btn btn-danger modal-cancel">Cancel</a>-->
-
-                    <!--</div>-->
-
-                <!--</div>-->
-            <!--</form>-->
-        <!--</div>-->
-
-    <!--</div>-->
-
-<!--</div>-->
-
-
-<!--Scripts-->
-
-<!--<script src="../../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>-->
-<!--<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>-->
-<!--<script src="../../static/js/promptForm.js" th:src="@{/js/promptForm.js}"></script>-->
-<!--<script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>-->
-<!--<script src="../../static/js/vendor/jquery.ui.widget.js" th:src="@{/js/vendor/jquery.ui.widget.js}"></script>-->
-<!--<script src="../../static/js/jquery.iframe-transport.js" th:src="@{/js/jquery.iframe-transport.js}"></script>-->
-<!--<script src="../../static/js/jquery.fileupload.js" th:src="@{/js/jquery.fileupload.js}"></script>-->
-
-<!--<script th:inline="javascript">-->
-    <!--var filePath ='' ;-->
-
-    <!--$(function () {-->
-        <!--$('#fileupload').fileupload({-->
-            <!--dataType: 'json',-->
-            <!--done: function (e, data) {-->
-                <!--$('#fileupload').text(data.result.name);-->
-                <!--filePath = data.result.path;-->
-                <!--document.getElementById('picUrl').value = filePath;-->
-                <!--console.log('pic url ' + document.getElementById('picUrl').value);-->
-            <!--},-->
-
-            <!--progressall: function (e, data) {-->
-                <!--var progress = parseInt(data.loaded / data.total * 100, 10);-->
-                <!--$('#progress').find('.bar').css(-->
-                    <!--'width',-->
-                    <!--progress + '%'-->
-                <!--);-->
-            <!--}-->
-
-        <!--});-->
-    <!--});-->
-
-    <!--$(document).ready(function(){-->
-        <!--var edit =/*[[${edit}]]*/ 'false';-->
-        <!--console.log('edit' +edit);-->
-        <!--if (edit === true) {-->
-            <!--var $editPop = $('.my-pop-1');-->
-            <!--$editPop.attr("disabled" , 'disabled');-->
-            <!--$editPop.text('Edit Waiting For Approval');-->
-        <!--}-->
-        <!--var open= /*[[${open}]]*/ 'false';-->
-        <!--console.log('open' + open);-->
-        <!--if (open === true) {-->
-            <!--var $openPop = $('.my-pop-2');-->
-            <!--$openPop.attr("disabled" , 'disabled');-->
-            <!--$openPop.text('Open Application Waiting For Approval');-->
-        <!--}-->
-
-    <!--});-->
-<!--</script>-->
+    });
+</script>
 </body>
 </html>
