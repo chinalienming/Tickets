@@ -5,25 +5,26 @@ CREATE TABLE tickets.user_info
     balance double DEFAULT '0' NOT NULL,
     level int(11) DEFAULT '1' NOT NULL,
     consumption double DEFAULT '0' NOT NULL,
-    credit int(11) DEFAULT '0' NOT NULL
-) DEFAULT CHARACTER SET utf8;
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (1, 'gakki', 2715, 14, 133935, 11638);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (2, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (3, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (4, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (5, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (38, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (39, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (40, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (41, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (42, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (43, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (44, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (45, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (46, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (47, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (48, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (49, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (50, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (51, 'name', 0, 1, 0, 0);
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (52, 'name', 0, 1, 0, 0);
+    credit int(11) DEFAULT '0' NOT NULL,
+    benefit int(11) NOT NULL
+);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (1, '哈哈哈', 101700, 14, 133935, 11000, 638);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (2, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (3, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (4, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (5, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (38, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (39, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (40, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (41, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (42, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (43, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (44, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (45, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (46, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (47, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (48, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (49, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (50, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (51, 'name', 0, 1, 0, 0, 0);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (52, 'name', 0, 1, 0, 0, 0);
