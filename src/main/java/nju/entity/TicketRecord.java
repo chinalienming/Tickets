@@ -22,7 +22,7 @@ public class TicketRecord {
     private String seatNumber ;
     private double price ;
     private Timestamp createTime ;
-    private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款  related to cancel order
+    private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款 3=过时  related to cancel order
     private int creditAdd = 0 ;
 
     public TicketRecord(){
@@ -30,7 +30,6 @@ public class TicketRecord {
 
     public TicketRecord
             (int userID,int siteID,int planID,String seatNumber, double price ){
-
         this.userID = userID ;
         this.siteID = siteID ;
         this.planID = planID ;

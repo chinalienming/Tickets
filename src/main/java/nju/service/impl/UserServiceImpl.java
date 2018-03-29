@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -106,9 +107,11 @@ public class UserServiceImpl implements UserService {
         return remove ;
     }
 
-    public boolean addCredit(int userID, double amount,TicketRecord tr) {
+    public boolean addCredit(TicketRecord tr) {
+        int userID = tr.getUserID() ;
+
         UserInfo userInfo = getUserInfo(userID) ;
-        userInfo.addCredit(amount,tr);
+        userInfo.addCredit(tr);
 
         userInfoRepository.save(userInfo) ;
         ticketRecordRepository.save(tr) ;
@@ -154,10 +157,13 @@ public class UserServiceImpl implements UserService {
         List<TicketRecord> result = new ArrayList<>() ;
         Page<TicketRecord> pages ;
         if (page >= 0) {
-            pages = ticketRecordRepository.findByUserID(userID,new PageRequest(page, SystemDefault.SIZE_PER_PAGE_OF_SITE));
-            pages.forEach(result::add);
+            pages = ticketRecordRepository.findByUserID
+                    (userID,new PageRequest(page, SystemDefault.SIZE_PER_PAGE_OF_SITE));
+
+            pages.forEach(x->result.add(x));      //倒序插入
         } else {
-            ticketRecordRepository.findByUserID(userID).forEach(result::add);
+            ticketRecordRepository.findByUserID(userID).forEach(x->result.add(x));
+//            Collections.reverse(result);
         }
         return result;
     }
@@ -167,6 +173,7 @@ public class UserServiceImpl implements UserService {
         List<TicketRecord> result = new ArrayList<>() ;
 
         ticketRecordRepository.findByUserID(userID).forEach(result::add);
+        Collections.reverse(result);
 
         return result;
     }

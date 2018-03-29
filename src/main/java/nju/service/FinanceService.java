@@ -8,17 +8,21 @@ import nju.entity.TicketRecord;
  */
 public interface FinanceService {
 
+    double payByBalance(int recordID) ;
+
+    double payByExternalAccount(int recordID,int account,String pwd) ;
+
     double transfer2plan(int userID, int planID, int[] ticketNum);
 
-    boolean requestInternalInterface(int userID, int planID, double total_price) ;
-
-    boolean requestExternalInterface(int userID, int planID, double total_price);
+//    boolean requestInternalInterface(int userID, int planID, double total_price) ;
+//
+//    double requestExternalInterface(int userID, int planID, double total_price);
 
     boolean cancelFromSite(TicketRecord tr, double return_amount);
 
-    boolean transfer2Site(int planID , int siteID);
+    boolean transfer2Site(int planID ,int accountID);
 
-    ExternalAccount findExternalAccount(int userID,boolean isSite);
+//    ExternalAccount findExternalAccount(int userID,boolean isSite);
 
 
 }

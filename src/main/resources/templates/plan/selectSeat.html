@@ -285,7 +285,10 @@
             },
             dataType: 'json',
             success: function (data) {
-                alert(data.result) ;
+                if(data.result) {
+                    alert("预定成功!请在15分钟内前往订单页面完成支付") ;
+                    location.href = "/member/index" ;
+                }
             }
         })
     }

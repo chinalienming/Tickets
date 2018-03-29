@@ -1,5 +1,6 @@
 package nju.controller;
 
+import nju.service.FinanceService;
 import nju.service.TicketService;
 import nju.util.SystemDefault;
 import net.sf.json.*;
@@ -24,6 +25,10 @@ public class PaymentController {
     @Autowired
     private TicketService ticketService ;
 
+    @Autowired
+    private FinanceService financeService ;
+
+
     @PostMapping("/buyTicketWithSeats")
     @ResponseBody
     public Map<String,Object> buyTicketWithSeats
@@ -47,11 +52,6 @@ public class PaymentController {
         System.out.println("controller buySuccess: " +buySuccess);
 
         result.put("result",buySuccess);
-//        if(buySuccess) {
-//            result.put(SystemDefault.HTTP_RESULT,true) ;
-//        } else {
-//            result.put(SystemDefault.HTTP_RESULT,false) ;
-//        }
 
         return  result ;
     }
@@ -75,13 +75,55 @@ public class PaymentController {
         System.out.println("controller buySuccess: " +buySuccess);
         result.put("result",buySuccess);
         result.put("url","member/index") ;
-//        if(buySuccess) {
-//            result.put(SystemDefault.HTTP_RESULT,true) ;
-//        } else {
-//            result.put(SystemDefault.HTTP_RESULT,false) ;
-//        }
 
         return result ;
+    }
+
+    @RequestMapping("/goPay")
+    public String goPay(){
+
+        return "" ;
+    }
+
+    @RequestMapping("/payByBalance")
+    @ResponseBody
+    public Map<String,Object> payByBalance(@RequestParam(value = "recordID") int recordID){
+        Map<String, Object> result = new TreeMap<>();
+        double amount = financeService.payByBalance(recordID) ;
+        if(amount>0) {
+            result.put("result",true) ;
+            result.put("amount",amount) ;
+        } else {
+            result.put("result",false) ;
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/goPayByExternalAccount")
+    public String goPayByExternalAccount(HttpSession httpSession,
+                                         @RequestParam(value = "recordID")int recordID) {
+//        System.out.println("session "+recordID);
+        httpSession.setAttribute("recordID",recordID);
+        return "payment/pay" ;
+    }
+
+    @PostMapping("/payByExternalAccount")
+    @ResponseBody
+    public Map<String,Object> payByExternalAccount(@SessionAttribute(value = "recordID")int recordID,
+                                                   @RequestParam(value = "accountID")String account,
+                                                   @RequestParam(value = "password")String password){
+        Map<String, Object> result = new TreeMap<>();
+        int accountID = Integer.parseInt(account) ;
+        double amount = financeService.payByExternalAccount(recordID,accountID,password) ;
+//        System.out.println(amount) ;
+        if(amount>0) {
+            result.put("result",true) ;
+            result.put("amount","支付金额: "+amount) ;
+        } else {
+            result.put("result",false) ;
+        }
+        return result;
     }
 
 }
