@@ -49,7 +49,6 @@
                 <!--th:href里面的是网页url地址-->
                 <li><a href="redirect:/site/index.html" th:href="@{/site/index}">Site</a></li>
                 <li class="active"><a href="index.html" th:href="@{index}">Records</a></li>
-                <li><a href="statistics.html" th:href="@{statistics}">Statistics</a></li>
                 <li><a href="profile.html" th:href="@{profile}">Profile</a></li>
 
             </ul>
@@ -94,7 +93,7 @@
                             <th>用户ID</th>
                             <th>场馆ID</th>
                             <th>活动ID</th>
-                            <th>座位类型</th>
+                            <!--<th>座位类型</th>-->
                             <th>座位号</th>
                             <th>价格</th>
                             <th>订票时间</th>
@@ -111,7 +110,7 @@
                             <td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>
                             <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
                             <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
-                            <td th:text="${one.seatType}">A</td>
+                            <!--<td th:text="${one.seatType}">A</td>-->
                             <td th:text="${one.seatNumber}">A03</td>
                             <td th:text="${one.price}">150.0</td>
                             <td th:text="${one.createTime}">
@@ -166,23 +165,19 @@
                 <div class="table-responsive ">
                     <table class="table table-hover">
                         <tr>
-                            <th>No</th>
-                            <th>Time</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Deposit</th>
+                            <th>消费记录ID</th>
+                            <th>消费时间</th>
+                            <th>描述</th>
+                            <th>金额变化</th>
                         </tr>
-                        <tr th:each="consume : ${statistics.consumptionVOS}"
-                            th:class="(${consume.type == 0}) ? 'success' : ((${consume.type == 1}) ? 'info' : 'danger')">
-                            <td th:text="${#numbers.formatInteger(consume.id,7)}">1</td>
-                            <td th:text="${#dates.format(new java.util.Date(consume.time),'dd/MM/yyyy hh:mm:ss')}">
+                        <tr th:each="consume : ${paymessage}" >
+                            <!--th:class="(${consume.type == 0}) ? 'success' : ((${consume.type == 1}) ? 'info' : 'danger')">-->
+                            <td th:text="${#numbers.formatInteger(consume.payID,7)}">1</td>
+                            <td th:text="${consume.time}">
                                 2016-3-18 22:25:25
                             </td>
-                            <td th:text="(${consume.type == 0}) ? 'Recharge' : ((${consume.type == 1}) ? 'Point Convert' : 'Consumption')">
-                                Consumption
-                            </td>
-                            <td th:text="${consume.amount}">-500</td>
-                            <td th:text="${consume.after}">800</td>
+                            <td th:text="${consume.msg}">Consumption</td>
+                            <td th:text="${consume.money}">-500.1</td>
                         </tr>
                     </table>
                 </div>
@@ -205,30 +200,35 @@
                 <div class="table-responsive ">
                     <table class="table table-hover">
                         <tr>
-                            <th>No</th>
-                            <th>In Time</th>
-                            <th>Out Time</th>
-                            <th>Hotel</th>
-                            <th>Room</th>
-                            <th>Num Of Person</th>
-                            <th>Pay Method</th>
-                            <th>Total($)</th>
+                            <th>票据ID</th>
+                            <th>用户ID</th>
+                            <th>场馆ID</th>
+                            <th>活动ID</th>
+                            <!--<th>座位类型</th>-->
+                            <th>座位号</th>
+                            <th>价格</th>
+                            <th>订票时间</th>
+                            <th>状态</th>
                         </tr>
-                        <tr th:each="liveMes : ${statistics.liveMesVOS}">
-                            <td th:text="${#numbers.formatInteger(liveMes.id,7)}">0000001</td>
-                            <td th:text="${#dates.format(new java.util.Date(liveMes.inTime),'dd/MM/yyyy hh:mm:ss')}">
-                                2016-3-18 22:25:25
+                        <tr th:each="one : ${invalidtr}">
+                            <td th:text="${#numbers.formatInteger(one.recordID,7)}">000001</td>
+                            <td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>
+                            <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
+                            <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
+                            <!--<td th:text="${one.seatType}">A</td>-->
+                            <td th:text="${one.seatNumber}">A03</td>
+                            <td th:text="${one.price}">150.0</td>
+                            <td th:text="${one.createTime}">
+                                2018-3-19 13:48:28
                             </td>
-                            <td th:text="(${liveMes.status == 0}) ? '----' : ${#dates.format(new java.util.Date(liveMes.outTime),'dd/MM/yyyy HH:mm:ss')}">
-                                2016-3-19 10:25:25
+
+
+                            <td th:if="${one.isValid==2}" th:text = "已撤销">
+                                已撤销
                             </td>
-                            <td th:text="${liveMes.hotelName}">Shanghai Hotel</td>
-                            <td th:text="${liveMes.roomName}">Big Room1</td>
-                            <td th:text="${liveMes.personNum}">2</td>
-                            <th th:text="(${liveMes.payMethod == 0}) ? 'Member Card' : ((${liveMes.payMethod == 1}) ? 'Cash' : 'Credit Card')">
-                                Credit Card
-                            </th>
-                            <th th:text="${liveMes.total}">300</th>
+                            <td th:if="${one.isValid==3}" th:text = "已超时">
+                                已超时
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -238,28 +238,28 @@
 
 
 
-    <nav aria-label="Page navigation" class="col-md-offset-10 col-md-4">
-        <ul class="pagination pagination-sm">
-            <li>
+    <!--<nav aria-label="Page navigation" class="col-md-offset-10 col-md-4">-->
+        <!--<ul class="pagination pagination-sm">-->
+            <!--<li>-->
 
-                <a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"
-                   th:href="@{/member/index(page=${current} - 1)}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li><a href="#" th:href="@{/member/index(page=${current})}" th:text="${current} + 1">1</a></li>
-            <li><a href="#" th:href="@{/member/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>
-            <li><a href="#" th:href="@{/member/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>
-            <li><a href="#" th:href="@{/member/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>
-            <li><a href="#" th:href="@{/member/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>
-            <li>
-                <a href="#" th:href="@{/member
-                /index(page=${current} + 1)}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+                <!--<a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"-->
+                   <!--th:href="@{/member/index(page=${current} - 1)}" aria-label="Previous">-->
+                    <!--<span aria-hidden="true">&laquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li><a href="#" th:href="@{/member/index(page=${current})}" th:text="${current} + 1">1</a></li>-->
+            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>-->
+            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>-->
+            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>-->
+            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>-->
+            <!--<li>-->
+                <!--<a href="#" th:href="@{/member-->
+                <!--/index(page=${current} + 1)}" aria-label="Next">-->
+                    <!--<span aria-hidden="true">&raquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</nav>-->
 </div>
 
 <!--取消-->

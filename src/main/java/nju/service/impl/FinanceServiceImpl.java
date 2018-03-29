@@ -1,10 +1,7 @@
 package nju.service.impl;
 
 import nju.dao.*;
-import nju.entity.ExternalAccount;
-import nju.entity.SitePlan;
-import nju.entity.TicketRecord;
-import nju.entity.UserInfo;
+import nju.entity.*;
 import nju.service.TicketService;
 import nju.service.external.PaymentInterface;
 import nju.service.FinanceService;
@@ -36,6 +33,8 @@ public class FinanceServiceImpl implements FinanceService {
     private ExternalAccountRepository externalAccountRepository ;
     @Autowired
     private TicketRecordRepository ticketRecordRepository ;
+    @Autowired
+    private PayMessageRepository payMessageRepository ;
 
     public double payByBalance(int recordID) {
         TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
@@ -137,6 +136,8 @@ public class FinanceServiceImpl implements FinanceService {
 
         boolean removeFromUserSuccess = userService.removeBalance(userID, total_price);
 
+        PayMessage pm = generatePayMessage(userID,SystemDefault.PM_INTERNAL_PAY,-total_price) ;
+
         boolean addToSitePlanSuccess = planService.addIncome(planID, userID, total_price);
 
         return removeFromUserSuccess && addToSitePlanSuccess ;
@@ -168,6 +169,7 @@ public class FinanceServiceImpl implements FinanceService {
 
             if (transfer_amount > 0) {
 
+                PayMessage pm = generatePayMessage(userID,SystemDefault.PM_EXTERNAL_PAY,-total_price) ;
                 externalAccountRepository.save(from_account);
                 planService.addIncome(planID, userID, total_price);
             }
@@ -187,6 +189,8 @@ public class FinanceServiceImpl implements FinanceService {
         boolean removeSuccess = planService.removeIncome(tr,return_amount) ;
 
         boolean drawbackSuccess = userService.drawback(tr.getUserID() ,return_amount,tr) ;
+
+        PayMessage pm = generatePayMessage(tr.getUserID(),SystemDefault.PM_DRAWBACK,+return_amount) ;
 
         return removeSuccess && drawbackSuccess ;
     }
@@ -218,6 +222,15 @@ public class FinanceServiceImpl implements FinanceService {
 //        System.out.println(accountID+" " +pwd) ;//
 
         return externalAccountRepository.findByAccountIDAndPassword(accountID,pwd) ;
+    }
+
+    public PayMessage generatePayMessage(int userID,String msg,double change) {
+        PayMessage pm = new PayMessage() ;
+        pm.setUserID(userID);
+        pm.setMsg(msg);
+        pm.setMoney(change);
+        pm = payMessageRepository.save(pm) ;
+        return pm ;
     }
 
 

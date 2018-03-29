@@ -60,9 +60,9 @@ public class PaymentController {
     @ResponseBody
     public Map<String,Object> buyTicketWithoutSeats
             (@RequestParam("planID") int planID,
-             @RequestParam("num_a") int a,
-             @RequestParam("num_b") int b,
-             @RequestParam("num_c") int c,
+             @RequestParam(value = "num_a", defaultValue = "0") int a,
+             @RequestParam(value = "num_b", defaultValue = "0") int b,
+             @RequestParam(value = "num_c", defaultValue = "0") int c,
              @SessionAttribute(SystemDefault.USER_ID) int userID ) {
 
         Map<String, Object> result = new TreeMap<>();

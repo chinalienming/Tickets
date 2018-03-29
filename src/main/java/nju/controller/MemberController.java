@@ -1,5 +1,6 @@
 package nju.controller;
 
+import nju.entity.PayMessage;
 import nju.entity.TicketRecord;
 import nju.service.SiteService;
 import nju.service.TicketService;
@@ -41,16 +42,12 @@ public class MemberController {
 
         List<TicketRecord> ils = userService.getInvalidTicketRecord(id) ;
 
-//        Collections.reverse(ls);
-        model.addAttribute("userID",id) ;
+        List<PayMessage> pmls = userService.getPayMessage(id) ;
 
-//        System.out.println("size:"+ls.size());
-//        for(TicketRecord tr:ls) {
-//            System.out.println("ID: "+tr.getRecordID());
-//        }
+        model.addAttribute("userID",id) ;
         model.addAttribute("ticketrecords",ls);
         model.addAttribute("invalidtr",ils) ;
-
+        model.addAttribute("paymessage",pmls) ;
         model.addAttribute(SystemDefault.CURRENT_PAGE, page);
 //        model.addAttribute(SystemDefault.CURRENT_PAGE,page) ;
         return "member/index";

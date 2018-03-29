@@ -8,7 +8,7 @@ CREATE TABLE tickets.user_info
     credit int(11) DEFAULT '0' NOT NULL,
     benefit int(11) NOT NULL
 );
-INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (1, '哈哈哈', 101700, 14, 133935, 11000, 638);
+INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (1, '哈哈哈', 99310, 1, 880, 8, 0);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (2, 'name', 0, 1, 0, 0, 0);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (3, 'name', 0, 1, 0, 0, 0);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (4, 'name', 0, 1, 0, 0, 0);

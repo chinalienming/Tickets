@@ -28,6 +28,13 @@ public class SystemDefault {
     public static final String HTTP_RESULT = "result" ;
     public static final String HTTP_REASON = "reason" ;
 
+    /**
+     * PayMessage Rule
+     */
+    public static final String PM_INTERNAL_PAY = "余额支付" ;
+    public static final String PM_EXTERNAL_PAY = "支付宝支付" ;
+    public static final String PM_EX2IN = "充值" ;
+    public static final String PM_DRAWBACK = "退款" ;
 
     /**
      * Ticket Record Rule

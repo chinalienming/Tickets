@@ -31,15 +31,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../member/index.html" th:href="@{index}">Tickets</a>
+            <a class="navbar-brand" href="../member/index.html" th:href="@{/member/index}">Tickets</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html" th:href="@{index}">All Site<span
+                <li><a href="index.html" th:href="@{/site/index}">Back All Site<span
                         class="sr-only">(current)</span></a></li>
-                <li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>
+                <!--<li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>-->
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -154,7 +154,7 @@
                 success: function (data) {
                     if (data.result) {
                         alert("预定成功!请在15分钟内前往订单页面完成支付");
-                        location.href = "redirect:/"+data.url ;
+                        location.href = "/member/index" ;
                     } else {
                         alert(data.result);
                     }

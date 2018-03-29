@@ -1,6 +1,7 @@
 package nju.service;
 
 import nju.entity.ExternalAccount;
+import nju.entity.PayMessage;
 import nju.entity.TicketRecord;
 
 /**
@@ -24,5 +25,5 @@ public interface FinanceService {
 
 //    ExternalAccount findExternalAccount(int userID,boolean isSite);
 
-
+    PayMessage generatePayMessage(int userID, String msg, double change);
 }

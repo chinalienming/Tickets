@@ -1,5 +1,6 @@
 package nju.service;
 
+import nju.entity.PayMessage;
 import nju.entity.TicketRecord;
 import nju.entity.User;
 import nju.entity.UserInfo;
@@ -36,6 +37,8 @@ public interface UserService {
 
     List<TicketRecord> getInvalidTicketRecord(int userID);
 
+    List<PayMessage> getPayMessage(int userID) ;
+
     boolean checkEmailExist(String Email);
 
     UserVO getUserVO(int userID);
@@ -49,4 +52,6 @@ public interface UserService {
     int convert(int userID,int credit) ;
 
     int froze(int userID,String pwd) ;
+
+
 }

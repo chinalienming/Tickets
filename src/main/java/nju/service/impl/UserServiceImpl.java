@@ -1,13 +1,8 @@
 package nju.service.impl;
 
-import nju.dao.ExternalAccountRepository;
-import nju.dao.TicketRecordRepository;
-import nju.dao.UserInfoRepository;
-import nju.dao.UserRepository;
-import nju.entity.ExternalAccount;
-import nju.entity.TicketRecord;
-import nju.entity.User;
-import nju.entity.UserInfo;
+import nju.dao.*;
+import nju.entity.*;
+import nju.service.FinanceService;
 import nju.service.UserService;
 import nju.util.SystemDefault;
 import nju.vo.UserVO;
@@ -38,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ExternalAccountRepository externalAccountRepository ;
+
+    @Autowired
+    private PayMessageRepository payMessageRepository ;
+
+    @Autowired
+    private FinanceService financeService ;
 
 
     //String format = String.format("%05d", i);
@@ -233,6 +234,8 @@ public class UserServiceImpl implements UserService {
         userInfo.setBalance(userInfo.getBalance()+amount);
         userInfoRepository.save(userInfo) ;
 
+        financeService.generatePayMessage(userID,SystemDefault.PM_EX2IN,amount) ;
+
         return 0 ;
     }
 
@@ -254,6 +257,11 @@ public class UserServiceImpl implements UserService {
         user.setHasLoginQualification(false);
         userRepository.save(user) ;
         return 0 ;
+    }
+
+    public List<PayMessage> getPayMessage(int userID) {
+        List<PayMessage> list = payMessageRepository.findByUserID(userID) ;
+        return list ;
     }
 
 }
