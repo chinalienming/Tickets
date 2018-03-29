@@ -26,6 +26,7 @@ public class UserVO {
     public double consumption;
     public int credit ;
 
+    public  int benefit ;
     public int accountID ;
     public double accountBalance ;
 
@@ -91,7 +92,10 @@ public class UserVO {
     public void setCredit(int credit) { this.credit = credit; }
 
 
-
+    public int getBenefit() {
+        return this.benefit ;
+    }
+    public void setBenefit(int benefit) { this.benefit = benefit; }
 
 
 

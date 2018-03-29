@@ -55,19 +55,19 @@
     <div class="table-responsive">
         <table class="w3-table w3-bordered w3-striped w3-card-4">
             <tr>
-                <th>Item</th>
-                <th>Message</th>
+                <th>项目</th>
+                <th>信息</th>
             </tr>
             <tr>
-                <td>User ID</td>
+                <td>用户ID</td>
                 <td th:text="${member.userID}">0000001</td>
             </tr>
             <tr>
-                <td>Email</td>
+                <td>邮箱</td>
                 <td th:text="${member.email}">gakki@qq.com</td>
             </tr>
             <tr>
-                <td>Name</td>
+                <td>名称</td>
                 <td th:text="${member.userName}">Gakki</td>
             </tr>
             <!--<tr>-->
@@ -75,7 +75,7 @@
                 <!--<td th:text="(${member.status == 0}) ? 'Not Activated' : 'Activated'">Not Activated</td>-->
             <!--</tr>-->
             <tr>
-                <td>Balance</td>
+                <td>余额</td>
                 <td th:text="${member.balance}">9999</td>
             </tr>
             <!--<tr>-->
@@ -88,7 +88,7 @@
             <!--</tr>-->
             <tr>
                 <!--<td>Member Level</td>-->
-                <td>Level</td>
+                <td>等级</td>
                 <td th:text="'level ' +  ${member.level}">3</td>
             </tr>
             <!--<tr>-->
@@ -101,20 +101,24 @@
             <!--</tr>-->
             <tr>
             <!--<td>Accumulate Consumption</td>-->
-            <td>Consumption</td>
+            <td>消费总计</td>
             <td th:text="${member.consumption}">3500.00</td>
              </tr>
 
             <tr>
-                <td>Credit</td>
+                <td>积分</td>
                 <td th:text="${member.credit}">350</td>
             </tr>
             <tr>
-                <td>External Account ID</td>
+                <td>优惠券</td>
+                <td th:text="${member.benefit}">123</td>
+            </tr>
+            <tr  th:if="${member.accountID>0}">
+                <td>支付宝账号</td>
                 <td th:text="${member.accountID}">0510001</td>
             </tr>
-            <tr>
-                <td>Exterbal Balance</td>
+            <tr  th:if="${member.accountID>0}">
+                <td>支付宝余额</td>
                 <td th:text="${member.accountBalance}">7888</td>
             </tr>
             <!--<tr>-->
@@ -125,16 +129,16 @@
     </div>
     <p style="margin-top: 10px">
         <button type="button" class="btn btn-info editButton" data-toggle="modal"
-                data-target="#editModal">Edit
+                data-target="#editModal">编辑个人信息
         </button>
-        <button type="button" class="btn btn-primary rechargeButton" data-toggle="modal"
-                data-target="#rechargeModal">Recharge
+        <button th:if="${member.accountID>0}" type="button" class="btn btn-primary rechargeButton" data-toggle="modal"
+                data-target="#rechargeModal">余额充值
         </button>
         <button type="button" class="btn btn-success pointConvertButton" data-toggle="modal"
-                data-target="#pointConvertModal">Point Convert
+                data-target="#pointConvertModal">积分兑换优惠券
         </button>
         <button type="button" class="btn btn-danger deleteButton" data-toggle="modal"
-                data-target="#deleteModal">Delete Account
+                data-target="#deleteModal">冻结账号
         </button>
     </p>
 </div>
@@ -146,16 +150,15 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">New Profile</h4>
+                <h4 class="modal-title">编辑个人信息</h4>
             </div>
+
             <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
                 <div class="modal-body">
-
-
                     <div class="form-group">
-                        <label for="nameM" class="col-sm-2 control-label">Name</label>
+                        <label for="nameM" class="col-sm-2 control-label">名字</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="name" id="nameM" placeholder="Your Name"/>
+                            <input type="text" class="form-control" name="name" id="nameM" placeholder=""/>
                         </div>
                     </div>
                     <!--<div class="form-group">-->
@@ -165,16 +168,24 @@
                         <!--</div>-->
                     <!--</div>-->
                     <div class="form-group">
-                        <label for="creditCardM" class="col-sm-2 control-label">External Account</label>
+                        <label for="aID" class="col-sm-2 control-label">支付宝账号</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="creditCard" id="creditCardM"
-                                   placeholder="Your Exernal Account"/>
+                            <input type="text" class="form-control" name="aID" id="aID"
+                                   placeholder=""/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="aPwd" class="col-sm-2 control-label">支付宝密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="aPwd" id="aPwd"
+                                   placeholder=""/>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary edit">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary edit">保存</button>
                 </div>
             </form>
 
@@ -193,32 +204,32 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Recharge</h4>
+                <h4 class="modal-title">兑换</h4>
             </div>
-            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/convert}" method="post">
                 <div class="modal-body">
 
 
                     <div class="form-group">
-                        <label for="nameM" class="col-sm-2 control-label">Your points</label>
+                        <label for="nameM" class="col-sm-2 control-label">总积分</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control"
-                                   th:placeholder="${member.accountID}" readonly="readonly"/>
+                                   th:placeholder="${member.credit}" readonly="readonly"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pointConvertValue" class="col-sm-2 control-label">Amount</label>
+                        <label for="credit" class="col-sm-2 control-label">兑换优惠券</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" name="convertValue" id="pointConvertValue"
-                                   placeholder="1 point can be converted to 1 $"/>
+                            <input type="number" class="form-control" name="credit" id="credit"
+                                   placeholder="1个积分可以兑换1元优惠券哦"/>
                         </div>
                     </div>
                 </div>
 
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary convert">Recharge</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary convert">确定</button>
                 </div>
             </form>
 
@@ -237,30 +248,30 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Recharge</h4>
+                <h4 class="modal-title">给你的账户充值</h4>
             </div>
-            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/recharge}" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">External Account</label>
+                        <label class="col-sm-2 control-label">支付宝账号</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control"
                                    th:placeholder="${member.accountID}" readonly="readonly"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="rechargeValue" class="col-sm-2 control-label">Amount</label>
+                        <label for="rechargeValue" class="col-sm-2 control-label">充值金额</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="rechargeValue" id="rechargeValue"
-                                   placeholder="How much do you want to recharge"/>
+                                   placeholder="冲多少?"/>
                         </div>
                     </div>
                 </div>
 
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary recharge">Recharge</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary recharge">变得更强</button>
                 </div>
             </form>
 
@@ -279,28 +290,27 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete Account</h4>
+                <h4 class="modal-title">冻结账号</h4>
             </div>
-            <form class="form-horizontal" action="profile.html" th:action="@{/member/edit}" method="post">
+            <form class="form-horizontal" action="profile.html" th:action="@{/member/frozen}" method="post">
                 <div class="modal-body">
 
 
                     <div class="form-group text-danger">
-                        <p class="col-md-offset-2">Are you sure to delete the account? The Operation cannot
-                            be undo!</p>
+                        <p class="col-md-offset-2">确定冻结账号吗？此操作不能撤销！</p>
 
                     </div>
                     <div class="form-group">
-                        <label for="passwordM" class="col-sm-2 control-label">Your Password</label>
+                        <label for="passwordM" class="col-sm-2 control-label">密码</label>
                         <div class="col-sm-10">
                             <input type="password" class="form-control" name="password" id="passwordM"
-                                   placeholder="Your Password"/>
+                                   placeholder="输入你的密码"/>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger delete">Yes, I know the consequence</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger delete">是的，我知道后果</button>
                 </div>
 
             </form>
@@ -326,10 +336,10 @@
 
     $('.edit').on('click' , function () {
         var name = $edit.find('input[name="name"]').val();
-        var mail = $edit.find('input[name="mail"]').val();
-        var creditCard = $edit.find('input[name="creditCard"]').val();
+        var aID  = $edit.find('input[name="aID"]').val();
+        var aPwd = $edit.find('input[name="aPwd"]').val();
 
-        inputs = {name:name, mail:mail, creditCard:creditCard};
+        inputs = {name:name, aID:aID, aPwd:aPwd };
         url = '/member/edit';
         callAjax(inputs,url, false);
     });
@@ -340,15 +350,15 @@
         callAjax(inputs,url, false);
     });
     $('.convert').on('click' , function () {
-        var amount = $convert.find('input[name="convertValue"]').val();
-        inputs = {amount:amount};
+        var credit = $convert.find('input[name="credit"]').val();
+        inputs = {credit:credit};
         url = '/member/convert';
         callAjax(inputs,url, false);
     });
     $('.delete').on('click' , function () {
         var password = $delete.find('input[name="password"]').val();
         inputs = {password:password};
-        url = '/member/delete';
+        url = '/member/froze';
         callAjax(inputs,url, true);
     });
 

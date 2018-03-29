@@ -147,6 +147,9 @@ public class UserServiceImpl implements UserService {
         if(ea!=null) {
             vo.accountID = ea.getAccountID() ;
             vo.accountBalance = ea.getBalance() ;
+        } else {
+            vo.accountID = -1 ;
+            vo.accountBalance = 0 ;
         }
         return vo;
     }
@@ -168,14 +171,23 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    public List<TicketRecord> getTicketRecord(int userID) {
+    public List<TicketRecord> getValidTicketRecord(int userID) {
 
         List<TicketRecord> result = new ArrayList<>() ;
 
-        ticketRecordRepository.findByUserID(userID).forEach(result::add);
+        ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_PAYED).forEach(result::add);
+        ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_WAITPAY).forEach(result::add);
         Collections.reverse(result);
 
         return result;
+    }
+
+    public List<TicketRecord> getInvalidTicketRecord(int userID) {
+        List<TicketRecord> result = new ArrayList<>() ;
+        ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_CANCEL).forEach(result::add);
+        ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_TIMEOUT).forEach(result::add);
+        Collections.reverse(result);
+        return result ;
     }
 
     public int getUserIDByEmailAndPassword(String email,String password) {
@@ -184,6 +196,64 @@ public class UserServiceImpl implements UserService {
         if(user==null)
             return -1 ;
         return user.getUserID() ;
+    }
+
+    public void edit(int userID, String userName, int aID, String aPwd) {
+        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+        userInfo.setUserName(userName);
+        userInfoRepository.save(userInfo) ;
+
+        ExternalAccount ea = externalAccountRepository.findByUserIDAndIsSite(userID,false);
+        if(ea.getAccountID()!=aID) {
+            //更换支付宝账号
+            externalAccountRepository.delete(ea);
+            ExternalAccount nea = new ExternalAccount(aID,aPwd,userID) ;
+            //如果aID重复? error !
+
+
+            nea = externalAccountRepository.save(nea) ;
+            System.out.println("new External Account ID :" + nea.getAccountID() ) ;
+        } else {
+            ea.setPassword(aPwd);
+            externalAccountRepository.save(ea) ;
+        }
+
+    }
+
+    public int recharge(int userID,int amount) {
+        ExternalAccount ea = externalAccountRepository.findByUserIDAndIsSite(userID,false) ;
+        double ori = ea.getBalance();
+        if(ori<amount) {
+            return -1 ;
+        }
+        ea.setBalance(ori-amount);
+        externalAccountRepository.save(ea) ;
+
+        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+        userInfo.setBalance(userInfo.getBalance()+amount);
+        userInfoRepository.save(userInfo) ;
+
+        return 0 ;
+    }
+
+    public int convert(int userID,int credit) {
+
+        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+        userInfo.setCredit(userInfo.getCredit()-credit);
+        userInfo.setBenefit(userInfo.getBenefit()+credit);
+        userInfoRepository.save(userInfo) ;
+        return 0 ;
+    }
+
+    public int froze(int userID,String pwd) {
+        User user = userRepository.findById(userID).get() ;
+        if(!user.getPassword().equals(pwd)) {
+            System.out.println(pwd + " " + user.getPassword());
+            return -1;
+        }
+        user.setHasLoginQualification(false);
+        userRepository.save(user) ;
+        return 0 ;
     }
 
 }

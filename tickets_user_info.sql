@@ -6,7 +6,7 @@ CREATE TABLE tickets.user_info
     level int(11) DEFAULT '1' NOT NULL,
     consumption double DEFAULT '0' NOT NULL,
     credit int(11) DEFAULT '0' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8;
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (1, 'gakki', 2715, 14, 133935, 11638);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (2, 'name', 0, 1, 0, 0);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit) VALUES (3, 'name', 0, 1, 0, 0);

@@ -40,7 +40,7 @@ public class SystemDefault {
     /**
      * Credit Rule
      */
-    public static final double CREDIT_RATE = 0.1 ; //consuming amount to credit
+    public static final double CREDIT_RATE = 0.01 ; //consuming amount to credit
 
     public static final int USER_EXP = 10000 ; //credit to level
 

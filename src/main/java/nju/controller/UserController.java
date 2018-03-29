@@ -119,7 +119,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout() {
+    public String logout(HttpSession session) {
+        session.removeAttribute(SystemDefault.USER_ID);
         return "user/index";
     }
 

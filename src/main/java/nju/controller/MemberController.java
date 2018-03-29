@@ -37,16 +37,20 @@ public class MemberController {
                         @RequestParam(value = "page", defaultValue = "0") int page) {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
-        List<TicketRecord> ls = userService.getTicketRecord(id);
+        List<TicketRecord> ls = userService.getValidTicketRecord(id);
+
+        List<TicketRecord> ils = userService.getInvalidTicketRecord(id) ;
 
 //        Collections.reverse(ls);
-
         model.addAttribute("userID",id) ;
+
 //        System.out.println("size:"+ls.size());
 //        for(TicketRecord tr:ls) {
 //            System.out.println("ID: "+tr.getRecordID());
 //        }
-        model.addAttribute(SystemDefault.TICKET_RECORDS,ls);
+        model.addAttribute("ticketrecords",ls);
+        model.addAttribute("invalidtr",ils) ;
+
         model.addAttribute(SystemDefault.CURRENT_PAGE, page);
 //        model.addAttribute(SystemDefault.CURRENT_PAGE,page) ;
         return "member/index";
@@ -58,6 +62,52 @@ public class MemberController {
                           @SessionAttribute(SystemDefault.USER_ID) int id ) {
         model.addAttribute("member", userService.getUserVO(id));
         return "member/profile";
+    }
+
+
+    @PostMapping("/edit")
+    @ResponseBody
+    public Map<String, Object> edit(@SessionAttribute(SystemDefault.USER_ID) int id,
+                                    String name,
+                                    String aID, String aPwd){
+        Map<String,Object> map = new TreeMap<>() ;
+        userService.edit(id, name, Integer.parseInt(aID),aPwd);
+        map.put("result",true) ;
+        return map ;
+    }
+
+    @PostMapping("/recharge")
+    @ResponseBody
+    public Map<String, Object> recharge(@SessionAttribute(SystemDefault.USER_ID) int id,
+                                    int amount){
+        Map<String,Object> map = new TreeMap<>() ;
+        int code = userService.recharge(id, amount);
+        boolean result = code>=0 ?true :false;
+        map.put("result",result) ;
+        return map ;
+    }
+
+    @PostMapping("/convert")
+    @ResponseBody
+    public Map<String, Object> convert(@SessionAttribute(SystemDefault.USER_ID) int id,
+                                        int credit){
+        Map<String,Object> map = new TreeMap<>() ;
+        int code = userService.convert(id, credit);
+        boolean result = code>=0 ?true :false;
+        map.put("result",result) ;
+        return map ;
+    }
+
+    @PostMapping("/froze")
+    @ResponseBody
+    public Map<String, Object> froze(@SessionAttribute(SystemDefault.USER_ID) int id,
+                                       String password){
+        Map<String,Object> map = new TreeMap<>() ;
+        int code = userService.froze(id, password);
+        System.out.println(code) ;
+        boolean result = code>=0 ?true :false;
+        map.put("result",result) ;
+        return map ;
     }
 
 

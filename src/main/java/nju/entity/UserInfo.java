@@ -18,6 +18,7 @@ public class UserInfo {
     private int level = 1 ;
     private double consumption = 0.00 ;
     private int credit = 0 ;
+    private int benefit = 0 ;
 
     public UserInfo() {
 
@@ -70,6 +71,12 @@ public class UserInfo {
     }
     public void setCredit(int credit) { this.credit = credit; }
 
+    @Basic
+    @Column(name = "benefit", nullable = false)
+    public int getBenefit() {
+        return this.benefit ;
+    }
+    public void setBenefit(int benefit) { this.benefit = benefit; }
 
 
     public boolean removeBalance( double amount ) {
