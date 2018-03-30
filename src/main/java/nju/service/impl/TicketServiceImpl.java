@@ -13,8 +13,10 @@ import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lienming on 2018/3/10.
@@ -253,7 +255,7 @@ public class TicketServiceImpl implements TicketService {
 
         SitePlan sitePlan = planService.getPlanByID(tr.getPlanID()) ;
 
-        Timestamp perform_time = sitePlan.getBeginTime();
+        Date perform_time = sitePlan.getBeginTime();
 
         int hours = MyDate.hoursBetweenDate(present_time,perform_time) ;
 

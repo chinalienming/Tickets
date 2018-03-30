@@ -1,4 +1,5 @@
 <!--现场购票-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
-    <title>Hotel Index</title>
+    <title>现场购票</title>
 </head>
 <body>
 
@@ -24,26 +25,29 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html" th:href="@{index}">Hostel World</a>
+            <a class="navbar-brand" href="index.html" th:href="@{info}">Tickets</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html" th:href="@{index}">Hotel Status<span
-                        class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="buyOffline.html" th:href="@{record}">Live Records</a></li>
-                <li><a href="info.html" th:href="@{info}">Hotel Info</a></li>
-                <li><a href="statistics.html" th:href="@{statistics}">Statistics</a></li>
+                <li ><a href="info.html" th:href="@{info}">场馆信息</a></li>
+
+                <li><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
+
+                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+
+                <li class="active"><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
+
+                <li><a href="statistics.html" th:href="@{statistics}">数据统计</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
+                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
                     </ul>
                 </li>
             </ul>
@@ -56,20 +60,22 @@
 
     <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">Current Records</div>
+        <div class="panel-heading">场馆线下购票记录</div>
 
 
         <div class="table-responsive ">
             <table id="roomTable" class="table table-hover">
                 <tr>
-                    <th>No</th>
-                    <th>In Time</th>
-                    <th>Out Time</th>
-                    <th>Status</th>
-                    <th>Person Num</th>
-                    <th>Person Mes</th>
-                    <th>Pay Method</th>
+                    <th>票据ID</th>
+                    <th>场馆ID</th>
+                    <th>购票时间</th>
+                    <th>是否会员</th>
+                    <th>座位号</th>
+                    <th>价格</th>
+                    <th>信用积分变化</th>
+                    <th>可选项</th>
                 </tr>
+
                 <tr th:each="record : ${records}" th:class="(${record.status == 0}) ? 'success' : 'info'">
                     <td th:text="${#numbers.formatInteger(record.id,7)}">0000001</td>
                     <!--&lt;!&ndash;<td th:text="${reserveMes.time}">2016-3-19</td>&ndash;&gt;-->
@@ -90,6 +96,7 @@
                         </div>
                     </td>
                 </tr>
+
             </table>
         </div>
 

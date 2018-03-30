@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
-    <title>Hotel Index</title>
+    <title>新活动申请</title>
 </head>
 <body>
 
@@ -33,9 +33,9 @@
             <ul class="nav navbar-nav">
                 <li><a href="info.html" th:href="@{info}">场馆信息</a></li>
 
-                <li class="active"><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
+                <li ><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
 
-                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+                <li class="active"><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
 
                 <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
 
@@ -44,7 +44,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
+                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
                     </ul>
@@ -59,7 +59,7 @@
 
     <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">所有活动</div>
+        <div class="panel-heading">提交审批的活动申请</div>
 
 
         <div class="table-responsive ">
@@ -70,6 +70,9 @@
                     <th>活动类型</th>
                     <th>开始时间</th>
                     <th>结束时间</th>
+                    <th>豪华座价格</th>
+                    <th>高等座价格</th>
+                    <th>普通座价格</th>
                 </tr>
 
                 <tr th:each="plan : ${plans}"   >
@@ -78,6 +81,9 @@
                     <td th:text="${plan.planType}">type</td>
                     <td th:text="${plan.beginTime}"> beginTime</td>
                     <td th:text="${plan.endTime}"> endTime</td>
+                    <td th:text="${plan.original_price_A}"> 9999</td>
+                    <td th:text="${plan.original_price_B}"> 8000</td>
+                    <td th:text="${plan.original_price_C}"> 5000</td>
 
                 </tr>
             </table>
@@ -102,7 +108,7 @@
             <form class="form-horizontal" action="addPlan.html">
 
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">活动描述</label>
+                    <label for="description" class="col-sm-2 control-label">活动</label>
                     <div class="col-sm-10">
                         <input type="url" class="form-control" name="description" id="description" placeholder=" "/>
                     </div>

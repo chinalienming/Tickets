@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
-    <title>Present Site Plans</title>
+    <title>活动一览</title>
 </head>
 <body>
 
@@ -37,15 +37,22 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="index.html" th:href="@{info}">Back <span
+                <li><a href="index.html" th:href="@{info}">场馆信息<span
                         class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
+
+                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+
+                <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
+
+                <li><a href="statistics.html" th:href="@{statistics}">数据统计</a></li>
                 <!--<li><a href="../site/info.html" th:href="@{info}">Site Info</a></li>-->
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, Gakki <span class="caret"></span></a>
+                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
                         <!--<li><a href="../user/register.html" th:href="@{../register}">Register</a></li>-->

@@ -6,7 +6,7 @@ CREATE TABLE tickets.seat
     state int(11) DEFAULT '0' NOT NULL,
     user_id int(11) NOT NULL,
     is_checked tinyint(1) DEFAULT '0' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8;
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (1, 1, 'A01', 1, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (2, 1, 'A02', 1, 1, 0);
 INSERT INTO tickets.seat (seat_id, plan_id, seat_number, state, user_id, is_checked) VALUES (3, 1, 'A03', 0, -1, 0);
