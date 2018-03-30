@@ -1,0 +1,2 @@
+INSERT INTO tickets.plan_apply (site_id, begin_time, end_time, plan_Type, description, price_a, price_b, price_c) VALUES (1, '2018-03-19', '2018-03-20', 'type', 'ooo1', 2000, 1800, 900);
+INSERT INTO tickets.plan_apply (site_id, begin_time, end_time, plan_Type, description, price_a, price_b, price_c) VALUES (1, '2018-03-20', '2018-03-30', 'notype', 'hhh1', 888, 777, 666);

@@ -1,6 +1,6 @@
 package nju.controller;
 
-import nju.entity.SitePlan;
+import nju.entity.PlanApply;
 import nju.service.PlanService;
 import nju.service.SiteService;
 import nju.util.SystemDefault;
@@ -103,7 +103,7 @@ public class SiteController {
     @RequestMapping("/addPlan")
     public String addPlan(Model model, @SessionAttribute("siteID")int siteID) {
 
-        List<SitePlan> list = planService.getPlanBySiteID(siteID) ;
+        List<PlanApply> list = planService.getPlanApplyBySiteID(siteID)  ;
         model.addAttribute("plans",list) ;
 
         return "site/addPlan" ;

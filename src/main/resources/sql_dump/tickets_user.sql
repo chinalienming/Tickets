@@ -5,7 +5,7 @@ CREATE TABLE tickets.user
     password varchar(20) NOT NULL,
     qualified tinyint(1) DEFAULT '1' NOT NULL,
     activated tinyint(1) DEFAULT '1' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8;
 INSERT INTO tickets.user (user_id, email, password, qualified, activated) VALUES (1, 'gakki@qq.com', '123', 1, 1);
 INSERT INTO tickets.user (user_id, email, password, qualified, activated) VALUES (2, 'lem@qq.com', '123', 1, 1);
 INSERT INTO tickets.user (user_id, email, password, qualified, activated) VALUES (3, 'xjp@qq.com', '123', 1, 1);

@@ -1,9 +1,6 @@
 package nju.service.impl;
 
-import nju.dao.EditApplyRepository;
-import nju.dao.OpenApplyRepository;
-import nju.dao.SiteAccountRepository;
-import nju.dao.SiteRepository;
+import nju.dao.*;
 import nju.entity.*;
 import nju.service.ManagerService;
 import nju.service.PlanService;
@@ -35,7 +32,8 @@ public class SiteServiceImpl implements SiteService {
     private EditApplyRepository editApplyRepository ;
     @Autowired
     private OpenApplyRepository openApplyRepository ;
-
+    @Autowired
+    private PlanApplyRepository planApplyRepository ;
 
     public List<Integer> getAllSiteID () {
         List<Integer> list = new ArrayList<>() ;
@@ -162,5 +160,11 @@ public class SiteServiceImpl implements SiteService {
 
         System.out.println(beginTime) ;
         System.out.println(endTime) ;
+
+        PlanApply pa = new PlanApply
+                (siteID,planType,description,beginTime,endTime,price_a,price_b,price_c) ;
+
+        planApplyRepository.save(pa) ;
+
     }
 }

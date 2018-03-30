@@ -13,7 +13,7 @@ CREATE TABLE tickets.site_plan
     price_b double NOT NULL,
     price_c double NOT NULL,
     plan_income double DEFAULT '0' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8;
 INSERT INTO tickets.site_plan (plan_id, site_id, begin_time, end_time, plan_type, description, seat_a, seat_b, seat_c, price_a, price_b, price_c, plan_income) VALUES (1, '1', '2018-01-03 15:05:06', '2018-02-20 15:05:12', '音乐剧', '沂蒙情', 20, 20, 20, 880, 555, 250, 880);
 INSERT INTO tickets.site_plan (plan_id, site_id, begin_time, end_time, plan_type, description, seat_a, seat_b, seat_c, price_a, price_b, price_c, plan_income) VALUES (2, '1', '2018-01-03 15:05:06', '2018-02-20 15:05:12', '音乐剧', 'City Of Stars', 20, 20, 20, 800, 666, 280, 0);
 INSERT INTO tickets.site_plan (plan_id, site_id, begin_time, end_time, plan_type, description, seat_a, seat_b, seat_c, price_a, price_b, price_c, plan_income) VALUES (3, '1', '2018-01-03 15:05:06', '2018-02-20 15:05:12', '舞蹈', '桃花源记', 20, 20, 20, 700, 666, 320, 0);
