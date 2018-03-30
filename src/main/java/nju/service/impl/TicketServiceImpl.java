@@ -40,12 +40,12 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private SeatRepository seatRepository ;
 
-    public boolean setPayed(int recordID) {
+    public boolean setPayed(int recordID,int payType) {
 
         TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
+        tr.setPayType(payType);
         tr.setIsValid(SystemDefault.RECORD_STATE_PAYED) ;
         userService.addCredit(tr) ;
-
         List<String> list = new ArrayList<>();
         list.add(tr.getSeatNumber()) ;
         //unlocked tickets
@@ -127,7 +127,7 @@ public class TicketServiceImpl implements TicketService {
         for(String seatNumber : seatList ) {
             int type = seatNumber.charAt(0) - 'A';
             tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
-                    seatNumber, discountDetail[type] * original_price[type]);
+                    seatNumber, discountDetail[type] * original_price[type],SystemDefault.RECORD_PAYTYPE_NOTPAY);
             ticketRecordRepository.save(tr);
         }
 
@@ -210,7 +210,7 @@ public class TicketServiceImpl implements TicketService {
                 String seatNumber = seat.getSeatNumber() ;
                 int type = seatNumber.charAt(0) - 'A' ;
                 tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
-                        seatNumber, discountDetail[type] * original_price[type] ) ;
+                        seatNumber, discountDetail[type] * original_price[type] ,SystemDefault.RECORD_PAYTYPE_NOTPAY) ;
 //                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
 //                System.out.println("save :"+ ticketRecordRepository.save(tr) );
 //                System.out.println(tr.getRecordID() );
@@ -248,14 +248,15 @@ public class TicketServiceImpl implements TicketService {
 
         TicketRecord tr = findRecord(recordID) ;
 
-        if(tr.getIsValid()!=1) {
+        if(tr.getIsValid()!=SystemDefault.RECORD_STATE_PAYED) {
             return -1  ;
         }
+
         Date present_time = Calendar.getInstance().getTime() ;
 
         SitePlan sitePlan = planService.getPlanByID(tr.getPlanID()) ;
 
-        Date perform_time = sitePlan.getBeginTime();
+        Date perform_time = sitePlan.getEndTime();
 
         int hours = MyDate.hoursBetweenDate(present_time,perform_time) ;
 
@@ -292,16 +293,67 @@ public class TicketServiceImpl implements TicketService {
     }
 
     //only record and get seat ?
-    public boolean buyTicketOffline(int planID,int userID,List<String> seats){
-        for(String seatNumber : seats) {
-            Seat that = seatRepository.findByPlanIDAndSeatNumber(planID,seatNumber) ;
-            if( null != that) {
-                that.setUserID(userID);
-                that.setState(SystemDefault.SEAT_STATE_PURCHASED);
-                seatRepository.save(that);
+    public int buyTicketOffline(int planID,int userID, int seatA,int seatB,int seatC ){
+        //limit amount
+        int total = seatA+seatB+seatC ;
+        if( total > SystemDefault.SEAT_NOT_SELECTED_MAX ) {     //limitation
+            return -1 ;
+        }
+        int[] ticketNum = {seatA,seatB,seatC} ;
+
+        List<Seat> seats = seatService.lockSeat(userID, planID, ticketNum) ;
+//        for(int j:ticketNum)
+//            System.out.println("ticketService 2 :ticket num"+j);
+
+        boolean lockSeatSuccess = true ;
+        if(seats==null)
+            lockSeatSuccess = false  ;
+        if(seats.size()<total) {
+            lockSeatSuccess = false;
+            //TODO 解锁
+        }
+//        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
+        if(!lockSeatSuccess) {
+            return -2 ;  //maybe seat is not enough
+        }
+
+        SitePlan sitePlan = planService.getPlanByID(planID);
+
+        double original_price_A = sitePlan.getOriginal_price_A() ;
+        double original_price_B = sitePlan.getOriginal_price_B() ;
+        double original_price_C = sitePlan.getOriginal_price_C() ;
+        double[] original_price = {original_price_A,original_price_B,original_price_C} ;
+
+        //折扣力度
+//        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+        double[] discountDetail = {1,1,1} ;
+
+
+        //create new TicketRecord
+        TicketRecord tr;
+        for(Seat seat : seats ) {
+            String seatNumber = seat.getSeatNumber() ;
+            int type = seatNumber.charAt(0) - 'A' ;
+            double price = discountDetail[type] * original_price[type];
+            tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
+                    seatNumber,price,SystemDefault.RECORD_PAYTYPE_CASH) ;
+            tr.setIsValid(SystemDefault.RECORD_STATE_PAYED) ;
+            ticketRecordRepository.save(tr) ;
+            // add consume record to UserInfo..
+            if(userID>0) {
+                userService.addCredit(tr) ;
             }
         }
-        return true ;
+
+        //unlocked tickets
+        List<String> seatNameList = new ArrayList<>() ;
+        for(Seat seat : seats ) {
+            seatNameList.add(seat.getSeatNumber()) ;
+        }
+        boolean unlockSeatSuccess = seatService.unlockSeat(userID,planID,seatNameList,true);
+        if(!unlockSeatSuccess)
+            return -3 ;
+        return 0 ;
     }
 
     //检票

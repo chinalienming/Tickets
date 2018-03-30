@@ -1,6 +1,8 @@
 package nju.service;
 
 import nju.entity.Site;
+import nju.entity.SiteTR;
+import nju.entity.TicketRecord;
 
 import java.util.List;
 
@@ -36,5 +38,8 @@ public interface SiteService {
     void applyPlan(int siteID, String description, String planType , String beginTime , String endTime ,
                    double price_a ,double price_b ,double price_c) ;
 
+    List<TicketRecord> getSiteTRList(int siteID) ;
+
+    int doBuyOffline(int planID,int userID, int seatA,int seatB,int seatC ) ;
 
 }

@@ -96,8 +96,9 @@
                             <!--<th>座位类型</th>-->
                             <th>座位号</th>
                             <th>价格</th>
+                            <th>支付方式</th>
                             <th>订票时间</th>
-                            <th>状态</th>
+                            <th>票据状态</th>
                             <th>积分变化</th>
                             <th>可选项</th>
                         </tr>
@@ -113,6 +114,28 @@
                             <!--<td th:text="${one.seatType}">A</td>-->
                             <td th:text="${one.seatNumber}">A03</td>
                             <td th:text="${one.price}">150.0</td>
+                            <!--<td>-->
+                                <!--<div th:switch="${one.payType}">-->
+                                    <!--<p th:case="-1" th:text = "未支付">未支付</p>-->
+                                    <!--<p th:case="0" th:text = "现金" >现金</p>-->
+                                    <!--<p th:case="1" th:text = "余额" >余额</p>-->
+                                    <!--<p th:case="2" >支付宝</p>-->
+                                <!--</div>-->
+                            <!--</td>-->
+
+                            <td th:if="${one.payType==-1}" th:text =  "未支付">
+                                未支付
+                            </td>
+                            <td th:if="${one.payType==0}" th:text = "现金">
+                                现金
+                            </td>
+                            <td th:if="${one.payType==1}" th:text = "余额">
+                                余额
+                            </td>
+                            <td th:if="${one.payType==2}" th:text = "支付宝">
+                                支付宝
+                            </td>
+
                             <td th:text="${one.createTime}">
                                 2018-3-19 13:48:28
                             </td>
@@ -127,6 +150,10 @@
 
                             <td th:if="${one.isValid==2}" th:text = "已撤销">
                                 已撤销
+                            </td>
+
+                            <td th:if="${one.isValid==4}" th:text = "已检票">
+                                已检票
                             </td>
 
                             <td th:text="${one.creditAdd}">0</td>
@@ -236,30 +263,6 @@
         </div>
     </div>
 
-
-
-    <!--<nav aria-label="Page navigation" class="col-md-offset-10 col-md-4">-->
-        <!--<ul class="pagination pagination-sm">-->
-            <!--<li>-->
-
-                <!--<a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"-->
-                   <!--th:href="@{/member/index(page=${current} - 1)}" aria-label="Previous">-->
-                    <!--<span aria-hidden="true">&laquo;</span>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li><a href="#" th:href="@{/member/index(page=${current})}" th:text="${current} + 1">1</a></li>-->
-            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>-->
-            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>-->
-            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>-->
-            <!--<li><a href="#" th:href="@{/member/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>-->
-            <!--<li>-->
-                <!--<a href="#" th:href="@{/member-->
-                <!--/index(page=${current} + 1)}" aria-label="Next">-->
-                    <!--<span aria-hidden="true">&raquo;</span>-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</nav>-->
 </div>
 
 <!--取消-->

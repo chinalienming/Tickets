@@ -33,11 +33,11 @@ public interface TicketService {
 
     boolean restoreSeat(int recordID);
 
-    boolean buyTicketOffline(int planID,int userID,List<String> seats);
+    int buyTicketOffline(int planID,int userID, int seatA,int seatB,int seatC );
 
     void checkTicket(int planID,List<String> seats);
 
-    boolean setPayed(int recordID) ;
+    boolean setPayed(int recordID,int payType) ;
 
     boolean setTimeOut(int recordID) ;
 

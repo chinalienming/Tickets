@@ -5,6 +5,7 @@ import nju.entity.*;
 import nju.service.ManagerService;
 import nju.service.PlanService;
 import nju.service.SiteService;
+import nju.service.TicketService;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 /**
  * Created by lienming on 2018/3/10.
@@ -22,7 +24,7 @@ public class SiteServiceImpl implements SiteService {
     @Autowired
     private PlanService planService ;
     @Autowired
-    private ManagerService managerService ;
+    private TicketService ticketService ;
 
     @Autowired
     private SiteRepository siteRepository ;
@@ -34,6 +36,8 @@ public class SiteServiceImpl implements SiteService {
     private OpenApplyRepository openApplyRepository ;
     @Autowired
     private PlanApplyRepository planApplyRepository ;
+    @Autowired
+    private TicketRecordRepository ticketRecordRepository ;
 
     public List<Integer> getAllSiteID () {
         List<Integer> list = new ArrayList<>() ;
@@ -166,5 +170,15 @@ public class SiteServiceImpl implements SiteService {
 
         planApplyRepository.save(pa) ;
 
+    }
+
+    public List<TicketRecord> getSiteTRList(int siteID) {
+        List<TicketRecord> result = ticketRecordRepository.findBySiteIDAndPayType(siteID,SystemDefault.RECORD_PAYTYPE_CASH) ;
+        Collections.reverse(result);
+        return result ;
+    }
+
+    public int doBuyOffline(int planID,int userID, int seatA,int seatB,int seatC ) {
+        return ticketService.buyTicketOffline(planID,userID,seatA,seatB,seatC) ;
     }
 }

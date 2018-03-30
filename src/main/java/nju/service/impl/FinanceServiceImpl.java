@@ -54,7 +54,7 @@ public class FinanceServiceImpl implements FinanceService {
         if(transferSuccess) {
 
             //about seat , record
-            boolean changeStatus = ticketService.setPayed(recordID) ;
+            boolean changeStatus = ticketService.setPayed(recordID,SystemDefault.RECORD_PAYTYPE_BALANCE) ;
 
             if(!changeStatus)
                 return -3;
@@ -78,7 +78,7 @@ public class FinanceServiceImpl implements FinanceService {
         if(total_price>0) {
 
             //about seat , record
-            boolean changeStatus = ticketService.setPayed(recordID) ;
+            boolean changeStatus = ticketService.setPayed(recordID,SystemDefault.RECORD_PAYTYPE_ALIPAY) ;
 
             if(!changeStatus)
                 return -4;

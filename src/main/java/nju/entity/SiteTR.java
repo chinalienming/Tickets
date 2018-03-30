@@ -23,13 +23,14 @@ public class SiteTR {
     private Timestamp createTime ;
     private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款 3=过时    4=已检票
     private int creditAdd = 0 ;
+    private int payType = -1 ;  // -1 = 未支付,0 = 现金, 1 = 余额 , 2= 支付宝
 
     public SiteTR(){
 
     }
 
     public SiteTR
-            (int userID,int siteID,int planID,String seatNumber, double price ){
+            (int userID,int siteID,int planID,String seatNumber, double price ,int payType){
         this.userID = userID ;
         this.siteID = siteID ;
         this.planID = planID ;
@@ -37,6 +38,7 @@ public class SiteTR {
         this.seatNumber = seatNumber ;
         this.price = price ;
         this.createTime = new Timestamp(System.currentTimeMillis()) ;
+        this.payType = payType ;
     }
 
     @GeneratedValue
@@ -106,4 +108,8 @@ public class SiteTR {
     }
     public void setCreditAdd(int add) { this.creditAdd = add ; }
 
+    @Basic
+    @Column(name = "pay_type" , nullable = false )
+    public int getPayType(){return this.payType;}
+    public void setPayType(int s) { this.payType=s ; }
 }

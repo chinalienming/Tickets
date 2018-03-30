@@ -45,7 +45,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName} <span class="caret"></span></a>
+                       aria-expanded="false">Welcome,<span class="caret" th:text="${siteID}"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
                     </ul>
@@ -68,32 +68,72 @@
                 <tr>
                     <th>票据ID</th>
                     <th>场馆ID</th>
-                    <th>购票时间</th>
+                    <th>活动ID</th>
                     <th>是否会员</th>
+
+                    <th>购票时间</th>
                     <th>座位号</th>
                     <th>价格</th>
-                    <th>信用积分变化</th>
+                    <th>支付方式</th>
+                    <th>订单状态</th>
+                    <th>积分变化</th>
                     <th>可选项</th>
                 </tr>
 
-                <tr th:each="record : ${records}" th:class="(${record.status == 0}) ? 'success' : 'info'">
-                    <td th:text="${#numbers.formatInteger(record.id,7)}">0000001</td>
-                    <!--&lt;!&ndash;<td th:text="${reserveMes.time}">2016-3-19</td>&ndash;&gt;-->
-                    <td th:text="${#dates.format(new java.util.Date(record.inTime),'dd/MM/yyyy HH:mm:ss')}">2016-3-19
-                        12:23:23
+                <tr th:each="one : ${siteTR}">
+                    <td th:text="${#numbers.formatInteger(one.recordID,7)}">000001</td>
+                    <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
+                    <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
+                    <td th:if="${one.userID>0}" th:text ="${#numbers.formatInteger(one.userID,7)}">
+                        000001
                     </td>
-                    <td th:text="(${record.status == 0}) ? '----' : ${#dates.format(new java.util.Date(record.outTime),'dd/MM/yyyy HH:mm:ss')}">
-                        2016-3-19 12:23:23
+                    <td th:if="${one.userID<0}" th:text ="非会员">
+                        null
                     </td>
-                    <td th:text="(${record.status == 0}) ? 'Under Use' : 'Left'">Left</td>
-                    <td th:text="${record.personNum}">1</td>
-                    <td th:text="${record.personMes}">ZiQiang Chen</td>
+                    <!--<td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>-->
+                    <td th:text="${one.createTime}">
+                        2018-3-19 13:48:28
+                    </td>
+                    <td th:text="${one.seatNumber}">A03</td>
+                    <td th:text="${one.price}">150.0</td>
+
+                    <td th:if="${one.payType==-1}" th:text =  "未支付">
+                        未支付
+                    </td>
+                    <td th:if="${one.payType==0}" th:text = "现金">
+                        现金
+                    </td>
+                    <td th:if="${one.payType==1}" th:text = "余额">
+                        余额
+                    </td>
+                    <td th:if="${one.payType==2}" th:text = "支付宝">
+                        支付宝
+                    </td>
+
+
+
+                    <td th:if="${one.isValid==0}" th:text = "等待支付">
+                        等待支付
+                    </td>
+
+                    <td th:if="${one.isValid==1}" th:text = "生效">
+                        生效
+                    </td>
+
+                    <td th:if="${one.isValid==2}" th:text = "已撤销">
+                        已撤销
+                    </td>
+                    <td th:if="${one.isValid==4}" th:text = "已检票">
+                        已检票
+                    </td>
+
+
+                    <td th:text="${one.creditAdd}">0</td>
                     <td>
-                        <div th:switch="${record.payMethod}">
-                            <p th:case="0">Member Card</p>
-                            <p th:case="1">Cash</p>
-                            <p th:case="2">Credit Card</p>
-                        </div>
+                        <a type="button" th:if="${one.isValid==1}"
+                           class="cancelButton" data-toggle="modal" th:name="${one.recordID}"
+                           data-target="#cancelModal">退订
+                        </a>
                     </td>
                 </tr>
 
@@ -103,7 +143,40 @@
 
     </div>
     <div>
-        <a href="javascript:" class="btn btn-primary my-pop-1">Add new records</a>
+        <a href="javascript:" class="btn btn-primary my-pop-1">新订单</a>
+    </div>
+
+</div>
+
+
+<!--取消-->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">退订</h4>
+            </div>
+            <form class="form-horizontal" >
+                <div class="modal-body">
+
+
+                    <div class="form-group text-danger">
+                        <p class="col-md-offset-2">确认取消这张票并退款吗？此操作不能撤销！</p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="goCancel" class="btn btn-danger delete" data-dismiss="modal">确定</button>
+                </div>
+
+            </form>
+
+            <div class="err-msg"></div>
+        </div>
+
     </div>
 
 </div>
@@ -114,47 +187,47 @@
 
         <div class="panel panel-info">
             <!-- Default panel contents -->
-            <div class="panel-heading">Add new record</div>
+            <div class="panel-heading">新订单</div>
             <form class="form-horizontal" action="index.html">
+                <!--<div class="form-group">-->
+
+                    <!--<label for="inOrOut" class="col-sm-2 control-label">是否选座购票</label>-->
+                    <!--<div class="col-sm-10">-->
+                        <!--<select id="inOrOut" class="form-control">-->
+                            <!--<option value="0">In Record</option>-->
+                            <!--<option value="1">Out Record</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+
+                <!--</div>-->
                 <div class="form-group">
-                    <label for="inOrOut" class="col-sm-2 control-label">Record Type</label>
+                    <label for="planID" class="col-sm-2 control-label">活动ID</label>
                     <div class="col-sm-10">
-                        <select id="inOrOut" class="form-control">
-                            <option value="0">In Record</option>
-                            <option value="1">Out Record</option>
+                        <input type="text" class="form-control" name="planID" id="planID"
+                               placeholder=" "/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="isMember" class="col-sm-2 control-label">是否会员</label>
+                    <div class="col-sm-10">
+                        <select id="isMember" class="form-control">
+                            <option value="1">是会员</option>
+                            <option value="0">不是会员</option>
                         </select>
                     </div>
                 </div>
+
                 <div id="inRecord">
-                    <div class="form-group">
-                        <label for="personNum" class="col-sm-2 control-label">Person Number</label>
-                        <div class="col-sm-10">
-                            <input type="number" class="form-control" name="personNum" id="personNum"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="personMes" class="col-sm-2 control-label">Person Message</label>
-                        <div class="col-sm-10">
-                            <input type="number" class="form-control" name="personMes" id="personMes"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="isMember" class="col-sm-2 control-label">Is Member</label>
-                        <div class="col-sm-10">
-                            <select id="isMember" class="form-control">
-                                <option value="1">Member</option>
-                                <option value="0">Not a member</option>
-                            </select>
-                        </div>
-                    </div>
                     <div id="memberIDDiv">
                         <div class="form-group">
-                            <label for="memberId" class="col-sm-2 control-label">member ID</label>
+                            <label for="memberID" class="col-sm-2 control-label">会员ID</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="memberId" id="memberId"
+                                <input type="text" class="form-control" name="memberID" id="memberID"
                                        placeholder="Member ID"/>
                             </div>
                         </div>
+
                         <div id="discountGroup" class="form-group">
                             <label for="discount" class="col-sm-2 control-label ">Discount</label>
                             <div class="col-sm-10">
@@ -162,51 +235,68 @@
                                        disabled="disabled"/>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="hasReserved" class="col-sm-2 control-label">Has Reserved</label>
-                            <div class="col-sm-10">
-                                <select id="hasReserved" class="form-control">
-                                    <option value="true">Reserved</option>
-                                    <option value="false">Not reserved</option>
-                                </select>
-                            </div>
-                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<label for="hasReserved" class="col-sm-2 control-label">Has Reserved</label>-->
+                            <!--<div class="col-sm-10">-->
+                                <!--<select id="hasReserved" class="form-control">-->
+                                    <!--<option value="true">Reserved</option>-->
+                                    <!--<option value="false">Not reserved</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
 
                     <div class="form-group" id="showMemberId">
-                        <label for="payMethod" class="col-sm-2 control-label">Pay Method</label>
+                        <label for="payMethod" class="col-sm-2 control-label">支付手段</label>
                         <div class="col-sm-10">
-                            <select name="payMethod" id="payMethod" class="form-control">
+                            <select name="payMethod" id="payMethod" class="form-control" disabled="disabled">
                                 <!--add in javascript-->
                                 <!--<option value="0">Member Card</option>-->
-                                <option value="1">Cash</option>
-                                <option value="2">Credit Card</option>
+                                <option value="1">现金</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="roomId" class="col-sm-2 control-label">room ID</label>
+                        <label for="seatA" class="col-sm-2 control-label">豪华座购买数</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="roomId" id="roomId"
-                                   placeholder="Room ID"/>
-                        </div>
-                    </div>
-                </div>
-                <div id="outRecord">
-                    <div class="form-group">
-                        <label for="recordId" class="col-sm-2 control-label">Record ID</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="recordId" id="recordId"
-                                   placeholder="Record ID"/>
+                            <input type="number" class="form-control" name="seatA" id="seatA"/>
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="seatB" class="col-sm-2 control-label">高级座购买数</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="seatB" id="seatB"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="seatC" class="col-sm-2 control-label">普通座购买数</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="seatC" id="seatC"/>
+                        </div>
+                    </div>
+
+
+
                 </div>
+                <!---->
+                <!--<div id="outRecord">-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="recordId" class="col-sm-2 control-label">Record ID</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="text" class="form-control" name="recordId" id="recordId"-->
+                                   <!--placeholder="Record ID"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10   col-md-4">
-                        <button type="submit" class=" btn btn-primary modal-apply">Apply</button>
-                        <a href="#" class="btn btn-danger modal-cancel">Cancel</a>
+                        <button type="submit" class=" btn btn-primary modal-apply">提交</button>
+                        <a href="#" class="btn btn-danger modal-cancel">取消</a>
 
                     </div>
 
@@ -224,130 +314,103 @@
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/promptForm.js" th:src="@{/js/promptForm.js}"></script>
 <script th:inline="javascript">
-    $('#discountGroup').hide();
-    $('.modal-apply').on('click', function (e) {
-        e.preventDefault();
-        var $form = $(this).parent().parent().parent();
-        var inOrOut = $("#inOrOut").find("option:selected").val();
+    <!---->
+
+   $('#discountGroup').hide();
+
+   $('.modal-apply').on('click', function (e) {
+       e.preventDefault();
+       var $form = $(this).parent().parent().parent();
 
 
-        var personNum = $form.find('input[name="personNum"]').val();
-        var personMes = $form.find('input[name="personMes"]').val();
-        var isMember = $("#isMember").find("option:selected").val();
-        var payMethod = $form.find('select[name="payMethod"]').val();
-        var memberId = $form.find('input[name="memberId"]').val();
-        var hasReserved = $("#hasReserved").find("option:selected").val();
-        if (memberId == '') {
-            memberId = '0';
-        }
-        var roomId = $form.find('input[name="roomId"]').val();
-        var recordId = $form.find('input[name="recordId"]').val();
-        var inputs;
+       // var inOrOut = $("#inOrOut").find("option:selected").val();
+       // var personNum = $form.find('input[name="personNum"]').val();
+       var planID = $form.find('input[name="planID"]').val();
+       var isMember = $("#isMember").find("option:selected").val();
+       // var payMethod = $form.find('select[name="payMethod"]').val();
+       var memberID = $form.find('input[name="memberID"]').val();
+       var seatA = $form.find('input[name="seatA"]').val();
+       var seatB = $form.find('input[name="seatB"]').val();
+       var seatC = $form.find('input[name="seatC"]').val();
 
 
-//        console.log('Now is add' + inOrOut);
-        if (inOrOut === '0') { // in record
-            inputs = {
-                personNum: personNum,
-                personMes: personMes,
-                isMember: isMember,
-                payMethod: payMethod,
-                memberId: memberId,
-                roomId: roomId,
-                hasReserved: hasReserved
-            };
-            $.ajax({
-                type: "POST",
-                url: '/hotel/addInRecords',
-                data: inputs,
-                dataType: 'json',
-                success: function (data) {
-//                    console.log(data);
-                    if (data.result) {
-                        location.reload();
-                    } else {
-                        var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>'
-                        $(".err-msg").html(error_msg);
-                    }
-                }
-            });
-        } else {
-            inputs = {recordId: recordId};
-            $.ajax({
-                type: "POST",
-                url: '/hotel/addOutRecords',
-                data: inputs,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    if (data.result) {
-                        location.reload();
-                    } else {
-                        var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>'
-                        $(".err-msg").html(error_msg);
-                    }
-                }
-            });
-        }
-        console.log(inputs);
-//        var $table = $('.table-responsive');
+       if (memberID == '') {
+           memberID = '-1';
+       }
 
+       var inputs = {
+           planID : planID ,
+           memberID: memberID,
+           seatA :seatA ,
+           seatB :seatB ,
+           seatC :seatC
+       };
+
+       $.ajax({
+           type: "POST",
+           url: '/site/doBuyOffline',
+           data: inputs,
+           dataType: 'json',
+           success: function (data) {
+//                   console.log(data);
+               if (data.result) {
+                   location.reload();
+               } else {
+                   var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>'
+                   $(".err-msg").html(error_msg);
+               }
+           }
+       });
+
+       console.log(inputs);
+
+   });
+
+
+    var $cancelButton = $('.cancelButton');
+    var $cancel = $('#goCancel');
+    var recordToCancel = 0;
+    var inp = [] ;
+    //页面上的'退订'链接
+    $cancelButton.on('click' , function () {
+        recordToCancel = $(this).attr('name');
     });
 
-    $("#inOrOut").change(function () {
-        var $selected = $("#inOrOut").find("option:selected");
-        console.log($selected.val());
-        if ($selected.val() === '0') {
-            $('#outRecord').fadeOut();
-            $('#inRecord').fadeIn();
-        } else {
-            $('#inRecord').fadeOut();
-            $('#outRecord').fadeIn();
-        }
-
-    }).change();
-
-    $('#memberId').focusout(function () {
-        var memberId = $('#memberId').val();
-        console.log('lose focus');
+    //点击'确定退款'
+    $cancel.on('click' , function () {
+        inp = {recordToCancel:recordToCancel};
+        url = '/member/cancel';
+        console.log(inp) ;
+        callAjax(inp,url);
+    });
+    function callAjax(inputs, url) {
         $.ajax({
-            url :'/hotel/getDiscount',
-            data:{memberId: memberId},
-            dataType: "text",
+            type: "POST",
+            url: url,
+            data: inp,
+            dataType: 'json',
             success: function (data) {
-                console.log('s' + data);
-                if (parseInt(data) >= 0) {
-                    console.log('s' + data);
-                    document.getElementById('discount').setAttribute('value' , data + '%');
-                    $('#discountGroup').fadeIn();
-                } else {
-                    $('#discountGroup').fadeOut();
-                }
+                if(data.result>=0)
+                    location.href = "/site/buyOffline" ;
+                else
+                    alert("操作失败.错误码:"+data.result);
             }
         });
-
-
-
-
-
-
-
-
-    });
+    }
 
     $("#isMember").change(function () {
-        var $selected = $("#isMember").find("option:selected");
+       var $selected = $("#isMember").find("option:selected");
 //        console.log($selected.val());
-        if ($selected.val() === '1') {
-            $('#memberIDDiv').fadeIn();
-            $("#payMethod").append('<option value="0">Member Card</option>');
-        } else {
-            $('#memberIDDiv').fadeOut();
-            $("#payMethod").find('option[value="0"]').remove();
+       if ($selected.val() === '1') {
+           $('#memberIDDiv').fadeIn();
+           $("#payMethod").append('<option value="0">Member Card</option>');
+       } else {
+           $('#memberIDDiv').fadeOut();
+           $("#payMethod").find('option[value="0"]').remove();
 
-        }
+       }
 
-    }).change();
+   }).change();
 
 
 </script>

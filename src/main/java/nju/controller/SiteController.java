@@ -94,6 +94,8 @@ public class SiteController {
     @RequestMapping("/plansShow")
     public String plansShow(Model model,@SessionAttribute("siteID") int siteID ,
                  @RequestParam(value = "page", defaultValue = "0") int page) {
+
+        model.addAttribute("siteID",siteID);
         model.addAttribute( "site" , siteService.getSiteInfo(siteID)) ;
         model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,page) );
         model.addAttribute( SystemDefault.CURRENT_PAGE, page);
@@ -104,6 +106,7 @@ public class SiteController {
     public String addPlan(Model model, @SessionAttribute("siteID")int siteID) {
 
         List<PlanApply> list = planService.getPlanApplyBySiteID(siteID)  ;
+        model.addAttribute("siteID",siteID);
         model.addAttribute("plans",list) ;
 
         return "site/addPlan" ;
@@ -119,6 +122,31 @@ public class SiteController {
         Map<String,Object> result = new TreeMap<>() ;
         result.put("result",true) ;
 
+        return result;
+    }
+
+
+    @RequestMapping("/buyOffline")
+    public String buyOffline(@SessionAttribute("siteID")int siteID,Model model){
+        model.addAttribute("siteID", siteID);
+        model.addAttribute("siteTR", siteService.getSiteTRList(siteID));
+        return "site/buyOffline" ;
+    }
+
+
+    @PostMapping("/doBuyOffline")
+    @ResponseBody
+    public Map<String,Object> doBuyOffline(int planID,int memberID, int seatA,int seatB,int seatC ) {
+
+        int code = siteService.doBuyOffline(planID,memberID,seatA,seatB,seatC) ;
+
+        Map<String,Object> result = new TreeMap<>() ;
+        if(code>=0) {
+            result.put("result",true) ;
+        } else {
+            result.put("result",false) ;
+            result.put("reason",code) ;
+        }
         return result;
     }
 }

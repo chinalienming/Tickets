@@ -22,6 +22,7 @@ public class PlanApply {
     private double original_price_A ;
     private double original_price_B ;
     private double original_price_C ;
+    private int state ;
 
     public PlanApply() {}
 
@@ -120,5 +121,8 @@ public class PlanApply {
         this.original_price_C = price ;
     }
 
-
+    @Basic
+    @Column(name = "state",nullable = false )
+    public int getState(){return this.state;}
+    public void setState(int s){this.state=s;}
 }

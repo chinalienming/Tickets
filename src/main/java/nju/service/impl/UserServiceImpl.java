@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     public boolean activatAccount(int userID){
         User user = userRepository.findById(userID).get();
         if(user==null)
-            return false ;
+        return false ;
         user.setActivated(true);
         user.setHasLoginQualification(true);
         userRepository.save(user) ;
@@ -123,9 +123,15 @@ public class UserServiceImpl implements UserService {
 
 
     public boolean drawback(int userID, double return_amount, TicketRecord tr){  // need credit punishment ?
-        UserInfo userInfo = getUserInfo(userID) ;
-        userInfo.drawback(return_amount,tr);
-        userInfoRepository.save(userInfo) ;
+
+        if(userID>0) {
+            UserInfo userInfo = getUserInfo(userID) ;
+            userInfo.drawback(return_amount,tr);
+            userInfoRepository.save(userInfo) ;
+        }
+
+        tr.setCreditAdd(0);// clear.
+        tr.setIsValid(SystemDefault.RECORD_STATE_CANCEL);
         ticketRecordRepository.save(tr) ;
         return true ;
     }
@@ -261,6 +267,7 @@ public class UserServiceImpl implements UserService {
 
     public List<PayMessage> getPayMessage(int userID) {
         List<PayMessage> list = payMessageRepository.findByUserID(userID) ;
+        Collections.reverse(list);
         return list ;
     }
 

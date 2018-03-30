@@ -44,6 +44,10 @@ public class SystemDefault {
     public static final int RECORD_STATE_CANCEL = 2;
     public static final int RECORD_STATE_TIMEOUT = 3 ;
 
+    public static final int RECORD_PAYTYPE_NOTPAY = -1 ;
+    public static final int RECORD_PAYTYPE_CASH = 0 ;
+    public static final int RECORD_PAYTYPE_BALANCE = 1 ;
+    public static final int RECORD_PAYTYPE_ALIPAY = 2;
     /**
      * Credit Rule
      */

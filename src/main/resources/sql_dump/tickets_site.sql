@@ -8,7 +8,7 @@ CREATE TABLE tickets.site
     num_c int(11) DEFAULT '10' NOT NULL,
     income double DEFAULT '0' NOT NULL,
     picUrl varchar(50)
-) DEFAULT CHARACTER SET utf8 ;
+);
 INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (1, 'Rogers', '2-2-1 Nishi-Shinjuku, Shinjuku-ku ,Shinjuku/Nakano,Tokyo,Japan', 20, 20, 20, 0, '/img/site/site4.jpg');
 INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (2, 'Bird Nest', '1-3277-7 Iojimamachi ,Nagasaki,Japan', 20, 20, 20, 0, '/img/site/site8.jpg');
 INSERT INTO tickets.site (site_id, site_name, address, num_a, num_b, num_c, income, picUrl) VALUES (3, 'CN Tower', '10-30 Takanawa 4-chome, Minato-ku ,Shinagawa,Tokyo,Japan', 20, 20, 20, 0, '/img/site/site9.jpg');

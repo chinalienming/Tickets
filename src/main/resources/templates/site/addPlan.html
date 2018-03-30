@@ -44,7 +44,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, <span class="caret" th:text="${site.siteName} <span class="caret"></span></a>
+                       aria-expanded="false">Welcome, <span class="caret" th:text="${siteID}"></span></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
                     </ul>
@@ -73,6 +73,7 @@
                     <th>豪华座价格</th>
                     <th>高等座价格</th>
                     <th>普通座价格</th>
+                    <th>审核状态</th>
                 </tr>
 
                 <tr th:each="plan : ${plans}"   >
@@ -84,7 +85,15 @@
                     <td th:text="${plan.original_price_A}"> 9999</td>
                     <td th:text="${plan.original_price_B}"> 8000</td>
                     <td th:text="${plan.original_price_C}"> 5000</td>
-
+                    <td th:if="${plan.state==0}" th:text = "审核中">
+                        审核中
+                    </td>
+                    <td th:if="${plan.state==1}" th:text = "通过">
+                        通过
+                    </td>
+                    <td th:if="${plan.state==2}" th:text = "拒绝">
+                        拒绝
+                    </td>
                 </tr>
             </table>
         </div>
