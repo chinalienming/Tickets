@@ -15,9 +15,13 @@ public interface TicketRecordRepository extends JpaRepository<TicketRecord,Integ
 
     List<TicketRecord> findByUserID(int userID);
 
+    List<TicketRecord> findBySiteID(int siteID) ;
+
     Page<TicketRecord> findByUserID(int userID, Pageable pageRequest);
 
     List<TicketRecord> findByUserIDAndIsValid(int userID,int isValid);
 
     List<TicketRecord> findBySiteIDAndPayType(int siteID,int payType);
+
+    List<TicketRecord> findBySiteIDAndIsValid(int siteID,int isValid);
 }

@@ -67,12 +67,12 @@ public class SiteController {
      * 一般在异步获取数据时使用，通常是在使用 @RequestMapping 后，返回值通常解析为跳转路径，
      * 加上 @Responsebody 后返回结果不会被解析为跳转路径，而是直接写入HTTP 响应正文中。
      */
-    @RequestMapping("/plan_detail")
-    public String plan_detail(Model model,
-                              @RequestParam(value = "planID") int planID ) {
-        model.addAttribute( SystemDefault.PLAN_DETAIL, planService.getPlanByID(planID) ) ;
-        return "redirect:/plan/detail";
-    }
+//    @RequestMapping("/plan_detail")
+//    public String plan_detail(Model model,
+//                              @RequestParam(value = "planID") int planID ) {
+//        model.addAttribute( SystemDefault.PLAN_DETAIL, planService.getPlanByID(planID) ) ;
+//        return "redirect:/plan/detail";
+//    }
 
 
     @PostMapping(value = "/edit" )
@@ -149,4 +149,30 @@ public class SiteController {
         }
         return result;
     }
+
+    @RequestMapping("/statistics")
+    public String statistics(@SessionAttribute("siteID")int siteID,Model model){
+        model.addAttribute("siteID", siteID);
+        return "site/statistics" ;
+    }
+
+    @RequestMapping("/recentIncome")
+    @ResponseBody
+    public Map<String,Object> recentIncome(@SessionAttribute("siteID")int siteID) {
+        return siteService.getRecentIncome(siteID);
+    }
+
+    @RequestMapping("/cancelStatistics")
+    @ResponseBody
+    public Map<String,Object> cancelStatistics(@SessionAttribute("siteID")int siteID) {
+        return siteService.getCancelStatistics(siteID);
+    }
+
+    @RequestMapping("/consumption")
+    @ResponseBody
+    public Map<String,Object> consumption(@SessionAttribute("siteID")int siteID) {
+        return siteService.getConsumption(siteID);
+    }
+
+
 }

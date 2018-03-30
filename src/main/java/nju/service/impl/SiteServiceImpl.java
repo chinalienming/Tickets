@@ -2,19 +2,18 @@ package nju.service.impl;
 
 import nju.dao.*;
 import nju.entity.*;
-import nju.service.ManagerService;
 import nju.service.PlanService;
 import nju.service.SiteService;
 import nju.service.TicketService;
+import nju.util.Helper;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 /**
  * Created by lienming on 2018/3/10.
  */
@@ -181,4 +180,100 @@ public class SiteServiceImpl implements SiteService {
     public int doBuyOffline(int planID,int userID, int seatA,int seatB,int seatC ) {
         return ticketService.buyTicketOffline(planID,userID,seatA,seatB,seatC) ;
     }
+
+    public Map<String,Object> getRecentIncome(int siteID) {
+
+        List<TicketRecord> trs = ticketRecordRepository.findBySiteID(siteID) ;
+
+        Map<String, Object> result = new TreeMap<>();
+        if (!trs.isEmpty()) {
+            result.put(SystemDefault.HTTP_RESULT, true);
+
+            Map<String, Integer> dateAndNumber = new TreeMap<>();
+
+            trs.forEach(entity -> {
+                String date = Helper.timeToDateString(entity.getCreateTime());
+                if (dateAndNumber.containsKey(date)) {
+                    dateAndNumber.put(date, dateAndNumber.get(date) + 1);
+                } else {
+                    dateAndNumber.put(date, 1);
+                }
+            });
+            result.put("data", dateAndNumber);
+        } else {
+            result.put(SystemDefault.HTTP_RESULT, false);
+            result.put(SystemDefault.HTTP_REASON, "Not any TicketRecord entities data found.");
+        }
+        return result;
+    }
+
+    public Map<String,Object> getCancelStatistics(int siteID) {
+
+        List<TicketRecord> trs = ticketRecordRepository.
+                findBySiteIDAndIsValid(siteID,SystemDefault.RECORD_STATE_CANCEL) ;
+
+        Map<String, Object> result = new TreeMap<>();
+        if (!trs.isEmpty()) {
+            result.put(SystemDefault.HTTP_RESULT, true);
+            Map<String, Integer> dateAndNumber = new TreeMap<>();
+            trs.forEach(entity -> {
+                String date = Helper.timeToDateString(entity.getCreateTime());
+                if (dateAndNumber.containsKey(date)) {
+                    dateAndNumber.put(date, dateAndNumber.get(date) + 1);
+                } else {
+                    dateAndNumber.put(date, 1);
+                }
+            });
+            result.put("data", dateAndNumber);
+        } else {
+            result.put(SystemDefault.HTTP_RESULT, false);
+            result.put(SystemDefault.HTTP_REASON, "Not any TicketRecord entities data found.");
+        }
+        return result;
+    }
+
+    public Map<String,Object> getConsumption(int siteID) {
+
+
+        List<TicketRecord> trs = ticketRecordRepository.findBySiteID(siteID) ;
+
+        Map<String, Object> result = new TreeMap<>();
+
+
+        if (!trs.isEmpty()) {
+            result.put(SystemDefault.HTTP_RESULT, true);
+
+            Map<String, Integer> typeAndNumber = new TreeMap<>();
+
+            typeAndNumber.put("balance", 0);
+            typeAndNumber.put("cash", 0);
+            typeAndNumber.put("alipay", 0);
+
+            trs.forEach(entity -> {
+                switch (entity.getPayType()) {
+                    case 0:
+                        typeAndNumber.put("cash", typeAndNumber.get("cash") + 1);
+                        break;
+                    case 1:
+                        typeAndNumber.put("balance", typeAndNumber.get("balance") + 1);
+                        break;
+                    case 2:
+                        typeAndNumber.put("alipay", typeAndNumber.get("alipay") + 1);
+                        break;
+                }
+
+
+            });
+            result.put("data", typeAndNumber);
+
+
+        } else {
+            result.put(SystemDefault.HTTP_RESULT, false);
+            result.put(SystemDefault.HTTP_REASON, "Not any ticket record entities data found.");
+        }
+
+
+        return result;
+    }
+
 }

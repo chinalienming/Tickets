@@ -42,11 +42,14 @@
 		record - 现场购票
 		检票登记
 		statistics - 数据
+		    -近6日每日 该场馆订票数
+		    -支付手段占比
 
 	-经理
 		index 审批开放/编辑申请
 		settlement 结算
 		statistics - 数据
+
 
 
 		·现场购票
