@@ -59,21 +59,6 @@ public class TicketServiceImpl implements TicketService {
 
     }
 
-    public boolean setTimeOut(int recordID) {
-        TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
-        tr.setIsValid(SystemDefault.RECORD_STATE_TIMEOUT) ;
-
-        List<String> list = new ArrayList<>();
-        list.add(tr.getSeatNumber()) ;
-        //unlocked tickets
-        boolean unlockSeatSuccess =
-                seatService.unlockSeat(tr.getUserID(),tr.getPlanID(),list,false);
-        if(!unlockSeatSuccess) {
-            return false ;
-        }
-
-        return true ;
-    }
 
     /**
      * ticket transaction WITH seat position demand
@@ -369,6 +354,30 @@ public class TicketServiceImpl implements TicketService {
     TicketRecord findRecord(int recordID) {
         return ticketRecordRepository.findById(recordID).get() ;
     }
+
+    public List<TicketRecord> getUnpayRecord() {
+        return ticketRecordRepository.findByIsValid(SystemDefault.RECORD_STATE_WAITPAY) ;
+    }
+
+    public boolean setTimeOut(int recordID) {
+//        System.out.println("settimeout");
+        TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
+        tr.setIsValid(SystemDefault.RECORD_STATE_TIMEOUT) ;
+        tr.setUserID(SystemDefault.SEAT_FREE);
+        ticketRecordRepository.save(tr);
+
+        List<String> list = new ArrayList<>();
+        list.add(tr.getSeatNumber()) ;
+        //unlocked tickets
+        boolean unlockSeatSuccess =
+                seatService.unlockSeat(tr.getUserID(),tr.getPlanID(),list,false);
+        if(!unlockSeatSuccess) {
+            return false ;
+        }
+
+        return true ;
+    }
+
 
 
 }

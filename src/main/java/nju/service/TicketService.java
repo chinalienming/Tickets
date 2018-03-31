@@ -41,4 +41,6 @@ public interface TicketService {
 
     boolean setTimeOut(int recordID) ;
 
+    public List<TicketRecord> getUnpayRecord() ;
+
 }
