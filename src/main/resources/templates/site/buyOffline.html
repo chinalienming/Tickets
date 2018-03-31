@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
-    <title>现场购票</title>
+    <title>Ticket - 场馆 - 现场购票</title>
 </head>
 <body>
 
@@ -35,7 +35,7 @@
 
                 <li><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
 
-                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+                <li><a href="addPlan.html" th:href="@{addPlan}">发布活动</a></li>
 
                 <li class="active"><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
 
@@ -47,7 +47,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Welcome,<span class="caret" th:text="${siteID}"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../account/index.html" th:href="@{/site/logout}">Sign out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -150,14 +150,14 @@
     </div>
 </div>
 
-<!--Point Convert内容-->
+<!--检票内容-->
 <div class="modal fade" id="pointConvertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">兑换</h4>
+                <h4 class="modal-title">检票</h4>
             </div>
             <form class="form-horizontal" action="buyOffline.html" th:action="@{/site/check}" method="post">
                 <div class="modal-body">
@@ -403,6 +403,7 @@
     var $cancel = $('#goCancel');
     var recordToCancel = 0;
     var inp = [] ;
+
     //页面上的'退订'链接
     $cancelButton.on('click' , function () {
         recordToCancel = $(this).attr('name');
@@ -415,15 +416,22 @@
         console.log(inp) ;
         callAjax(inp,url);
     });
-    function callAjax(inputs, url) {
+
+    function callAjax(inp, url) {
         $.ajax({
             type: "POST",
             url: url,
             data: inp,
             dataType: 'json',
             success: function (data) {
-                if(data.result>=0)
+                if(data.result>=0){
+                    if(data.result==0)
+                        alert("退订成功");
+                    else if(data.result==1)
+                        alert("检票成功");
+
                     location.href = "/site/buyOffline" ;
+                }
                 else
                     alert("操作失败.错误码:"+data.result);
             }
@@ -444,6 +452,15 @@
 
    }).change();
 
+
+    var $convert = $('#pointConvertModal');
+    $('.convert').on('click' , function () {
+        var recordID = $convert.find('input[name="recordID"]').val();
+        inp = {recordID:recordID};
+        console.log(inp);
+        url = '/site/check';
+        callAjax(inp,url );
+    });
 
 </script>
 </body>

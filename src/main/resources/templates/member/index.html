@@ -24,7 +24,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
-    <title>Member Statistics</title>
+    <title>Ticket - 会员 - 记录</title>
 </head>
 <body>
 
@@ -314,11 +314,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="checkbox" name="useBenefit" id="useBenefit" />使用优惠券
+                    <input type="number" name="benefit" value="10" id="benefit"
+                           th:max="userInfo.benefit" th:text="${'剩余'+userInfo.benefit+'元'}">
                     <button type="button" class="btn" data-dismiss="modal">关闭</button>
-                    <button type="button" id="balance" class="btn btn-default" data-dismiss="modal">账户余额</button>
+                    <button type="button" id="balance"  class="btn btn-default" data-dismiss="modal">账户余额</button>
                     <button type="button" id="external" class="btn btn-default" data-dismiss="modal">支付宝</button>
                 </div>
-
             </form>
 
             <div class="err-msg"></div>
@@ -347,6 +349,9 @@
     var $external = $('#external');
     var recordToBuy = 0;
 
+    var $useBenefit = $('#useBenefit') ;
+    var $benefit = $('#benefit');
+
     //页面上的'退订'链接
     $cancelButton.on('click' , function () {
         recordToCancel = $(this).attr('name');
@@ -366,36 +371,34 @@
 
     //点击'余额付款'
     $balance.on('click',function () {
-        inputs = {recordID:recordToBuy};
-        url = '/payment/payByBalance';
-        callBalance(inputs,url);
+        var be = 0 ;
+        if($useBenefit.prop("checked")) {
+            be = document.getElementById("benefit").value; //$benefit.attr('value');
+        }
+        if(be<[[${userInfo.benefit}]]) {
+            inputs = {recordID: recordToBuy, benefit: be};
+            url = '/payment/payByBalance';
+            callBalance(inputs, url);
+        } else {
+            alert("优惠券不足!");
+        }
     });
 
     //点击'支付宝'
     $external.on('click',function () {
-        inputs = {recordID:recordToBuy};
-        url = '/payment/goPayByExternalAccount?recordID='+recordToBuy;
-        location.href = url ;
-        // url = '/payment/goPayByExternalAccount';
-        // callExternalAccount(inputs,url);
+        var be = 0 ;
+        if($useBenefit.prop("checked")) {
+            be = document.getElementById("benefit").value; //$benefit.attr('value');
+        }
+        if(be<[[${userInfo.benefit}]]) {
+            inputs = {recordID: recordToBuy, benefit: be};
+            url = '/payment/goPayByExternalAccount?recordID=' + recordToBuy;
+            location.href = url;
+        } else {
+            alert("优惠券不足!");
+        }
     });
-    function callExternalAccount(inputs, url) {
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: inputs,
-            dataType: 'html',
-            success: function (data) {
-                location.href = data ;
-                // if(data.result>=0) {
-                //     alert(data.amount) ;
-                //     location.href = "/member/index";
-                // }
-                // else
-                //     alert("操作失败.错误码:"+data.result);
-            }
-        });
-    }
+
 
 
     function callAjax(inputs, url) {

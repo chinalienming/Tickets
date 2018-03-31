@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <link rel="stylesheet" href="../../static/css/other.css" th:href="@{/css/other.css}"/>
-    <title>活动一览</title>
+    <title>Ticket - 场馆 - 活动一览</title>
 </head>
 <body>
 
@@ -41,7 +41,7 @@
                         class="sr-only">(current)</span></a></li>
                 <li class="active"><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
 
-                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+                <li><a href="addPlan.html" th:href="@{addPlan}">发布活动</a></li>
 
                 <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
 
@@ -54,7 +54,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Welcome, <span class="caret" th:text="${siteID}"></span> </span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../user/index.html" th:href="@{../logout}">Sign out</a></li>
+                        <li><a href="../user/index.html" th:href="@{/site/logout}">Sign out</a></li>
                         <!--<li><a href="../user/register.html" th:href="@{../register}">Register</a></li>-->
                     </ul>
                 </li>
@@ -100,10 +100,10 @@
                             <td>End Time</td>
                             <td th:text="${plan.endTime}">2018-02-03</td>
                         </tr>
-                        <tr>
-                            <td>座位数(豪华/高级/普通)</td>
-                            <td th:text="${plan.seat_A}+','+${plan.seat_B}+','+${plan.seat_C}">100,300,600</td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td>座位数(豪华/高级/普通)</td>-->
+                            <!--<td th:text="${plan.seat_A}+','+${plan.seat_B}+','+${plan.seat_C}">100,300,600</td>-->
+                        <!--</tr>-->
                         <tr>
                             <td>对应票价(RMB)</td>
                             <td th:text="${plan.original_price_A}+','+${plan.original_price_B}+','+${plan.original_price_C}">1000,500,250</td>

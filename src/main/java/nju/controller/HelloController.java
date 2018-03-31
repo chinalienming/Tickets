@@ -1,5 +1,6 @@
 package nju.controller;
 
+import nju.service.ManagerService;
 import nju.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,8 @@ public class HelloController {
 
     @Autowired
     private SiteService siteService ;
-
+    @Autowired
+    private ManagerService managerService;
 
     @RequestMapping(value = "/")
     public String helloUser(){
@@ -49,8 +51,9 @@ public class HelloController {
         int id = siteService.register(siteStr,password) ;
         Map<String,Object> result = new TreeMap<>() ;
 
+        String str_id = String.format("%07d", id);
 
-        result.put("result_id",id) ;
+        result.put("result_id",str_id) ;
 
         return result;
     }
@@ -75,6 +78,7 @@ public class HelloController {
         }
 
         model.addAttribute("siteID",siteID) ;
+        model.addAttribute("siteState",siteService.getSiteState(siteID));
         model.addAttribute("site",siteService.getSiteInfo(siteID)) ;
         session.setAttribute("siteID",siteID);
         return "site/info";
@@ -90,7 +94,6 @@ public class HelloController {
     /****
      *  Manager
      */
-
     @RequestMapping(value = "/manager")
     public String helloManager(){
         return "manager/login";
@@ -98,12 +101,29 @@ public class HelloController {
 
 
     @PostMapping(value = "/manager/login")
-    public String doManagerLogin(HttpSession session,
+    public String doManagerLogin(HttpSession session,Model model,
                               @RequestParam("managerID") String mStr,
                               @RequestParam("password") String password){
-
         int managerID = Integer.parseInt(mStr) ;
+
+
+        int result_code = managerService.login(managerID,password) ;
+        if(result_code<0) {
+            return "manager/";
+        }
+        session.setAttribute("managerID",managerID);
+        model.addAttribute("managerID",managerID) ;
+        model.addAttribute("num",managerService.getAllApplyNum()) ;
+        model.addAttribute("opens", managerService.getAllOpenApply(0, -1));
+        model.addAttribute("edits", managerService.getAllEditApply(0, -1));
         return "manager/index";
+    }
+
+
+    @RequestMapping(value = "/manager/logout", method = RequestMethod.GET)
+    public String doManagerLogout(HttpSession session) {
+        session.removeAttribute("managerID");
+        return "manager/login";
     }
 
 }

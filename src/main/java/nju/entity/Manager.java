@@ -10,23 +10,24 @@ import javax.persistence.*;
 public class Manager {
 
 
-    private String managerID ;
+    private int managerID ;
 
-    private String managerName ;
+    private String password ;
+
 
     @GeneratedValue
     @Id
     @Column(name = "manager_id", nullable = false)
-    public String getManagerID(){return this.managerID;}
-    public void setManagerID(String managerID){this.managerID=managerID;}
+    public int getManagerID(){return this.managerID;}
+    public void setManagerID(int managerID){this.managerID=managerID;}
 
     @Basic
-    @Column(name = "manager_name", nullable = false, length = 20)
-    public String getManagerName(){
-        return this.managerName ;
+    @Column(name = "password", nullable = false, length = 20)
+    public String getPassword(){
+        return this.password ;
     }
-    public void setManagerName(String name) {
-        this.managerName = name ;
+    public void setPassword(String pwd) {
+        this.password = pwd ;
     }
 
 

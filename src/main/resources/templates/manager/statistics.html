@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <script src="../../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
-    <title>Manager Statistics</title>
+    <title>Ticket - 经理 - 统计</title>
 </head>
 <body>
 
@@ -23,17 +23,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html" th:href="@{index}">Hostel World</a>
+            <a class="navbar-brand" href="index.html" th:href="@{index}">Ticket</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li ><a href="index.html" th:href="@{index}">Message<span class="badge">4</span><span
-                        class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="statistics.html" th:href="@{statistics}">Hotel Statistics</a></li>
-                <li><a href="settlement.html" th:href="@{settlements}">Hotel Settlement</a></li>
-
+                <li><a class="" href="index.html" th:href="@{index}">审批
+                     <span class="sr-only">(current)</span></a></li>
+                <li><a href="settlement.html" th:href="@{settlement}">结算</a></li>
+                <li class="active"><a href="statistics.html" th:href="@{statistics}" >统计</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -41,8 +40,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
+                        <li><a href="../manager/index.html" th:href="@{/manager/logout}">登出</a></li>
                     </ul>
                 </li>
             </ul>
@@ -53,19 +51,17 @@
 
 <div class="mainpage">
 
-    <h2> Hotel Status</h2>
+    <h2> 各场馆统计</h2>
     <div id="hotel" style="width: 1100px;height:400px;"></div>
 
-    <h2> Member Status</h2>
+    <h2> 会员统计</h2>
     <div id="member" style="width: 1100px;height:400px;"></div>
 
-    <h2> Finance Status</h2>
+    <h2> Ticket财务情况</h2>
     <div id="finance" style="width: 1100px;height:400px;"></div>
     <div class="err-msg"></div>
 
 </div>
-
-<div th:include="footer :: copy"></div>
 
 
 <!--Scripts-->
@@ -86,7 +82,7 @@
             }
         },
         legend: {
-            data:['Reserved','Under Use','Available']
+            data:['cash','balance','alipay']
         },
         grid: {
             left: '3%',
@@ -97,7 +93,7 @@
         xAxis : [
             {
                 type : 'category',
-                data : ['Hotel Name','Hotel Name','Hotel Name','Hotel Name','Hotel Name','Hotel Name','Hotel Name']
+                data : ['Site Name','Site Name','Site Name','Site Name','Site Name','Site Name','Site Name']
             }
         ],
         yAxis : [
@@ -107,19 +103,19 @@
         ],
         series : [
             {
-                name:'Reserved',
+                name:'cash',
                 type:'bar',
                 stack: 'Room Status',
                 data:[620, 732, 701, 734, 1090, 1130, 1120]
             },
             {
-                name:'Under Use',
+                name:'balance',
                 type:'bar',
                 stack: 'Room Status',
                 data:[120, 132, 101, 134, 290, 230, 220]
             },
             {
-                name:'Available',
+                name:'alipay',
                 type:'bar',
                 stack: 'Room Status',
                 data:[60, 72, 71, 74, 190, 130, 110]
@@ -129,16 +125,16 @@
     hotelChart.setOption(hotelOption);
 
     $.ajax({
-        url: '/manager/hotelStatus',
+        url: '/manager/siteStatus',
         data: '',
         dataType: 'json',
         success: function (data) {
 //            console.log(data);
             if (data.result) {
-                hotelOption.xAxis[0].data = Object.keys(data.hotelNameList).map(function(k) { return data.hotelNameList[k] });
-                hotelOption.series[0].data = Array.from(data.reserved);
-                hotelOption.series[1].data = Array.from(data.underUse);
-                hotelOption.series[2].data = Array.from(data.available);
+                hotelOption.xAxis[0].data = Object.keys(data.nameList).map(function(k) { return data.nameList[k] });
+                hotelOption.series[0].data = Array.from(data.cash);
+                hotelOption.series[1].data = Array.from(data.balance);
+                hotelOption.series[2].data = Array.from(data.alipay);
 //                console.log(hotelOption);
                 hotelChart.setOption(hotelOption);
             } else {
@@ -159,7 +155,7 @@
             }
         },
         legend: {
-            data:['Reserved Time','Live Time','RechargeTime']
+            data:['cash','balance','alipay']
         },
         grid: {
             left: '3%',
@@ -176,25 +172,25 @@
         ],
         yAxis : [
             {
-                name: 'Time Count',
+                name: '支付金额',
                 type : 'value'
             }
         ],
         series : [
             {
-                name:'Reserved Time',
+                name:'Cash',
                 type:'bar',
                 stack: 'Member Status',
                 data:[620, 732, 701, 734, 1090, 1130, 1120]
             },
             {
-                name:'Live Time',
+                name:'Balance',
                 type:'bar',
                 stack: 'Member Status',
                 data:[120, 132, 101, 134, 290, 230, 220]
             },
             {
-                name:'RechargeTime',
+                name:'alipay',
                 type:'bar',
                 stack: 'Member Status',
                 data:[60, 72, 71, 74, 190, 130, 110]
@@ -209,10 +205,10 @@
         success: function (data) {
             console.log(data);
             if (data.result) {
-                liveOption.xAxis[0].data = Object.keys(data.userIdList).map(function(k) { return data.userIdList[k] });
-                liveOption.series[0].data = Array.from(data.reservedTime);
-                liveOption.series[1].data = Array.from(data.liveTime);
-                liveOption.series[2].data = Array.from(data.rechargeTime);
+                liveOption.xAxis[0].data = Object.keys(data.userIDList).map(function(k) { return data.userIDList[k] });
+                liveOption.series[0].data = Array.from(data.cash);
+                liveOption.series[1].data = Array.from(data.balance);
+                liveOption.series[2].data = Array.from(data.alipay);
                 console.log(liveOption);
                 memberChart.setOption(liveOption);
             } else {
@@ -232,7 +228,7 @@
             }
         },
         legend: {
-            data:['Member Card','Cash','Credit Card']
+            data:['cash','balance','alipay']
         },
         grid: {
             left: '3%',
@@ -244,7 +240,7 @@
             {
                 name: 'Time',
                 type : 'category',
-                data : ["12-7","12-8","12-9","12-10","12-11","12-12"]
+                data : ["3-7","3-8","3-9","3-10","3-11","3-12"]
             }
         ],
         yAxis : [
@@ -255,19 +251,19 @@
         ],
         series : [
             {
-                name:'Member Card',
+                name:'cash',
                 type:'bar',
                 stack: 'Day Income',
                 data:[620, 732, 701, 734, 1090, 1130, 1120]
             },
             {
-                name:'Cash',
+                name:'balance',
                 type:'bar',
                 stack: 'Day Income',
                 data:[120, 132, 101, 134, 290, 230, 220]
             },
             {
-                name:'Credit Card',
+                name:'alipay',
                 type:'bar',
                 stack: 'Day Income',
                 data:[60, 72, 71, 74, 190, 130, 110]
@@ -284,9 +280,9 @@
             console.log(data);
             if (data.result) {
                 financeOption.xAxis[0].data = Object.keys(data.date).map(function(k) { return data.date[k] });
-                financeOption.series[0].data = Array.from(data.memberCardList);
-                financeOption.series[1].data = Array.from(data.cashList);
-                financeOption.series[2].data = Array.from(data.creditCardList);
+                financeOption.series[0].data = Array.from(data.cash);
+                financeOption.series[1].data = Array.from(data.balance);
+                financeOption.series[2].data = Array.from(data.alipay);
                 console.log(liveOption);
                 financeChart.setOption(liveOption);
             } else {

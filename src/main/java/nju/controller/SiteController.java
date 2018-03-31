@@ -1,6 +1,7 @@
 package nju.controller;
 
 import nju.entity.PlanApply;
+import nju.entity.SitePlan;
 import nju.service.PlanService;
 import nju.service.SiteService;
 import nju.util.SystemDefault;
@@ -48,6 +49,7 @@ public class SiteController {
     @RequestMapping("/info")
     public String info(Model model, @SessionAttribute("siteID")int siteID) {
 
+        model.addAttribute("siteState",siteService.getSiteState(siteID));
         model.addAttribute( "site" , siteService.getSiteInfo(siteID) );
 
 
@@ -105,7 +107,7 @@ public class SiteController {
     @RequestMapping("/addPlan")
     public String addPlan(Model model, @SessionAttribute("siteID")int siteID) {
 
-        List<PlanApply> list = planService.getPlanApplyBySiteID(siteID)  ;
+        List<SitePlan> list = planService.getPlanBySiteID(siteID) ;
         model.addAttribute("siteID",siteID);
         model.addAttribute("plans",list) ;
 
@@ -172,6 +174,12 @@ public class SiteController {
     @ResponseBody
     public Map<String,Object> consumption(@SessionAttribute("siteID")int siteID) {
         return siteService.getConsumption(siteID);
+    }
+
+    @PostMapping("/check")
+    @ResponseBody
+    public Map<String,Object> check(int recordID) {
+        return siteService.check(recordID) ;
     }
 
 

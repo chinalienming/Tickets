@@ -1,5 +1,6 @@
 package nju.service.impl;
 
+import io.swagger.models.auth.In;
 import nju.dao.*;
 import nju.entity.*;
 import nju.service.FinanceService;
@@ -271,4 +272,13 @@ public class UserServiceImpl implements UserService {
         return list ;
     }
 
+    public List<Integer> getAllUserID() {
+        List<Integer> res = new ArrayList<>() ;
+        userRepository.findAll().forEach(
+                user -> {
+                    res.add(user.getUserID());
+                }
+        );
+        return res;
+    }
 }

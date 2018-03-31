@@ -53,5 +53,6 @@ public interface UserService {
 
     int froze(int userID,String pwd) ;
 
+    List<Integer> getAllUserID();
 
 }

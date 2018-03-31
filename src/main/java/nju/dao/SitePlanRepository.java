@@ -15,4 +15,5 @@ public interface SitePlanRepository extends JpaRepository<SitePlan,Integer>{
     List<SitePlan> findBySiteID(int siteID) ;
 
     Page<SitePlan> findBySiteID(int siteID, Pageable pageRequest) ;
+
 }

@@ -37,6 +37,10 @@ public class SiteServiceImpl implements SiteService {
     private PlanApplyRepository planApplyRepository ;
     @Autowired
     private TicketRecordRepository ticketRecordRepository ;
+    @Autowired
+    private SitePlanRepository sitePlanRepository ;
+    @Autowired
+    private SeatRepository seatRepository ;
 
     public List<Integer> getAllSiteID () {
         List<Integer> list = new ArrayList<>() ;
@@ -80,6 +84,9 @@ public class SiteServiceImpl implements SiteService {
         return siteRepository.existsBySiteName(siteName) ;
     }
 
+    public List<Site> getAllSite() {
+        return siteRepository.findAll() ;
+    }
 
     public List<Site> getSiteByPage(int page) {
         List<Site> result = new ArrayList<>() ;
@@ -144,9 +151,12 @@ public class SiteServiceImpl implements SiteService {
     }
 
     public void saveOpenApplication(int siteID ,String reason) {
+        Site site = getSiteInfo(siteID) ;
+        String name = site.getSiteName() ;
+
         OpenApply oa = new OpenApply() ;
         oa.setSiteID(siteID);
-        oa.setReason(reason);
+        oa.setReason(name+":"+reason);
         openApplyRepository.save(oa) ;
     }
 
@@ -164,10 +174,32 @@ public class SiteServiceImpl implements SiteService {
         System.out.println(beginTime) ;
         System.out.println(endTime) ;
 
-        PlanApply pa = new PlanApply
-                (siteID,planType,description,beginTime,endTime,price_a,price_b,price_c) ;
+        SitePlan sitePlan = new SitePlan(siteID,planType,description,beginTime,endTime,price_a,price_b,price_c) ;
+        sitePlan = sitePlanRepository.save(sitePlan) ;
+        int planID = sitePlan.getPlanID();
+        System.out.println("planID:"+planID);
 
-        planApplyRepository.save(pa) ;
+        //add seats
+        Site site = getSiteInfo(siteID);
+        int num_a = site.getSeatNumber_A();
+        int num_b = site.getSeatNumber_B();
+        int num_c = site.getSeatNumber_C();
+        int[] num = {num_a,num_b,num_c} ;
+
+        for(int p=0;p<num.length;p++) {
+            char type = (char) ('A' + p);
+            for (int i = 1; i <= num[p]; i++) {
+                String seatNum = String.format("%02d", i);
+                seatNum = type + seatNum;
+                System.out.println(seatNum);
+                Seat seat = new Seat(planID, seatNum);
+                seatRepository.save(seat);
+            }
+        }
+//        PlanApply pa = new PlanApply
+//                (siteID,planType,description,beginTime,endTime,price_a,price_b,price_c) ;
+
+//        planApplyRepository.save(pa) ;
 
     }
 
@@ -272,8 +304,29 @@ public class SiteServiceImpl implements SiteService {
             result.put(SystemDefault.HTTP_REASON, "Not any ticket record entities data found.");
         }
 
-
         return result;
     }
+
+    public Map<String,Object> check(int recordID) {
+        Map<String, Object> result = new TreeMap<>();
+
+        TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
+        if(tr.getIsValid()!=SystemDefault.RECORD_STATE_PAYED)
+        {
+            result.put("result",-1) ;
+            result.put("msg","state error" ) ;
+        }
+
+        tr.setIsValid(SystemDefault.RECORD_STATE_CHECKED);
+        ticketRecordRepository.save(tr);
+        result.put("result",1) ;
+        return result ;
+    }
+
+    public boolean getSiteState(int siteID) {
+        SiteAccount sa = siteAccountRepository.findById(siteID).get() ;
+        return sa.getActive() ;
+    }
+
 
 }

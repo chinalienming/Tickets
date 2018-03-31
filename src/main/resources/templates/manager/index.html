@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
-    <title>Hotel Index</title>
+    <title>Ticket - 经理 - 审批</title>
 </head>
 <body>
 
@@ -22,26 +22,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html" th:href="@{index}">Hostel World</a>
+            <a class="navbar-brand" href="index.html" th:href="@{index}">Ticket</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a class="" href="index.html" th:href="@{index}">Message<span
-                        class="badge">4</span><span
+                <li class="active"><a class="" href="index.html" th:href="@{index}">审批
+                    <span class="badge" th:if="${num>0}" th:text="${num}"></span><span
                         class="sr-only">(current)</span></a></li>
-                <li><a href="statistics.html" th:href="@{statistics}">Hotel Statistics</a></li>
-                <li><a href="settlement.html" th:href="@{settlements}">Hotel Settlement</a></li>
+                <li><a href="settlement.html" th:href="@{settlement}">结算</a></li>
+                <li><a href="statistics.html" th:href="@{statistics}" >统计</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, Smith <span class="caret"></span></a>
+                       aria-expanded="false">Welcome,<span class="caret" th:text="${managerID}"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
+                        <li><a href="../manager/index.html" th:href="@{/manager/logout}">登出</a></li>
                     </ul>
                 </li>
             </ul>
@@ -51,29 +50,33 @@
 
 
 <div class="mainpage">
-    <div>
+
+    <div id="openTable">
         <div class="panel panel-info">
             <!-- Default panel contents -->
-            <div class="panel-heading">Open Applications</div>
+            <div class="panel-heading">场馆上线申请</div>
             <div class="table-responsive ">
-                <table class="table table-hover" id="openTable">
+                <table class="table table-hover" >
                     <tr>
-                        <th>Check</th>
-                        <th>No</th>
-                        <th>Time</th>
-                        <th>Hotel</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>选择</th>
+                        <th>上线申请ID</th>
+                        <th>场馆ID</th>
+                        <th>详情</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
+
                     <tr th:each="open : ${opens}"
-                        th:class="(${open.status == 0}) ? 'info' :  ((${open.status == 1}) ? 'success' :  'danger')">
-                        <td><input th:if="${open.status==0}" title="order" type="checkbox" th:name="${open.id}"/></td>
-                        <td th:text="${#numbers.formatInteger(open.id,7)}">0000001</td>
-                        <td th:text="${#dates.format(new java.util.Date(open.time),'dd/MM/yyyy')}">2016-3-19</td>
-                        <td th:text="${open.hotelId}">Shanghai Hotel</td>
-                        <td th:text="${open.reason}">Big Room1</td>
-                        <td th:text="(${open.status == 0}) ? 'Not Deal Yet' :  ((${open.status == 1}) ? 'Approved' :  'Denied')">
+                        th:class="(${open.state == 0}) ? 'info' :  ((${open.state == 1}) ? 'success' :  'danger')">
+
+                        <td><input th:if="${open.state==0}" title="order" type="checkbox" th:name="${open.oaID}"/></td>
+                        <td th:text="${#numbers.formatInteger(open.oaID,7)}">0000001</td>
+                        <td th:text="${#numbers.formatInteger(open.siteID,7)}">0000001</td>
+
+                        <td th:text="${open.reason}">Shanghai Hotel: open !</td>
+
+
+                        <td th:text="(${open.state == 0}) ? '审核中' :  ((${open.state == 1}) ? '通过' :  '拒绝')">
                             2016-3-18 22:25:25
                         </td>
                         <td>
@@ -92,42 +95,48 @@
 
         </div>
         <div class="btn-group">
-            <a href="javascript:" type="button" class="btn btn-primary operation" name="approve">Group Approve</a>
+            <a href="javascript:" type="button" class="btn btn-primary operation" name="approve">批量通过</a>
             <a href="#" type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="javascript:" class="operation" name="deny">Deny</a></li>
+                <li><a href="javascript:" class="operation" name="deny">拒绝</a></li>
             </ul>
         </div>
     </div><!-- End of The first open application part -->
     <div id="editTable" style="margin-top: 20px">
         <div class="panel panel-info" >
-            <div class="panel-heading">Edit Applications</div>
+            <div class="panel-heading">场馆信息修改申请</div>
             <div class="table-responsive ">
                 <table class="table table-hover"  >
                     <tr>
-                        <th>Check</th>
-                        <th>No</th>
-                        <th>Time</th>
-                        <th>Hotel</th>
-                        <th>Status</th>
-                        <th>Detail</th>
-                        <th>Action</th>
+                        <th>选择</th>
+                        <th>修改申请ID</th>
+                        <th>场馆ID</th>
+                        <th>新名称</th>
+                        <th>新地址</th>
+                        <th>新豪华座位数</th>
+                        <th>新高级座位数</th>
+                        <th>新普通座位数</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
                     <tr th:each="edit : ${edits}"
-                        th:class="(${edit.status == 0}) ? 'info' :  ((${edit.status == 1}) ? 'success' :  'danger')">
-                        <td><input th:if="${edit.status==0}" title="order" type="checkbox" th:name="${edit.id}"/></td>
-                        <td th:text="${#numbers.formatInteger(edit.id,7)}">0000001</td>
-                        <td th:text="${#dates.format(new java.util.Date(edit.time),'dd/MM/yyyy')}">2016-3-19</td>
-                        <td th:text="${edit.hotelId}">Shanghai Hotel</td>
-
-                        <td th:text="(${edit.status == 0}) ? 'Not Deal Yet' :  ((${edit.status == 1}) ? 'Approved' :  'Denied')">
+                        th:class="(${edit.state == 0}) ? 'info' :  ((${edit.state == 1}) ? 'success' :  'danger')">
+                        <td><input th:if="${edit.state==0}" title="order" type="checkbox" th:name="${edit.eaID}"/></td>
+                        <td th:text="${#numbers.formatInteger(edit.eaID,7)}">0000001</td>
+                        <td th:text="${#numbers.formatInteger(edit.siteID,7)}">0000002</td>
+                        <td th:text="${edit.newName}">ohaiyo</td>
+                        <td th:text="${edit.newAdd}">LA</td>
+                        <td th:text="${edit.num_a}">20</td>
+                        <td th:text="${edit.num_b}">20</td>
+                        <td th:text="${edit.num_c}">20</td>
+                        <td th:text="(${edit.state == 0}) ? '审核中' :  ((${edit.state == 1}) ? '通过' :  '拒绝')">
                             2016-3-18 22:25:25
                         </td>
-                        <td><a href="javascript:" id="detail">For Detail</a></td>
+                        <!--<td><a href="javascript:" id="detail">For Detail</a></td>-->
                         <td>
                             <a  class="btn-primary operation editTable" name="singleApprove"><span
                                     class="glyphicon glyphicon-ok"
@@ -144,14 +153,14 @@
         </div>
         <!--TODO Add the comparision of old and new hotel -->
         <div class="btn-group">
-            <a href="javascript:" type="button" class="btn btn-primary operation editTable" name="approve">Group Approve</a>
+            <a href="javascript:" type="button" class="btn btn-primary operation editTable" name="approve">批量通过</a>
             <a href="#" type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="javascript:" class="operation editTable" name="deny">Deny</a></li>
+                <li><a href="javascript:" class="operation editTable" name="deny">拒绝</a></li>
             </ul>
         </div>
     </div>
@@ -159,7 +168,6 @@
     <div class="alert alert-danger invisible" role="alert"></div>
 </div>
 
-<div th:include="footer :: copy"></div>
 
 
 <!--Scripts-->
@@ -203,13 +211,21 @@
         if (isSingle) {
             operationArray.push($(this).parent().parent().find('input[type="checkbox"]').attr('name'));
         } else {
-            var checkList = $("#editTable").find('input[type="checkbox"]:checked');
+
+            if(!openOrModify){
+                var checkList = $("#editTable").find('input[type="checkbox"]:checked');
+            } else {
+                var checkList = $("#openTable").find('input[type="checkbox"]:checked');
+            }
+
             checkList.each(function () {
                 operationArray.push($(this).attr('name'));
             });
+
         }
+
         if (operationArray.length == 0) {
-            var error_msg = '<p class="errtip">	<strong>Error</strong>：' + 'No rows are selected' + '</p>';
+            var error_msg = '<p class="errtip">	<strong>失败</strong>：' + '没有选中任何行' + '</p>';
             $(".alert-danger").html(error_msg).removeClass("invisible");
             return;
         }

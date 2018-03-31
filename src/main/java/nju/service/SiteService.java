@@ -47,4 +47,10 @@ public interface SiteService {
     Map<String,Object> getCancelStatistics(int siteID) ;
 
     Map<String,Object> getConsumption( int siteID) ;
+
+    Map<String,Object> check(int recordID) ;
+
+    boolean getSiteState(int siteID) ;
+
+    List<Site> getAllSite() ;
 }

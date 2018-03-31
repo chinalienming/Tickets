@@ -36,11 +36,11 @@ public class FinanceServiceImpl implements FinanceService {
     @Autowired
     private PayMessageRepository payMessageRepository ;
 
-    public double payByBalance(int recordID) {
+    public double payByBalance(int recordID,int benefit) {
         TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
 
         int userID = tr.getUserID() ;
-        double total_price = tr.getPrice() ;
+        double total_price = tr.getPrice() - benefit ;
         int planID = tr.getPlanID() ;
 
         UserInfo userInfo = userInfoRepository.findById(userID).get() ;
@@ -49,9 +49,13 @@ public class FinanceServiceImpl implements FinanceService {
             return -1 ; //error code
         }
 
+
         boolean transferSuccess = requestInternalInterface(userID,planID,total_price) ;
 
         if(transferSuccess) {
+
+            userInfo.setBenefit(userInfo.getBenefit()-benefit);
+            userInfoRepository.save(userInfo);
 
             //about seat , record
             boolean changeStatus = ticketService.setPayed(recordID,SystemDefault.RECORD_PAYTYPE_BALANCE) ;
@@ -67,7 +71,7 @@ public class FinanceServiceImpl implements FinanceService {
         }
     }
 
-    public double payByExternalAccount(int recordID,int accountID,String pwd) {
+    public double payByExternalAccount(int recordID,int userID,int accountID,String pwd,int benefit) {
         TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
 
         if(tr.getIsValid()!=SystemDefault.RECORD_STATE_WAITPAY)
@@ -76,6 +80,11 @@ public class FinanceServiceImpl implements FinanceService {
         double total_price = requestExternalInterface(accountID,pwd,tr.getUserID(),tr.getPlanID(),tr.getPrice());
 
         if(total_price>0) {
+
+
+            UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+            userInfo.setBenefit(userInfo.getBenefit()-benefit);
+            userInfoRepository.save(userInfo);
 
             //about seat , record
             boolean changeStatus = ticketService.setPayed(recordID,SystemDefault.RECORD_PAYTYPE_ALIPAY) ;
@@ -139,6 +148,8 @@ public class FinanceServiceImpl implements FinanceService {
         PayMessage pm = generatePayMessage(userID,SystemDefault.PM_INTERNAL_PAY,-total_price) ;
 
         boolean addToSitePlanSuccess = planService.addIncome(planID, userID, total_price);
+
+
 
         return removeFromUserSuccess && addToSitePlanSuccess ;
     }

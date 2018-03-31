@@ -9,9 +9,9 @@ import nju.entity.TicketRecord;
  */
 public interface FinanceService {
 
-    double payByBalance(int recordID) ;
+    double payByBalance(int recordID,int benefit) ;
 
-    double payByExternalAccount(int recordID,int account,String pwd) ;
+    double payByExternalAccount(int recordID,int userID,int account,String pwd,int benefit) ;
 
     double transfer2plan(int userID, int planID, int[] ticketNum);
 

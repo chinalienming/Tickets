@@ -181,7 +181,6 @@ public class TicketServiceImpl implements TicketService {
 
 //        System.out.println("TicketService lockSeat:"+lockSeatSuccess);
         if(!lockSeatSuccess) {
-
             return false ;  //maybe seat is not enough
         }
 
@@ -212,7 +211,7 @@ public class TicketServiceImpl implements TicketService {
                 tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
                         seatNumber, discountDetail[type] * original_price[type] ,SystemDefault.RECORD_PAYTYPE_NOTPAY) ;
 //                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
-//                System.out.println("save :"+ ticketRecordRepository.save(tr) );
+                System.out.println("save :"+ ticketRecordRepository.save(tr) );
 //                System.out.println(tr.getRecordID() );
                 // add consume record to UserInfo..
 //                userService.addCredit(userID, transfer_amount, tr) ;
@@ -356,16 +355,16 @@ public class TicketServiceImpl implements TicketService {
         return 0 ;
     }
 
-    //检票
-    public void checkTicket(int planID,List<String> seats){
-        for(String seatNumber : seats) {
-            Seat that = seatRepository.findByPlanIDAndSeatNumber(planID,seatNumber) ;
-            if( null != that) {
-                that.setIsChecked(true);
-                seatRepository.save(that);
-            }
-        }
-    }
+//    //检票
+//    public void checkTicket(int planID,List<String> seats){
+//        for(String seatNumber : seats) {
+//            Seat that = seatRepository.findByPlanIDAndSeatNumber(planID,seatNumber) ;
+//            if( null != that) {
+//                that.setIsChecked(true);
+//                seatRepository.save(that);
+//            }
+//        }
+//    }
 
     TicketRecord findRecord(int recordID) {
         return ticketRecordRepository.findById(recordID).get() ;

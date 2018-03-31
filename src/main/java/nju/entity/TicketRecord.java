@@ -22,7 +22,7 @@ public class TicketRecord {
     private String seatNumber ;
     private double price ;
     private Timestamp createTime ;
-    private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款 3=过时  related to cancel order
+    private int isValid = 0  ;   // 0 = 待支付 1 = 生效 2 = 退款 3=过时  4=已检票
     private int creditAdd = 0 ;
     private int payType = -1 ;  // -1 = 未支付,0 = 现金, 1 = 余额 , 2= 支付宝
 

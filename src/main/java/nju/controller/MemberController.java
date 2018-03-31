@@ -45,6 +45,7 @@ public class MemberController {
         List<PayMessage> pmls = userService.getPayMessage(id) ;
 
         model.addAttribute("userID",id) ;
+        model.addAttribute("userInfo",userService.getUserInfo(id));
         model.addAttribute("ticketrecords",ls);
         model.addAttribute("invalidtr",ils) ;
         model.addAttribute("paymessage",pmls) ;

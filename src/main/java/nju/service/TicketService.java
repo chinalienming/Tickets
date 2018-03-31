@@ -35,7 +35,7 @@ public interface TicketService {
 
     int buyTicketOffline(int planID,int userID, int seatA,int seatB,int seatC );
 
-    void checkTicket(int planID,List<String> seats);
+//    void checkTicket(int planID,List<String> seats);
 
     boolean setPayed(int recordID,int payType) ;
 

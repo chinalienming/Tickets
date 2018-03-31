@@ -24,4 +24,10 @@ public interface TicketRecordRepository extends JpaRepository<TicketRecord,Integ
     List<TicketRecord> findBySiteIDAndPayType(int siteID,int payType);
 
     List<TicketRecord> findBySiteIDAndIsValid(int siteID,int isValid);
+
+    List<TicketRecord> findByPlanIDAndPayType(int planID,int payType) ;
+
+    List<TicketRecord> findByUserIDAndPayType(int userID,int payType) ;
+
+    List<TicketRecord> findByPayType(int payType) ;
 }

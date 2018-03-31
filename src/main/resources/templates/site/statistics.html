@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}"/>
     <link rel="stylesheet" href="../../static/css/hotel.css" th:href="@{/css/hotel.css}"/>
     <script src="../../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
-    <title>Hotel Index</title>
+    <title>Ticket - 场馆 - 统计</title>
 </head>
 <body>
 
@@ -34,7 +34,7 @@
 
                 <li><a href="plansShow.html" th:href="@{plansShow}">活动一览</a></li>
 
-                <li><a href="addPlan.html" th:href="@{addPlan}">申请活动</a></li>
+                <li><a href="addPlan.html" th:href="@{addPlan}">发布活动</a></li>
 
                 <li><a href="buyOffline.html" th:href="@{buyOffline}">现场购票</a></li>
 
@@ -46,8 +46,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Welcome, <span class="caret" th:text="${siteID}"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{../logout}">Sign out</a></li>
-                        <li><a href="../account/register.html" th:href="@{../register}">Register</a></li>
+                        <li><a href="../account/index.html" th:href="@{/site/logout}">Sign out</a></li>
                     </ul>
                 </li>
             </ul>

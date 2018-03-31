@@ -1,5 +1,6 @@
 package nju.controller;
 
+import nju.entity.UserInfo;
 import nju.service.FinanceService;
 import nju.service.TicketService;
 import nju.util.SystemDefault;
@@ -87,9 +88,10 @@ public class PaymentController {
 
     @RequestMapping("/payByBalance")
     @ResponseBody
-    public Map<String,Object> payByBalance(@RequestParam(value = "recordID") int recordID){
+    public Map<String,Object> payByBalance(@RequestParam(value = "recordID") int recordID,
+                                           @RequestParam(value = "benefit")int benefit){
         Map<String, Object> result = new TreeMap<>();
-        double amount = financeService.payByBalance(recordID) ;
+        double amount = financeService.payByBalance(recordID,benefit) ;
         if(amount>0) {
             result.put("result",true) ;
             result.put("amount",amount) ;
@@ -111,13 +113,16 @@ public class PaymentController {
     @PostMapping("/payByExternalAccount")
     @ResponseBody
     public Map<String,Object> payByExternalAccount(@SessionAttribute(value = "recordID")int recordID,
+                                                   @SessionAttribute(value = "userID") int userID,
+                                                   @RequestParam(value = "benefit")int benefit,
                                                    @RequestParam(value = "accountID")String account,
                                                    @RequestParam(value = "password")String password){
         Map<String, Object> result = new TreeMap<>();
         int accountID = Integer.parseInt(account) ;
-        double amount = financeService.payByExternalAccount(recordID,accountID,password) ;
+        double amount = financeService.payByExternalAccount(recordID,userID,accountID,password,benefit) ;
 //        System.out.println(amount) ;
         if(amount>0) {
+
             result.put("result",true) ;
             result.put("amount","支付金额: "+amount) ;
         } else {

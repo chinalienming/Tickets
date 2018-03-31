@@ -5,6 +5,7 @@ import nju.dao.SitePlanRepository;
 import nju.dao.SiteRepository;
 import nju.dao.TicketRecordRepository;
 import nju.entity.PlanApply;
+import nju.entity.Site;
 import nju.entity.SitePlan;
 import nju.entity.TicketRecord;
 import nju.service.PlanService;
@@ -94,4 +95,21 @@ public class PlanServiceImpl implements PlanService {
         return planApplyRepository.findBySiteID(siteID) ;
     }
 
+    public List<SitePlan> getSettlements() {
+        List<SitePlan> result = new ArrayList<>() ;
+        List<SitePlan> list = getAllSitePlan();
+        for(SitePlan sitePlan : list ) {
+            if(sitePlan.getPlanIncome()>0)
+                result.add(sitePlan) ;
+        }
+        return result ;
+    }
+
+    public List<Integer> getPlanIDBySiteID(int siteID) {
+        List<SitePlan> plans = getPlanBySiteID(siteID) ;
+        List<Integer> res = new ArrayList<>( ) ;
+        for(SitePlan plan:plans)
+            res.add(plan.getPlanID());
+        return res ;
+    }
 }

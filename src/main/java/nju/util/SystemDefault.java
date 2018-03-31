@@ -43,11 +43,25 @@ public class SystemDefault {
     public static final int RECORD_STATE_PAYED = 1 ;
     public static final int RECORD_STATE_CANCEL = 2;
     public static final int RECORD_STATE_TIMEOUT = 3 ;
+    public static final int RECORD_STATE_CHECKED = 4 ;
 
     public static final int RECORD_PAYTYPE_NOTPAY = -1 ;
     public static final int RECORD_PAYTYPE_CASH = 0 ;
     public static final int RECORD_PAYTYPE_BALANCE = 1 ;
     public static final int RECORD_PAYTYPE_ALIPAY = 2;
+
+    /**
+     *  Settlement
+     */
+    public static final double SETTLEMENT_RATE = 0.1 ;
+
+    /***
+     * OpenApply , EditApply
+     */
+    public static final int APPLY_STATE_APPROVE = 1 ;
+    public static final int APPLY_STATE_DENY = 2 ;
+    public static final int APPLY_STATE_WAIT = 0 ;
+
     /**
      * Credit Rule
      */
