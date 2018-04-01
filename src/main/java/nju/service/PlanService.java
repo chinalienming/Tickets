@@ -1,6 +1,6 @@
 package nju.service;
 
-import nju.entity.PlanApply;
+//import nju.entity.PlanApply;
 import nju.entity.SitePlan;
 import nju.entity.TicketRecord;
 
@@ -21,7 +21,7 @@ public interface PlanService {
 
     List<SitePlan> getPlanBySiteID(int siteID) ;
 
-    List<PlanApply> getPlanApplyBySiteID(int siteID) ;
+//    List<PlanApply> getPlanApplyBySiteID(int siteID) ;
 
     SitePlan getPlanByID(int planID);
 

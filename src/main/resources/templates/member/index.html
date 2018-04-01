@@ -58,10 +58,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome <span th:text="${userID}">Smith</span><span class="caret" ></span></a>
+                       aria-expanded="false">Welcome,<span th:text="${userName}">Smith</span><span class="caret" ></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{/user/logout}">登出</a></li>
-                        <li><a href="../account/register.html" th:href="@{/user/goRegister}">注册</a></li>
+                        <li><a href="../user/index.html" th:href="@{/user/logout}">登出</a></li>
+                        <!--<li><a href="../user/register.html" th:href="@{/user/goRegister}">注册</a></li>-->
                     </ul>
                 </li>
             </ul>
@@ -90,7 +90,7 @@
                         <!--标题栏-->
                         <tr>
                             <th>票据ID</th>
-                            <th>用户ID</th>
+                            <!--<th>用户ID</th>-->
                             <th>场馆ID</th>
                             <th>活动ID</th>
                             <!--<th>座位类型</th>-->
@@ -108,7 +108,7 @@
 
                         <tr th:each="one : ${ticketrecords}">
                             <td th:text="${#numbers.formatInteger(one.recordID,7)}">000001</td>
-                            <td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>
+                            <!--<td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>-->
                             <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
                             <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
                             <!--<td th:text="${one.seatType}">A</td>-->
@@ -156,7 +156,7 @@
                                 已检票
                             </td>
 
-                            <td th:text="${one.creditAdd}">0</td>
+                            <td th:text="${'+'+one.creditAdd}">0</td>
                             <td>
                                 <a type="button" th:if="${one.isValid==1}"
                                    class="cancelButton" data-toggle="modal" th:name="${one.recordID}"
@@ -228,7 +228,7 @@
                     <table class="table table-hover">
                         <tr>
                             <th>票据ID</th>
-                            <th>用户ID</th>
+                            <!--<th>用户ID</th>-->
                             <th>场馆ID</th>
                             <th>活动ID</th>
                             <!--<th>座位类型</th>-->
@@ -239,7 +239,7 @@
                         </tr>
                         <tr th:each="one : ${invalidtr}">
                             <td th:text="${#numbers.formatInteger(one.recordID,7)}">000001</td>
-                            <td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>
+                            <!--<td th:text="${#numbers.formatInteger(one.userID,7)}">000001</td>-->
                             <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
                             <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
                             <!--<td th:text="${one.seatType}">A</td>-->
@@ -284,8 +284,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" id="goCancel" class="btn btn-danger delete" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="goCancel" class="btn btn-danger delete" data-dismiss="modal">是的</button>
                 </div>
 
             </form>
@@ -375,7 +375,7 @@
         if($useBenefit.prop("checked")) {
             be = document.getElementById("benefit").value; //$benefit.attr('value');
         }
-        if(be<[[${userInfo.benefit}]]) {
+        if(be<=[[${userInfo.benefit}]]) {
             inputs = {recordID: recordToBuy, benefit: be};
             url = '/payment/payByBalance';
             callBalance(inputs, url);
@@ -390,9 +390,9 @@
         if($useBenefit.prop("checked")) {
             be = document.getElementById("benefit").value; //$benefit.attr('value');
         }
-        if(be<[[${userInfo.benefit}]]) {
+        if(be<=[[${userInfo.benefit}]]) {
             inputs = {recordID: recordToBuy, benefit: be};
-            url = '/payment/goPayByExternalAccount?recordID=' + recordToBuy;
+            url = '/payment/goPayByExternalAccount?recordID=' + recordToBuy+'&benefit='+be ;
             location.href = url;
         } else {
             alert("优惠券不足!");

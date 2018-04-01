@@ -33,8 +33,8 @@ public class SiteServiceImpl implements SiteService {
     private EditApplyRepository editApplyRepository ;
     @Autowired
     private OpenApplyRepository openApplyRepository ;
-    @Autowired
-    private PlanApplyRepository planApplyRepository ;
+//    @Autowired
+//    private PlanApplyRepository planApplyRepository ;
     @Autowired
     private TicketRecordRepository ticketRecordRepository ;
     @Autowired
@@ -115,7 +115,7 @@ public class SiteServiceImpl implements SiteService {
         SiteAccount sa = new SiteAccount() ;
         sa.setName(siteName);
         sa.setPassword(password);
-        sa.setActive(true);   //
+//        sa.setActive(true);   //
         sa = siteAccountRepository.save(sa) ;
 
         //site
@@ -168,8 +168,13 @@ public class SiteServiceImpl implements SiteService {
         return editApplyRepository.existsBySiteIDAndState(siteId,0) ;
     }
 
+    public SiteAccount getSiteAccount(int siteID) { return siteAccountRepository.findById(siteID).get() ; }
+
     public void applyPlan(int siteID, String description, String planType , String beginTime , String endTime ,
                           double price_a ,double price_b ,double price_c) {
+
+        SiteAccount sa = getSiteAccount(siteID) ;
+        if(sa.getActive()==false) return ;
 
         System.out.println(beginTime) ;
         System.out.println(endTime) ;
@@ -234,7 +239,7 @@ public class SiteServiceImpl implements SiteService {
             result.put("data", dateAndNumber);
         } else {
             result.put(SystemDefault.HTTP_RESULT, false);
-            result.put(SystemDefault.HTTP_REASON, "Not any TicketRecord entities data found.");
+            result.put(SystemDefault.HTTP_REASON, "没有数据");
         }
         return result;
     }
@@ -259,7 +264,7 @@ public class SiteServiceImpl implements SiteService {
             result.put("data", dateAndNumber);
         } else {
             result.put(SystemDefault.HTTP_RESULT, false);
-            result.put(SystemDefault.HTTP_REASON, "Not any TicketRecord entities data found.");
+            result.put(SystemDefault.HTTP_REASON, "没有数据");
         }
         return result;
     }
@@ -301,7 +306,7 @@ public class SiteServiceImpl implements SiteService {
 
         } else {
             result.put(SystemDefault.HTTP_RESULT, false);
-            result.put(SystemDefault.HTTP_REASON, "Not any ticket record entities data found.");
+            result.put(SystemDefault.HTTP_REASON, "没有数据");
         }
 
         return result;

@@ -6,6 +6,7 @@ import nju.util.EmailUtility;
 import nju.util.SystemDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -31,23 +32,32 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String login(HttpSession session,
+    public String login(HttpSession session,Model model,
                         @RequestParam("username") String email,
                         @RequestParam("password") String password) {
 
         int query_userid = userService.login(email,password) ;
-        System.out.println(query_userid);
+//        System.out.println(query_userid);
         if(query_userid > 0 ) {
             session.setAttribute(SystemDefault.USER_ID,query_userid);
-            System.out.println("login!?!!");
-//            return "member/index" ;
+            String userName = userService.getUserInfo(query_userid).getUserName() ;
+            session.setAttribute("userName",userName);
             return "redirect:/member/index" ;
         }
+        if(query_userid == -1) {
+            model.addAttribute("error_msg","账号密码错误");
+        }
+        if(query_userid == -2 ) {
+            model.addAttribute("error_msg","邮箱未认证");
+        }
+        if(query_userid == -3) {
+            model.addAttribute("error_msg","账号已被冻结");
+        }
 
-        else
-            return "user/index";
+        return "user/error";
 
     }
+
 
 
     @PostMapping(value = "/sendEmail")

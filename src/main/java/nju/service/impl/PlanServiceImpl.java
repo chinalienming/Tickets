@@ -1,10 +1,8 @@
 package nju.service.impl;
 
-import nju.dao.PlanApplyRepository;
 import nju.dao.SitePlanRepository;
 import nju.dao.SiteRepository;
 import nju.dao.TicketRecordRepository;
-import nju.entity.PlanApply;
 import nju.entity.Site;
 import nju.entity.SitePlan;
 import nju.entity.TicketRecord;
@@ -29,8 +27,8 @@ public class PlanServiceImpl implements PlanService {
     private SiteRepository siteRepository ;
     @Autowired
     private TicketRecordRepository ticketRecordRepository ;
-    @Autowired
-    private PlanApplyRepository planApplyRepository ;
+//    @Autowired
+//    private PlanApplyRepository planApplyRepository ;
 
     public boolean addIncome(int planID , int userID , double amount) {
         SitePlan sitePlan = getPlanByID(planID);
@@ -90,10 +88,10 @@ public class PlanServiceImpl implements PlanService {
         result[2] = sitePlan.getOriginal_price_C() ;
         return result ;
     }
-
-    public List<PlanApply> getPlanApplyBySiteID(int siteID) {
-        return planApplyRepository.findBySiteID(siteID) ;
-    }
+//
+//    public List<PlanApply> getPlanApplyBySiteID(int siteID) {
+//        return planApplyRepository.findBySiteID(siteID) ;
+//    }
 
     public List<SitePlan> getSettlements() {
         List<SitePlan> result = new ArrayList<>() ;

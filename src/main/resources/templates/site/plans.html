@@ -79,8 +79,10 @@
                     <table class="table table-condensed">
                         <tr>
                             <td>活动ID</td>
-                            <td th:text="${plan.planID}">1</td>
+                            <!--<td th:text="${plan.planID}">1</td>-->
+                            <td th:text="${#numbers.formatInteger(plan.planID,7)}">000001</td>
                         </tr>
+
 
                         <tr>
                             <td>类型</td>

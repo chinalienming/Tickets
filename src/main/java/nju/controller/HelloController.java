@@ -1,5 +1,6 @@
 package nju.controller;
 
+import nju.entity.Site;
 import nju.service.ManagerService;
 import nju.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,26 @@ public class HelloController {
                              @RequestParam("siteID") String siteStr,
                              @RequestParam("password") String password){
         int siteID = Integer.parseInt(siteStr) ;
-
+        Site site = siteService.getSiteInfo(siteID) ;
+        String siteName = site.getSiteName() ;
         int result_code = siteService.login(siteID,password) ;
         Map<String,Object> result = new TreeMap<>() ;
 
         if(result_code<0) {
-            return "site/goLogin" ;
+            if(result_code==-1) {
+                model.addAttribute("error_msg","没有此账号");
+            } else if(result_code == -2) {
+                model.addAttribute("error_msg","密码错误");
+            }
+            return "site/error" ;
         }
 
         model.addAttribute("siteID",siteID) ;
         model.addAttribute("siteState",siteService.getSiteState(siteID));
-        model.addAttribute("site",siteService.getSiteInfo(siteID)) ;
+        model.addAttribute("site",site) ;
+        model.addAttribute("siteName",siteName) ;
         session.setAttribute("siteID",siteID);
+        session.setAttribute("siteName",siteName);
         return "site/info";
     }
 

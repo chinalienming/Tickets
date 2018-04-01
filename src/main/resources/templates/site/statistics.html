@@ -44,9 +44,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, <span class="caret" th:text="${siteID}"></span></a>
+                       aria-expanded="false">Welcome, <span th:text="${siteName}"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{/site/logout}">Sign out</a></li>
+                        <li><a href="../site/login.html" th:href="@{/site/logout}">登出</a></li>
                     </ul>
                 </li>
             </ul>
@@ -113,8 +113,11 @@
                 reservedOption.xAxis.data = Object.keys(newData);
                 reservedOption.series[0].data = Object.keys(newData).map(function(k) { return newData[k] });
                 console.log(reservedOption);
+
             } else {
                 var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
+                reservedOption.xAxis.data = [];
+                reservedOption.series[0].data =[];
                 $(".err-msg").html(error_msg);
             }
             reservedChart.setOption(reservedOption);
@@ -155,6 +158,8 @@
                 cancelOption.series[0].data = Object.keys(newData).map(function(k) { return newData[k] });
                 console.log(cancelOption);
             } else {
+                cancelOption.xAxis.data = [];
+                cancelOption.series[0].data = [];
                 var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
                 $(".err-msg").html(error_msg);
             }
@@ -226,6 +231,7 @@
 
                 console.log(consumptionOption);
             } else {
+                consumptionOption.series[0]['data'] = [];
                 var error_msg = '<p class="errtip">	<strong>Error</strong>：' + data.reason + '</p>';
                 $(".err-msg").html(error_msg);
             }

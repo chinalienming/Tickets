@@ -10,3 +10,7 @@ CREATE TABLE tickets.edit_apply
     num_c int(11)
 );
 INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (97, 1, 'ooooo', 'Shanghai', 1, 20, 20, 20);
+INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (226, 224, '新的场馆', '厦门', 1, 20, 20, 20);
+INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (227, 224, '新的场馆', '厦门', 1, 20, 20, 20);
+INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (307, 306, '德基广场', '南京市玄武区中山路18号', 1, 20, 20, 20);
+INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (514, 513, '新街口', '南京市中心区域', 1, 20, 20, 20);

@@ -35,6 +35,7 @@ public class MemberController {
     @RequestMapping("/index")
     public String index(Model model,
                         @SessionAttribute(SystemDefault.USER_ID) int id,
+                        @SessionAttribute("userName") String userName,
                         @RequestParam(value = "page", defaultValue = "0") int page) {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
@@ -45,6 +46,7 @@ public class MemberController {
         List<PayMessage> pmls = userService.getPayMessage(id) ;
 
         model.addAttribute("userID",id) ;
+        model.addAttribute("userName",userName);
         model.addAttribute("userInfo",userService.getUserInfo(id));
         model.addAttribute("ticketrecords",ls);
         model.addAttribute("invalidtr",ils) ;
@@ -57,7 +59,10 @@ public class MemberController {
     //personal message
     @RequestMapping("/profile")
     public String profile(Model model,
+                          @SessionAttribute("userName")String userName,
                           @SessionAttribute(SystemDefault.USER_ID) int id ) {
+        model.addAttribute("userID",id) ;
+        model.addAttribute("userName",userName);
         model.addAttribute("member", userService.getUserVO(id));
         return "member/profile";
     }

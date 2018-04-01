@@ -44,9 +44,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Welcome, <span class="caret" th:text="${siteID}"></span></span></a>
+                       aria-expanded="false">Welcome,  <span th:text="${siteName}"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../account/index.html" th:href="@{/site/logout}">Sign out</a></li>
+                        <li><a href="../site/login.html" th:href="@{/site/logout}">登出</a></li>
                     </ul>
                 </li>
             </ul>
@@ -59,7 +59,7 @@
 
     <div class="panel panel-info">
         <!-- Default panel contents -->
-        <div class="panel-heading">提交审批的活动申请</div>
+        <div class="panel-heading">发布新活动</div>
 
 
         <div class="table-responsive ">

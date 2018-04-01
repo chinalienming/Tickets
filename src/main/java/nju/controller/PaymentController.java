@@ -104,9 +104,11 @@ public class PaymentController {
 
     @RequestMapping("/goPayByExternalAccount")
     public String goPayByExternalAccount(HttpSession httpSession,
-                                         @RequestParam(value = "recordID")int recordID) {
+                                         @RequestParam(value = "recordID")int recordID,
+                                         @RequestParam(value = "benefit")int benefit) {
 //        System.out.println("session "+recordID);
         httpSession.setAttribute("recordID",recordID);
+        httpSession.setAttribute("benefit",benefit);
         return "payment/pay" ;
     }
 
@@ -114,7 +116,7 @@ public class PaymentController {
     @ResponseBody
     public Map<String,Object> payByExternalAccount(@SessionAttribute(value = "recordID")int recordID,
                                                    @SessionAttribute(value = "userID") int userID,
-                                                   @RequestParam(value = "benefit")int benefit,
+                                                   @SessionAttribute(value = "benefit")int benefit,
                                                    @RequestParam(value = "accountID")String account,
                                                    @RequestParam(value = "password")String password){
         Map<String, Object> result = new TreeMap<>();

@@ -10,6 +10,7 @@ import java.util.UUID;
 
 /**
  * Created by lienming on 2018/3/10.
+ * 未使用
  */
 public class GenerateLinkUtils {
     private static final String CHECK_CODE = "checkCode";

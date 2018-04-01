@@ -77,6 +77,9 @@ public class FinanceServiceImpl implements FinanceService {
         if(tr.getIsValid()!=SystemDefault.RECORD_STATE_WAITPAY)
             return -5;
 
+        tr.setPrice(tr.getPrice() - benefit);
+        ticketRecordRepository.save(tr) ;
+
         double total_price = requestExternalInterface(accountID,pwd,tr.getUserID(),tr.getPlanID(),tr.getPrice());
 
         if(total_price>0) {

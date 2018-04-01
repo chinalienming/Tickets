@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,7 +29,11 @@ public class SiteController {
 
     @RequestMapping("/index")
     public String sites(Model model,
+                        @SessionAttribute("userID") int userID,
+                        @SessionAttribute("userName")String userName,
                         @RequestParam(value = "page", defaultValue = "0") int page) {
+        model.addAttribute("userID",userID) ;
+        model.addAttribute("userName",userName);
         model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
         model.addAttribute(SystemDefault.CURRENT_PAGE, page);
         return "site/index";
@@ -47,11 +52,11 @@ public class SiteController {
 
 
     @RequestMapping("/info")
-    public String info(Model model, @SessionAttribute("siteID")int siteID) {
+    public String info(Model model, HttpSession session , @SessionAttribute("siteID")int siteID ) {
 
         model.addAttribute("siteState",siteService.getSiteState(siteID));
         model.addAttribute( "site" , siteService.getSiteInfo(siteID) );
-
+        model.addAttribute("siteName",session.getAttribute("siteName"));
 
         if (siteService.isApplyingForEdit(siteID)) {
             model.addAttribute("edit", true);
@@ -78,45 +83,54 @@ public class SiteController {
 
 
     @PostMapping(value = "/edit" )
-    public String editApplication(Model model,@SessionAttribute("siteID") int siteID,
+    public String editApplication(Model model, HttpSession session,
+                                  @SessionAttribute("siteID") int siteID,
                                   String name, String address , int num_a , int num_b , int num_c  ) {
 
         siteService.saveModifyApplication(siteID,name,address,num_a,num_b,num_c);
 
-        return info(model, siteID);
+        return info(model,session, siteID);
     }
 
 
     @PostMapping(value = "/open")
-    public String openApplication(Model model, @SessionAttribute("siteID") int siteID, String reason) {
+    public String openApplication(Model model, HttpSession session,@SessionAttribute("siteID") int siteID, String reason) {
         siteService.saveOpenApplication(siteID,reason);
-        return info(model, siteID);
+        return info(model, session,siteID);
     }
 
     @RequestMapping("/plansShow")
-    public String plansShow(Model model,@SessionAttribute("siteID") int siteID ,
-                 @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String plansShow(Model model,HttpSession session,
+                            @SessionAttribute("siteID") int siteID ,
+                            @RequestParam(value = "page", defaultValue = "0") int page) {
 
         model.addAttribute("siteID",siteID);
         model.addAttribute( "site" , siteService.getSiteInfo(siteID)) ;
-        model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,page) );
+
+        model.addAttribute("siteName",session.getAttribute("siteName"));
+//        model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,page) );
+        model.addAttribute( SystemDefault.PLANS , planService.getPlanByPage(siteID,-1) );
         model.addAttribute( SystemDefault.CURRENT_PAGE, page);
         return "site/plansShow";
     }
 
     @RequestMapping("/addPlan")
-    public String addPlan(Model model, @SessionAttribute("siteID")int siteID) {
+    public String addPlan(Model model, HttpSession session ,
+                          @SessionAttribute("siteID")int siteID) {
 
         List<SitePlan> list = planService.getPlanBySiteID(siteID) ;
         model.addAttribute("siteID",siteID);
         model.addAttribute("plans",list) ;
+
+        model.addAttribute("siteName",session.getAttribute("siteName"));
 
         return "site/addPlan" ;
     }
 
     @PostMapping("/applyPlan")
     @ResponseBody
-    public Map<String,Object> applyPlan(@SessionAttribute("siteID")int siteID, String description, String planType ,
+    public Map<String,Object> applyPlan(@SessionAttribute("siteID")int siteID,
+                                        String description, String planType ,
                                         String beginTime , String endTime , double price_a , double price_b , double price_c) {
 
         siteService.applyPlan(siteID,description,planType,beginTime,endTime,price_a,price_b,price_c);
@@ -129,7 +143,9 @@ public class SiteController {
 
 
     @RequestMapping("/buyOffline")
-    public String buyOffline(@SessionAttribute("siteID")int siteID,Model model){
+    public String buyOffline(@SessionAttribute("siteID")int siteID,Model model,HttpSession session){
+
+        model.addAttribute("siteName",session.getAttribute("siteName"));
         model.addAttribute("siteID", siteID);
         model.addAttribute("siteTR", siteService.getSiteTRList(siteID));
         return "site/buyOffline" ;
@@ -153,7 +169,9 @@ public class SiteController {
     }
 
     @RequestMapping("/statistics")
-    public String statistics(@SessionAttribute("siteID")int siteID,Model model){
+    public String statistics(@SessionAttribute("siteID")int siteID,Model model,HttpSession session){
+
+        model.addAttribute("siteName",session.getAttribute("siteName"));
         model.addAttribute("siteID", siteID);
         return "site/statistics" ;
     }

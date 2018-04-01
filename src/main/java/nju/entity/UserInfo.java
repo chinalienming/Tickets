@@ -114,6 +114,9 @@ public class UserInfo {
         this.consumption -= return_amount ;
 
         this.credit -= tr.getCreditAdd() ;
+        if(this.credit<0) {
+            this.credit=0 ;
+        }
 
         tr.setCreditAdd(0);// clear.
         tr.setIsValid(SystemDefault.RECORD_STATE_CANCEL);
