@@ -54,3 +54,13 @@ INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (642,
 INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (643, 1, '余额支付', -790, '2018-04-01 14:18:34');
 INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (644, 1, '支付宝支付', -490, '2018-04-01 14:18:39');
 INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (645, 1, '退款', 300, '2018-04-01 14:18:50');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1236, 47, '余额支付', -40, '2018-04-01 18:58:30');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1237, 47, '余额支付', -40, '2018-04-01 18:58:32');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1238, 47, '余额支付', -60, '2018-04-01 18:58:35');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1239, 47, '支付宝支付', -60, '2018-04-01 18:58:48');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1240, 47, '支付宝支付', -80, '2018-04-01 18:58:52');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1241, 47, '支付宝支付', -80, '2018-04-01 18:58:58');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1248, 47, '支付宝支付', -300, '2018-04-01 19:00:03');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1249, 47, '余额支付', -500, '2018-04-01 19:00:07');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1250, 47, '余额支付', -500, '2018-04-01 19:00:09');
+INSERT INTO tickets.pay_message (pay_id, user_id, msg, money, time) VALUES (1251, 47, '余额支付', -300, '2018-04-01 19:00:12');
