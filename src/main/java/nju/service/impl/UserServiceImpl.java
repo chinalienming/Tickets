@@ -1,6 +1,5 @@
 package nju.service.impl;
 
-import io.swagger.models.auth.In;
 import nju.dao.*;
 import nju.entity.*;
 import nju.service.FinanceService;
@@ -185,6 +184,9 @@ public class UserServiceImpl implements UserService {
 
         ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_PAYED).forEach(result::add);
         ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_WAITPAY).forEach(result::add);
+        ticketRecordRepository.findByUserIDAndIsValid(userID,SystemDefault.RECORD_STATE_CHECKED).forEach(result::add);
+
+
         Collections.reverse(result);
 
         return result;
@@ -211,21 +213,25 @@ public class UserServiceImpl implements UserService {
         userInfo.setUserName(userName);
         userInfoRepository.save(userInfo) ;
 
-        ExternalAccount ea = externalAccountRepository.findByUserIDAndIsSite(userID,false);
-        if(ea.getAccountID()!=aID) {
-            //更换支付宝账号
-            externalAccountRepository.delete(ea);
+//        ExternalAccount ea = externalAccountRepository.findByUserIDAndIsSite(userID,false);
+        ExternalAccount ea = externalAccountRepository.findByAccountID(aID) ;
+        if( ea==null ) {
             ExternalAccount nea = new ExternalAccount(aID,aPwd,userID) ;
-            //如果aID重复? error !
-
 
             nea = externalAccountRepository.save(nea) ;
             System.out.println("new External Account ID :" + nea.getAccountID() ) ;
-        } else {
-            ea.setPassword(aPwd);
-            externalAccountRepository.save(ea) ;
         }
+        else {
+//                externalAccountRepository.delete(ea);
+//                ExternalAccount nea = new ExternalAccount(aID, aPwd, userID);
+//
+//
+//                nea = externalAccountRepository.save(nea);
+//                System.out.println("new External Account ID :" + nea.getAccountID());
+                ea.setPassword(aPwd);
+                externalAccountRepository.save(ea);
 
+        }
     }
 
     public int recharge(int userID,int amount) {

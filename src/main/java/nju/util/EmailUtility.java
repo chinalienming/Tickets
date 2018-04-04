@@ -1,7 +1,5 @@
 package nju.util;
 
-import nju.entity.User;
-
 import javax.mail.Authenticator;
 import javax.mail.Message.RecipientType;
 import javax.mail.PasswordAuthentication;
@@ -19,7 +17,7 @@ public class EmailUtility {
     public static final String SMTPSERVER = "smtp.qq.com";
     public static final String SMTPPORT = "465"; //邮箱服务器默认端口
     private static final String FROM = "728385437@qq.com";
-    private static final String PWD = "ralcslmpzlwvbdba" ;
+    private static final String PWD = "okqbuktdkltmbahf" ;
 
     //Tips : Use this Method in Class Servlet.
     public static void sendAccountActivateEmail(String email,String user_id) {

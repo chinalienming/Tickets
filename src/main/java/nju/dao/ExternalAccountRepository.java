@@ -11,4 +11,6 @@ public interface ExternalAccountRepository extends JpaRepository<ExternalAccount
 
     ExternalAccount findByAccountIDAndPassword(int accountID,String password) ;
 
+    ExternalAccount findByAccountID(int accountID) ;
+
 }

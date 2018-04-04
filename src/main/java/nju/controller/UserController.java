@@ -85,8 +85,8 @@ public class UserController {
                 result.put("message", "password illegal");
                 return result ;
             default:
-                EmailUtility.sendAccountActivateEmail("javalem@163.com",query_userid+"");
-//                EmailUtility.sendAccountActivateEmail(email,query_userid+"");
+//                EmailUtility.sendAccountActivateEmail("javalem@163.com",query_userid+"");
+                EmailUtility.sendAccountActivateEmail(email,query_userid+"");
                 result.put("result",true) ;
                 result.put("message", "input key: " );
                 return result;

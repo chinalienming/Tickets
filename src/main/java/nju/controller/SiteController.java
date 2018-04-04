@@ -1,6 +1,6 @@
 package nju.controller;
 
-import nju.entity.PlanApply;
+//import nju.entity.PlanApply;
 import nju.entity.SitePlan;
 import nju.service.PlanService;
 import nju.service.SiteService;

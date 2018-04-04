@@ -145,26 +145,26 @@
     </div>
 
 
-    <nav aria-label="Page navigation" class="col-md-offset-4 col-md-4">
-        <ul class="pagination pagination-lg">
-            <li>
-                <a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"
-                   th:href="@{/site/index(page=${current} - 1)}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li><a href="#" th:href="@{/site/index(page=${current})}" th:text="${current} + 1">1</a></li>
-            <li><a href="#" th:href="@{/site/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>
-            <li><a href="#" th:href="@{/site/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>
-            <li><a href="#" th:href="@{/site/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>
-            <li><a href="#" th:href="@{/site/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>
-            <li>
-                <a href="#" th:href="@{/site/index(page=${current} + 1)}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <!--<nav aria-label="Page navigation" class="col-md-offset-4 col-md-4">-->
+        <!--<ul class="pagination pagination-lg">-->
+            <!--<li>-->
+                <!--<a id="previous" href="#" th:disabled="${current}<0 ? 'disabled' : 'not'"-->
+                   <!--th:href="@{/site/index(page=${current} - 1)}" aria-label="Previous">-->
+                    <!--<span aria-hidden="true">&laquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li><a href="#" th:href="@{/site/index(page=${current})}" th:text="${current} + 1">1</a></li>-->
+            <!--<li><a href="#" th:href="@{/site/index(page=${current} + 1)}" th:text="${current} + 2">2</a></li>-->
+            <!--<li><a href="#" th:href="@{/site/index(page=${current} + 2)}" th:text="${current} + 3">3</a></li>-->
+            <!--<li><a href="#" th:href="@{/site/index(page=${current} + 3)}" th:text="${current} + 4">4</a></li>-->
+            <!--<li><a href="#" th:href="@{/site/index(page=${current} + 4)}" th:text="${current} + 5">5</a></li>-->
+            <!--<li>-->
+                <!--<a href="#" th:href="@{/site/index(page=${current} + 1)}" aria-label="Next">-->
+                    <!--<span aria-hidden="true">&raquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</nav>-->
 </div>
 
 

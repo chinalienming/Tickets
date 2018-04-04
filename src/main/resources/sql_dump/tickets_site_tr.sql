@@ -11,4 +11,4 @@ CREATE TABLE tickets.site_tr
     seat_type char(1) NOT NULL,
     site_id int(11) NOT NULL,
     user_id int(11) NOT NULL
-);
+) DEFAULT CHARACTER SET utf8 ;

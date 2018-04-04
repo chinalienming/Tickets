@@ -80,8 +80,8 @@
                     <td th:text="${#numbers.formatInteger(plan.planID,7)}">0000001</td>
                     <td th:text="${plan.description}">no description</td>
                     <td th:text="${plan.planType}">type</td>
-                    <td th:text="${plan.beginTime}"> beginTime</td>
-                    <td th:text="${plan.endTime}"> endTime</td>
+                    <td th:text="${#dates.format(new java.util.Date(plan.beginTime),'yyyy-MM-dd')}"> beginTime</td>
+                    <td th:text="${#dates.format(new java.util.Date(plan.endTime),'yyyy-MM-dd')}"> endTime</td>
                     <td th:text="${plan.original_price_A}"> 9999</td>
                     <td th:text="${plan.original_price_B}"> 8000</td>
                     <td th:text="${plan.original_price_C}"> 5000</td>

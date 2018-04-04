@@ -11,7 +11,7 @@ CREATE TABLE tickets.ticket_record
     is_valid tinyint(1) DEFAULT '1' NOT NULL,
     credit_add int(11) NOT NULL,
     pay_type int(11) DEFAULT '-1' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8 ;
 INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add, pay_type) VALUES (79, 1, '1', 1, 'A', 'A10', 880, '2018-03-29 18:12:19', 2, 0, 0);
 INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add, pay_type) VALUES (80, 1, '1', 1, 'B', 'B10', 555, '2018-03-29 18:12:19', 1, 5, 1);
 INSERT INTO tickets.ticket_record (record_id, user_id, site_id, plan_id, seat_type, seat_number, price, create_time, is_valid, credit_add, pay_type) VALUES (81, 1, '1', 1, 'C', 'C10', 250, '2018-03-29 18:12:19', 1, 2, 1);

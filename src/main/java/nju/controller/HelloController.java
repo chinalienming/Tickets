@@ -64,6 +64,8 @@ public class HelloController {
         return "site/login";
     }
 
+
+
     @PostMapping(value = "/site/login")
     public String doSiteLogin(HttpSession session,
                               Model model ,
@@ -108,6 +110,19 @@ public class HelloController {
         return "manager/login";
     }
 
+    @RequestMapping(value = "/manager/login")
+    public String login(@SessionAttribute("managerID")int managerID,
+                        Model model) {
+        if(managerID<0)
+            return "manager/login";
+        else {
+            model.addAttribute("managerID",managerID) ;
+            model.addAttribute("num",managerService.getAllApplyNum()) ;
+            model.addAttribute("opens", managerService.getAllOpenApply(0, -1));
+            model.addAttribute("edits", managerService.getAllEditApply(0, -1));
+            return "manager/index";
+        }
+    }
 
     @PostMapping(value = "/manager/login")
     public String doManagerLogin(HttpSession session,Model model,

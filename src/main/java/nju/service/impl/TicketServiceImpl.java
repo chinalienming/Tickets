@@ -81,7 +81,7 @@ public class TicketServiceImpl implements TicketService {
             return false ;
 
         SitePlan sitePlan = planService.getPlanByID(planID) ;
-//        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
+        UserInfo userInfo = userInfoRepository.findById(userID).get() ;
 
         int[] ticketNum = new int[SystemDefault.SEAT_TYPE_NUM];
         for (String seatString : seatList ) {
@@ -96,7 +96,8 @@ public class TicketServiceImpl implements TicketService {
         double original_price_B = sitePlan.getOriginal_price_B() ;
         double original_price_C = sitePlan.getOriginal_price_C() ;
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
-        double[] discountDetail = {1,1,1}; //SystemDefault.switchDiscount(userInfo.getLevel());
+        double[] discountDetail = //{1,1,1};
+                 SystemDefault.switchDiscount(userInfo.getLevel());
 
 //        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
 //
@@ -178,8 +179,8 @@ public class TicketServiceImpl implements TicketService {
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
 
         //折扣力度
-//        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
-        double[] discountDetail = {1,1,1} ;
+        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
+//        double[] discountDetail = {1,1,1} ;
 
 //        double transfer_amount = financeService.transfer2plan(userID, planID, ticketNum);
 //
@@ -196,6 +197,8 @@ public class TicketServiceImpl implements TicketService {
                 tr = new TicketRecord(userID, sitePlan.getSiteID(), planID,
                         seatNumber, discountDetail[type] * original_price[type] ,SystemDefault.RECORD_PAYTYPE_NOTPAY) ;
 //                System.out.println("tr :"+tr.getPlanID()+" "+tr.getSeatNumber()+" "+tr.getPrice()+" "+tr.getRecordID()) ;
+                tr.setSeatType("D");
+
                 System.out.println("save :"+ ticketRecordRepository.save(tr) );
 //                System.out.println(tr.getRecordID() );
                 // add consume record to UserInfo..
@@ -240,28 +243,44 @@ public class TicketServiceImpl implements TicketService {
 
         SitePlan sitePlan = planService.getPlanByID(tr.getPlanID()) ;
 
-        Date perform_time = sitePlan.getEndTime();
+        Date deadline = sitePlan.getBeginTime() ;
 
-        int hours = MyDate.hoursBetweenDate(present_time,perform_time) ;
+        int hours = MyDate.hoursBetweenDate(present_time,deadline) ;
 
         if( hours <= 0 ) {
             //error
+            boolean transferSuccess = financeService.cancelFromSite(tr, 0 );
+            System.out.println("return amount = 0 . hours:" + hours );
+            if(!transferSuccess)
+                return -2 ;
+
+            boolean restoreSeatSuccess = restoreSeat(recordID) ;
+
+            if(!restoreSeatSuccess)
+                return -3 ;
+
+
+            return 0 ;
         }
 
-        // rule ?
-        double rate = 1.0  ; //SystemDefault.returnRate(hours) ;
+        else {
+            // rule ?
+            double rate = SystemDefault.returnRate(hours);
 
-        double return_amount = tr.getPrice() * rate ;
+            double return_amount = tr.getPrice() * rate;
 
-        boolean transferSuccess = financeService.cancelFromSite(tr,return_amount);
-        if(!transferSuccess)
-            return -2 ;
+            System.out.println("Return : " + return_amount);
 
-        boolean restoreSeatSuccess = restoreSeat(recordID) ;
-        if(!restoreSeatSuccess)
-            return -3 ;
+            boolean transferSuccess = financeService.cancelFromSite(tr, return_amount);
+            if (!transferSuccess)
+                return -2;
 
-        return 0 ;
+            boolean restoreSeatSuccess = restoreSeat(recordID);
+            if (!restoreSeatSuccess)
+                return -3;
+
+            return 0;
+        }
     }
 
     public boolean restoreSeat(int recordID) {
@@ -308,10 +327,15 @@ public class TicketServiceImpl implements TicketService {
         double original_price_C = sitePlan.getOriginal_price_C() ;
         double[] original_price = {original_price_A,original_price_B,original_price_C} ;
 
+        double[] discountDetail ;
         //折扣力度
-//        double[] discountDetail = SystemDefault.switchDiscount(userInfo.getLevel());
-        double[] discountDetail = {1,1,1} ;
-
+        if(userID>0) {
+            UserInfo userInfo = userService.getUserInfo(userID) ;
+            discountDetail  = SystemDefault.switchDiscount(userInfo.getLevel());
+        }
+        else {
+            discountDetail = new double[]{1, 1, 1};
+        }
 
         //create new TicketRecord
         TicketRecord tr;
@@ -363,7 +387,7 @@ public class TicketServiceImpl implements TicketService {
 //        System.out.println("settimeout");
         TicketRecord tr = ticketRecordRepository.findById(recordID).get() ;
         tr.setIsValid(SystemDefault.RECORD_STATE_TIMEOUT) ;
-        tr.setUserID(SystemDefault.SEAT_FREE);
+//        tr.setUserID(SystemDefault.SEAT_FREE);
         ticketRecordRepository.save(tr);
 
         List<String> list = new ArrayList<>();

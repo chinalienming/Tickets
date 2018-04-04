@@ -112,7 +112,9 @@
                             <td th:text="${#numbers.formatInteger(one.siteID,7)}">000001</td>
                             <td th:text="${#numbers.formatInteger(one.planID,7)}">000001</td>
                             <!--<td th:text="${one.seatType}">A</td>-->
-                            <td th:text="${one.seatNumber}">A03</td>
+
+                            <td th:if="${!('D').equals(one.seatType)}"  th:text="${one.seatNumber}">A03</td>
+                            <td th:if="${('D').equals(one.seatType)}" th:text="未配票">A03</td>
                             <td th:text="${one.price}">150.0</td>
                             <!--<td>-->
                                 <!--<div th:switch="${one.payType}">-->
@@ -423,7 +425,7 @@
             data: inputs,
             dataType: 'json',
             success: function (data) {
-                if(data.result>=0) {
+                if(data.result) {
                     alert("支付成功！金额: "+data.amount) ;
                     location.href = "/member/index";
                 }

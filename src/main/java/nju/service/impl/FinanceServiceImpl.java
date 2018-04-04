@@ -45,6 +45,8 @@ public class FinanceServiceImpl implements FinanceService {
 
         UserInfo userInfo = userInfoRepository.findById(userID).get() ;
 
+        System.out.println(userInfo.getBalance()) ;
+        System.out.println(total_price) ;
         if( userInfo.getBalance() < total_price ) {
             return -1 ; //error code
         }

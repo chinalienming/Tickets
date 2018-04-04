@@ -6,13 +6,15 @@ import nju.service.SiteService;
 import nju.service.TicketService;
 import nju.service.UserService;
 import nju.util.SystemDefault;
-import nju.vo.TicketRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by lienming on 2018/3/14.
@@ -39,7 +41,7 @@ public class MemberController {
                         @RequestParam(value = "page", defaultValue = "0") int page) {
                        /* ,@RequestParam(value = "page", defaultValue = "0") int page*/
         model.addAttribute("locale"  ,locale);
-        List<TicketRecord> ls = userService.getValidTicketRecord(id);
+        List<TicketRecord> ls = userService.getValidTicketRecord(id) ;
 
         List<TicketRecord> ils = userService.getInvalidTicketRecord(id) ;
 
@@ -118,7 +120,7 @@ public class MemberController {
     @RequestMapping("/site")
     public String sites(Model model,
                         @RequestParam(value = "page", defaultValue = "0") int page) {
-        model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(page));
+        model.addAttribute(SystemDefault.SITES, siteService.getSiteByPage(-1));
         model.addAttribute(SystemDefault.CURRENT_PAGE, page);
         return "redirect:/site/"+"index";
     }

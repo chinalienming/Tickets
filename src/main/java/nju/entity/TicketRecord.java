@@ -18,7 +18,7 @@ public class TicketRecord {
     private int userID ;
     private int siteID ;
     private int planID ;
-    private char seatType ;
+    private String seatType ;
     private String seatNumber ;
     private double price ;
     private Timestamp createTime ;
@@ -34,7 +34,7 @@ public class TicketRecord {
         this.userID = userID ;
         this.siteID = siteID ;
         this.planID = planID ;
-        this.seatType = seatNumber.charAt(0)  ;
+        this.seatType = seatNumber.charAt(0)+""  ;
         this.seatNumber = seatNumber ;
         this.price = price ;
         this.createTime = new Timestamp(System.currentTimeMillis()) ;
@@ -87,8 +87,8 @@ public class TicketRecord {
 
     @Basic
     @Column(name = "seat_type", nullable = false)
-    public char getSeatType(){ return this.seatType;}
-    public void setSeatType(char seatType){this.seatType=seatType;}
+    public String getSeatType(){ return this.seatType;}
+    public void setSeatType(String seatType){this.seatType=seatType;}
 
     @Basic
     @Column(name = "seat_number" )

@@ -124,31 +124,31 @@
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">新名称</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="name" id="name" placeholder=" " required="required" />
+                        <input type="text" class="form-control" name="name" id="name" th:placeholder="${site.siteName}" required="required" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="address" class="col-sm-2 control-label">新地址</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="address" id="address" placeholder=" " required="required" />
+                        <input type="text" class="form-control" name="address" id="address" th:placeholder="${site.address}" required="required" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="address" class="col-sm-2 control-label">豪华座数</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="num_a" id="num_a" placeholder=" " required="required" />
+                        <input type="number" class="form-control" name="num_a"  id="num_a" th:placeholder="${site.seatNumber_A}" required="required" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="address" class="col-sm-2 control-label">高级座数</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="num_b" id="num_b" placeholder=" " required="required" />
+                        <input type="number" class="form-control" name="num_b" id="num_b" th:placeholder="${site.seatNumber_B}" required="required" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="address" class="col-sm-2 control-label">普通座数</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="num_c" id="num_c" placeholder=" " required="required" />
+                        <input type="number" class="form-control" name="num_c" id="num_c" th:placeholder="${site.seatNumber_C}" required="required" />
                     </div>
                 </div>
                 <input type="hidden" id="picUrl"  name="url" value="" />

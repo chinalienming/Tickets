@@ -4,7 +4,7 @@ CREATE TABLE tickets.site_account
     name varchar(50) NOT NULL,
     password varchar(20) NOT NULL,
     active tinyint(1) DEFAULT '0' NOT NULL
-);
+) DEFAULT CHARACTER SET utf8 ;
 INSERT INTO tickets.site_account (site_id, name, password, active) VALUES (1, '仙林中心', '123', 1);
 INSERT INTO tickets.site_account (site_id, name, password, active) VALUES (2, '金鹰广场', '123', 1);
 INSERT INTO tickets.site_account (site_id, name, password, active) VALUES (3, '钥匙球馆', '123', 1);

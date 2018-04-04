@@ -77,13 +77,13 @@ public class SystemDefault {
     public static double[] switchDiscount(int userLevel) {
         double[] result = INIT_DISCOUNT ;
 
-        // NOTE : Highest level is 10 .
-        if( userLevel > 10 )
-            return null ;
+        if(userLevel<10) {
+            return result ;
+        }
 
         for(int cycle_time = userLevel ; cycle_time > 1  ; cycle_time-- ) {
             for(int position = 0 ; position < result.length ; position++ ) {
-                result[position] -= 0.05 ;
+                result[position] -= 0.01 ;
             }
         }
 
@@ -97,11 +97,11 @@ public class SystemDefault {
         if( 0 <= hours && hours < 72 )   // in a day
             return 0.5 ;
         else if( 72 <= hours && hours < 168 )    // in 3 days
-            return 0.7 ;
+            return 0.6 ;
         else if( 168 <= hours && hours < 336 )       // in 2 weeks
-            return 0.9 ;
+            return 0.7 ;
         else
-            return 1.0 ;
+            return 0.8 ;
     }
 
     /**

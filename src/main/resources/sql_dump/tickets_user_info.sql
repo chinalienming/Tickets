@@ -7,7 +7,7 @@ CREATE TABLE tickets.user_info
     consumption double DEFAULT '0' NOT NULL,
     credit int(11) DEFAULT '0' NOT NULL,
     benefit int(11) NOT NULL
-);
+) DEFAULT CHARACTER SET utf8;
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (1, '网易', 92653, 5, 34364, 20, 361);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (2, '腾讯', 30000, 8, 75000, 750, 0);
 INSERT INTO tickets.user_info (user_id, user_name, balance, level, consumption, credit, benefit) VALUES (3, '百度', 40000, 3, 24000, 240, 0);

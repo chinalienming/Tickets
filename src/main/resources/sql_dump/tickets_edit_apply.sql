@@ -8,7 +8,7 @@ CREATE TABLE tickets.edit_apply
     num_a int(11) NOT NULL,
     num_b int(11) NOT NULL,
     num_c int(11)
-);
+) DEFAULT CHARACTER SET utf8 ;
 INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (97, 1, 'ooooo', 'Shanghai', 1, 20, 20, 20);
 INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (226, 224, '新的场馆', '厦门', 1, 20, 20, 20);
 INSERT INTO tickets.edit_apply (ea_id, site_id, new_name, new_add, state, num_a, num_b, num_c) VALUES (227, 224, '新的场馆', '厦门', 1, 20, 20, 20);

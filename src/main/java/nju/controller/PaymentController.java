@@ -1,10 +1,9 @@
 package nju.controller;
 
-import nju.entity.UserInfo;
+import net.sf.json.JSONArray;
 import nju.service.FinanceService;
 import nju.service.TicketService;
 import nju.util.SystemDefault;
-import net.sf.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -92,6 +91,7 @@ public class PaymentController {
                                            @RequestParam(value = "benefit")int benefit){
         Map<String, Object> result = new TreeMap<>();
         double amount = financeService.payByBalance(recordID,benefit) ;
+//        System.out.println("pay:"+amount);
         if(amount>0) {
             result.put("result",true) ;
             result.put("amount",amount) ;
